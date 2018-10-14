@@ -2,7 +2,6 @@ package com.lixin.lime.client.main;
 
 import com.lixin.lime.crypto.AesCipher;
 
-import javax.print.attribute.standard.NumberUp;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

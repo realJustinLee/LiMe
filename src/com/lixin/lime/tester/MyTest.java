@@ -9,15 +9,14 @@ import com.lixin.lime.crypto.AesCipher;
 public class MyTest {
     public static void main(String[] args) {
         try {
-            String data = "This content will app";
-            String key = "16BytesLengthKey";
+            String data = "NowIWorkForApple";
+            String key = "FuckYouMicrosoft";
 
-            String aes = AesCipher.aesEncryptString(data, key);
-            System.out.println(aes);
+            String des = AesCipher.aesEncryptString(data, key);
+            System.out.println(des);
 
-            String ori = AesCipher.aesDecryptString(aes, key);
-            System.out.println(ori);
-
+            String src = AesCipher.aesDecryptString(des, key);
+            System.out.println(src);
         } catch (Exception e) {
             e.printStackTrace();
         }
