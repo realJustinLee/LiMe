@@ -2,6 +2,7 @@ package com.lixin.lime.client.main;
 
 import com.lixin.lime.crypto.AesCipher;
 
+import javax.print.attribute.standard.NumberUp;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -128,8 +129,7 @@ public class LoginFrame extends JFrame {
                     encryptAndWriteToFile(passwordFile, textFieldUsername.getText(), passwordField.getText());
                 } else {
                     JOptionPane.showMessageDialog(null, "不保存密码");
-                    // TODO: 清空密码文件
-
+                    encryptAndWriteToFile(passwordFile, null, null);
                 }
 
                 // TODO: 登陆校验
@@ -159,8 +159,8 @@ public class LoginFrame extends JFrame {
             //true = append file
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            String cryptUsername = AesCipher.aesEncryptString(username, lixinGoldenKey);
-            String cryptPassword = AesCipher.aesEncryptString(password, lixinGoldenKey);
+            String cryptUsername = username == null ? "" : AesCipher.aesEncryptString(username, lixinGoldenKey);
+            String cryptPassword = password == null ? "" : AesCipher.aesEncryptString(password, lixinGoldenKey);
             bufferedWriter.write(cryptUsername);
             bufferedWriter.write("\n");
             bufferedWriter.write(cryptPassword);
@@ -176,8 +176,8 @@ public class LoginFrame extends JFrame {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String cryptUsername = bufferedReader.readLine();
             String cryptPassword = bufferedReader.readLine();
-            String username = AesCipher.aesDecryptString(cryptUsername, lixinGoldenKey);
-            String password = AesCipher.aesDecryptString(cryptPassword, lixinGoldenKey);
+            String username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, lixinGoldenKey);
+            String password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, lixinGoldenKey);
             textFieldUsername.setText(username);
             passwordField.setText(password);
             bufferedReader.close();
