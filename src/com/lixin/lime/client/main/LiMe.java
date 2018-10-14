@@ -1,4 +1,4 @@
-package com.lixin.messenger;
+package com.lixin.lime.client.main;
 
 
 import java.awt.*;

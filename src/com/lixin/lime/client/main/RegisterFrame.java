@@ -1,4 +1,4 @@
-package com.lixin.messenger;
+package com.lixin.lime.client.main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,6 +21,7 @@ public class RegisterFrame extends JFrame {
      */
     public RegisterFrame() {
         setResizable(false);
+        setTitle("Register LiMe");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(600, 200, 480, 600);
         contentPane = new JPanel();

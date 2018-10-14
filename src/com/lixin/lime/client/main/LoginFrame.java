@@ -1,10 +1,12 @@
-package com.lixin.messenger;
+package com.lixin.lime.client.main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * @author lixin
@@ -22,6 +24,7 @@ public class LoginFrame extends JFrame {
      */
     public LoginFrame() {
         setResizable(false);
+        setTitle("LiMe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(600, 320, 480, 360);
         contentPane = new JPanel();
@@ -88,9 +91,14 @@ public class LoginFrame extends JFrame {
         labelFindPassword.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "找回密码");
-                // TODO: 找回密码
-
+                try {
+                    Desktop desktop = Desktop.getDesktop();
+                    String message = "mailto:JustinDellAdam@live.com";
+                    URI uri = URI.create(message);
+                    desktop.mail(uri);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
             }
         });
         labelFindPassword.setForeground(SystemColor.controlHighlight);
