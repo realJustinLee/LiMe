@@ -56,9 +56,14 @@ public class LoginFrame extends JFrame {
         labelRegister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "注册账号");
-                // TODO: 注册账号
-
+                EventQueue.invokeLater(() -> {
+                    try {
+                        RegisterFrame frame = new RegisterFrame();
+                        frame.setVisible(true);
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
+                });
             }
         });
         labelRegister.setForeground(SystemColor.controlHighlight);
@@ -93,18 +98,26 @@ public class LoginFrame extends JFrame {
         JButton btnLogin = new JButton("Login Now!");
         btnLogin.setForeground(new Color(153, 50, 204));
         btnLogin.addActionListener(e -> {
-            if (checkboxSavePassword.isSelected()) {
-                JOptionPane.showMessageDialog(null, "保存密码");
-                // TODO: 写入密码文件
 
-            }else {
-                JOptionPane.showMessageDialog(null, "不保存密码");
-                // TODO: 清空密码文件
+            // 用户名、密码有无校验
+            if (textFieldUsername.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "请输入用户名");
+            } else if (passwordField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "请输入密码");
+            } else {
+                if (checkboxSavePassword.isSelected()) {
+                    JOptionPane.showMessageDialog(null, "保存密码");
+                    // TODO: 写入密码文件
+
+                } else {q
+                    JOptionPane.showMessageDialog(null, "不保存密码");
+                    // TODO: 清空密码文件
+
+                }
+
+                // TODO: 登陆校验
 
             }
-            // TODO: 登陆
-
-
         });
         btnLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         btnLogin.setBounds(119, 210, 242, 42);
