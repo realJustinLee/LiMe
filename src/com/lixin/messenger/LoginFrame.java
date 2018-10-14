@@ -15,11 +15,13 @@ public class LoginFrame extends JFrame {
     private JTextField textFieldUsername;
     private JTextField passwordField;
     private JCheckBox checkboxSavePassword;
+    private RegisterFrame registerFrame;
 
     /**
      * Create the frame.
      */
     public LoginFrame() {
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(600, 320, 480, 360);
         contentPane = new JPanel();
@@ -58,8 +60,8 @@ public class LoginFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 EventQueue.invokeLater(() -> {
                     try {
-                        RegisterFrame frame = new RegisterFrame();
-                        frame.setVisible(true);
+                        registerFrame = new RegisterFrame();
+                        registerFrame.setVisible(true);
                     } catch (Exception exc) {
                         exc.printStackTrace();
                     }
@@ -109,7 +111,7 @@ public class LoginFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "保存密码");
                     // TODO: 写入密码文件
 
-                } else {q
+                } else {
                     JOptionPane.showMessageDialog(null, "不保存密码");
                     // TODO: 清空密码文件
 

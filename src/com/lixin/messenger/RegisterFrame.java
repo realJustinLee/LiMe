@@ -20,7 +20,8 @@ public class RegisterFrame extends JFrame {
      * Create the frame.
      */
     public RegisterFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(600, 200, 480, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
