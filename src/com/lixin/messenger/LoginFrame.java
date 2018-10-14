@@ -11,21 +11,7 @@ public class LoginFrame extends JFrame {
 
     private JPanel contentPane;
     private JTextField textFieldUsername;
-    private JTextField passwordFieldPassword;
-
-    /**
-     * Test the LoginFrame.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                LoginFrame frame = new LoginFrame();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+    private JTextField passwordField;
 
     /**
      * Create the frame.
@@ -60,11 +46,11 @@ public class LoginFrame extends JFrame {
         lblPassword.setBounds(95, 174, 36, 42);
         contentPane.add(lblPassword);
 
-        passwordFieldPassword = new JPasswordField();
-        passwordFieldPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        passwordFieldPassword.setBounds(143, 174, 250, 42);
-        contentPane.add(passwordFieldPassword);
-        passwordFieldPassword.setColumns(10);
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        passwordField.setBounds(143, 174, 250, 42);
+        contentPane.add(passwordField);
+        passwordField.setColumns(10);
 
         JButton btnLogin = new JButton("登陆");
         btnLogin.addActionListener(e -> {
