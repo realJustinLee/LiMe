@@ -1,18 +1,23 @@
 package com.lixin.lime.client.main;
 
+import com.lixin.lime.crypto.AesCipher;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 
 /**
  * @author lixin
  */
 public class LoginFrame extends JFrame {
+    private File passwordFile = new File("password.lixin");
+    private String lixinGoldenKey = "FuckYouMicrosoft";
 
+    // UI elements
     private JPanel contentPane;
     private JTextField textFieldUsername;
     private JTextField passwordField;
@@ -117,8 +122,7 @@ public class LoginFrame extends JFrame {
             } else {
                 if (checkboxSavePassword.isSelected()) {
                     JOptionPane.showMessageDialog(null, "保存密码");
-                    // TODO: 写入密码文件
-
+                    encryptAndWriteToFile(passwordFile, textFieldUsername.getText(), passwordField.getText());
                 } else {
                     JOptionPane.showMessageDialog(null, "不保存密码");
                     // TODO: 清空密码文件
@@ -143,5 +147,39 @@ public class LoginFrame extends JFrame {
         lblCopyright.setForeground(SystemColor.windowBorder);
         lblCopyright.setBounds(100, 316, 280, 16);
         contentPane.add(lblCopyright);
+
+        decryptAndReadFromFile(passwordFile);
+    }
+
+    private void encryptAndWriteToFile(File file, String username, String password) {
+        try {
+            //true = append file
+            FileWriter fileWriter = new FileWriter(file.getName(), false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            String cryptUsername = AesCipher.aesEncryptString(username, lixinGoldenKey);
+            String cryptPassword = AesCipher.aesEncryptString(password, lixinGoldenKey);
+            bufferedWriter.write(cryptUsername);
+            bufferedWriter.write("\n");
+            bufferedWriter.write(cryptPassword);
+            bufferedWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void decryptAndReadFromFile(File file) {
+        try {
+            FileReader fileReader = new FileReader(file.getName());
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String cryptUsername = bufferedReader.readLine();
+            String cryptPassword = bufferedReader.readLine();
+            String username = AesCipher.aesDecryptString(cryptUsername, lixinGoldenKey);
+            String password = AesCipher.aesDecryptString(cryptPassword, lixinGoldenKey);
+            textFieldUsername.setText(username);
+            passwordField.setText(password);
+            bufferedReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

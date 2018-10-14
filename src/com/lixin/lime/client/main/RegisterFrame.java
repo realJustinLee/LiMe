@@ -5,6 +5,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * @author lixin
@@ -102,9 +104,15 @@ public class RegisterFrame extends JFrame {
         labelAgreement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "《用户协议》");
                 // TODO: 打开用户协议网页
-
+                try {
+                    Desktop desktop = Desktop.getDesktop();
+                    String message = "https://great-li-xin.github.io/";
+                    URI uri = URI.create(message);
+                    desktop.browse(uri);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
             }
         });
         labelAgreement.setForeground(SystemColor.controlHighlight);
@@ -136,7 +144,14 @@ public class RegisterFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(null, "打开 LiMe 主页");
                 // TODO: 打开 LiMe 主页
-
+                try {
+                    Desktop desktop = Desktop.getDesktop();
+                    String message = "https://great-li-xin.github.io/";
+                    URI uri = URI.create(message);
+                    desktop.browse(uri);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
             }
         });
         labelLime.setForeground(SystemColor.windowBorder);
