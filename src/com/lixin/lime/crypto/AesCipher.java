@@ -20,8 +20,10 @@ import java.io.UnsupportedEncodingException;
  * @author lixin
  */
 public class AesCipher {
-
-    private static final String IV_STRING = "A-16-Byte-String";
+    /**
+     * A-16-Byte-String
+     */
+    private static final String IV_STRING = "NowIWorkForApple";
     private static final String CHARSET = "UTF-8";
 
     public static String aesEncryptString(String content, String key) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {

@@ -15,6 +15,9 @@ import java.net.URI;
  */
 public class LoginFrame extends JFrame {
     private File passwordFile = new File("password.lixin");
+    /**
+     * A-16-Byte-String
+     */
     private String lixinGoldenKey = "FuckYouMicrosoft";
 
     // UI elements
