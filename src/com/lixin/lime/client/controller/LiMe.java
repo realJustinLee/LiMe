@@ -2,6 +2,7 @@ package com.lixin.lime.client.controller;
 
 
 import com.lixin.lime.client.gui.LoginFrame;
+import com.lixin.lime.client.gui.RegisterFrame;
 import com.lixin.lime.client.util.crypto.AesCipher;
 
 import javax.swing.*;
@@ -10,20 +11,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
+
 /**
  * @author lixin
  */
 public class LiMe implements ActionListener {
     /**
-     * Statics
-     * GOLDEN_KEY : A-16-Byte-String
+     * The password file
      */
-    private static final String GOLDEN_KEY = "FuckYouMicrosoft";
+    private final File passwordFile = new File("0xCafeBabe.lime");
 
     /**
      * The variables
      */
-    private final File passwordFile = new File("0xCafeBabe.lime");
     private String username;
     private String password;
 
@@ -31,6 +32,7 @@ public class LiMe implements ActionListener {
      * The Frames
      */
     private LoginFrame loginFrame;
+    private RegisterFrame registerFrame;
 
     /**
      * Launch the application.
@@ -62,6 +64,8 @@ public class LiMe implements ActionListener {
                 loginFrame = new LoginFrame();
                 loginFrame.setVisible(true);
                 loginFrame.getBtnLogin().addActionListener(this);
+                loginFrame.getBtnRegister().addActionListener(this);
+                loginFrame.getBtnFindPassword().addActionListener(this);
                 decryptAndReadFromFile(passwordFile);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -118,7 +122,7 @@ public class LiMe implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "login":
+            case ACTION_LOGIN:
                 // 用户名、密码有无校验
                 username = loginFrame.getUsername();
                 password = loginFrame.getPassword();
@@ -142,8 +146,24 @@ public class LiMe implements ActionListener {
 
                 }
                 break;
+            case ACTION_REGISTER:
+                EventQueue.invokeLater(() -> {
+                    try {
+                        registerFrame = new RegisterFrame();
+                        registerFrame.setVisible(true);
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
+                });
+                break;
+            case ACTION_FIND_PASSWORD:
+                emailAdmin();
+                break;
             default:
-                JOptionPane.showMessageDialog(null, "错误地址：" + this.getClass().getCanonicalName(), "发生未知错误", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "错误地址：" + this.getClass().getCanonicalName(),
+                        "发生未知错误",
+                        JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }

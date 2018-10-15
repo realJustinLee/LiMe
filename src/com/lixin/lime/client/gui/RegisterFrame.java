@@ -1,12 +1,14 @@
 package com.lixin.lime.client.gui;
 
+import com.lixin.lime.client.util.factory.MyStaticFactory;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
+
+import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -22,9 +24,9 @@ public class RegisterFrame extends JFrame {
     /**
      * Create the frame.
      */
-    RegisterFrame() {
+    public RegisterFrame() {
         setResizable(false);
-        setTitle("Register LiMe");
+        setTitle("注册 " + THE_BRAND);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(600, 200, 480, 600);
         contentPane = new JPanel();
@@ -32,13 +34,11 @@ public class RegisterFrame extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel labelTitle = new JLabel("Lixin Messenger");
+        JLabel labelTitle = new JLabel(THE_TITLE);
         labelTitle.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "LiMe --> Lixin Messenger v0.1\n" +
-                                "Copyright © 2018 Lixin. All rights reserved.");
+                MyStaticFactory.showCopyright();
             }
         });
         labelTitle.setForeground(new Color(153, 50, 204));
@@ -104,7 +104,7 @@ public class RegisterFrame extends JFrame {
         labelEmail.setBounds(62, 291, 45, 42);
         contentPane.add(labelEmail);
 
-        JLabel labelCopyright = new JLabel("Copyright © 2018 Lixin. All rights reserved.");
+        JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(SystemColor.windowBorder);
         labelCopyright.setBounds(100, 556, 280, 16);
         contentPane.add(labelCopyright);
@@ -115,15 +115,7 @@ public class RegisterFrame extends JFrame {
         labelAgreement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // TODO: 打开用户协议网页
-                try {
-                    Desktop desktop = Desktop.getDesktop();
-                    String message = "https://great-li-xin.github.io/";
-                    URI uri = URI.create(message);
-                    desktop.browse(uri);
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
+                showAgreement();
             }
         });
         labelAgreement.setForeground(SystemColor.controlHighlight);
@@ -149,27 +141,17 @@ public class RegisterFrame extends JFrame {
         btnCancel.setBounds(245, 378, 117, 36);
         contentPane.add(btnCancel);
 
-        JLabel labelLime = new JLabel("LiMe");
-        labelLime.addMouseListener(new MouseAdapter() {
+        JLabel labelBrand = new JLabel(THE_BRAND);
+        labelBrand.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "打开 LiMe 主页");
-                // TODO: 打开 LiMe 主页
-                try {
-                    Desktop desktop = Desktop.getDesktop();
-                    // TODO: message 改成 LiMe 主页
-                    String message = "https://great-li-xin.github.io/";
-                    URI uri = URI.create(message);
-                    desktop.browse(uri);
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
+                showHomepage();
             }
         });
-        labelLime.setForeground(SystemColor.windowBorder);
-        labelLime.setFont(new Font("Harry P", Font.BOLD, 99));
-        labelLime.setBounds(157, 444, 166, 100);
-        contentPane.add(labelLime);
+        labelBrand.setForeground(SystemColor.windowBorder);
+        labelBrand.setFont(new Font("Harry P", Font.BOLD, 99));
+        labelBrand.setBounds(157, 444, 166, 100);
+        contentPane.add(labelBrand);
 
         textFieldEmail = new JTextField();
         textFieldEmail.setFont(new Font("PingFang SC", Font.PLAIN, 18));

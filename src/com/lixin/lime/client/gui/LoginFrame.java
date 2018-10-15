@@ -1,14 +1,11 @@
 package com.lixin.lime.client.gui;
 
-import com.lixin.lime.client.util.crypto.AesCipher;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.*;
-import java.net.URI;
+import java.awt.event.*;
+
+import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -20,18 +17,17 @@ public class LoginFrame extends JFrame {
     private JPanel contentPane;
     private JTextField textFieldUsername;
     private JTextField passwordField;
-    private JCheckBox checkboxSavePassword;
     private JButton btnLogin;
-
-
-    private RegisterFrame registerFrame;
+    private JCheckBox checkboxSavePassword;
+    private JButton btnRegister;
+    private JButton btnFindPassword;
 
     /**
      * Create the frame.
      */
     public LoginFrame() {
         setResizable(false);
-        setTitle("LiMe");
+        setTitle(THE_BRAND);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(600, 320, 480, 360);
         contentPane = new JPanel();
@@ -39,20 +35,22 @@ public class LoginFrame extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel labelTitle = new JLabel("Lixin Messenger");
+        JLabel labelTitle = new JLabel(THE_TITLE);
         labelTitle.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "Copyright © 2018 Lixin. All rights reserved.",
-                        "LiMe --> Lixin Messenger v0.1",
-                        JOptionPane.INFORMATION_MESSAGE);
+                showCopyright();
             }
         });
         labelTitle.setForeground(new Color(153, 50, 204));
         labelTitle.setFont(new Font("Harry P", Font.BOLD, 50));
         labelTitle.setBounds(119, 30, 242, 60);
         contentPane.add(labelTitle);
+
+        JLabel labelVersion = new JLabel(THE_VERSION);
+        labelVersion.setFont(new Font("PingFang SC", Font.PLAIN, 13));
+        labelVersion.setBounds(350, 63, 61, 16);
+        contentPane.add(labelVersion);
 
         JLabel labelUsername = new JLabel("用户名");
         labelUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
@@ -65,25 +63,6 @@ public class LoginFrame extends JFrame {
         contentPane.add(textFieldUsername);
         textFieldUsername.setColumns(10);
 
-        JLabel labelRegister = new JLabel("注册账号");
-        labelRegister.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                EventQueue.invokeLater(() -> {
-                    try {
-                        registerFrame = new RegisterFrame();
-                        registerFrame.setVisible(true);
-                    } catch (Exception exc) {
-                        exc.printStackTrace();
-                    }
-                });
-            }
-        });
-        labelRegister.setForeground(SystemColor.controlHighlight);
-        labelRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        labelRegister.setBounds(373, 116, 54, 16);
-        contentPane.add(labelRegister);
-
         JLabel labelPassword = new JLabel("密码");
         labelPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         labelPassword.setBounds(71, 155, 36, 42);
@@ -95,27 +74,9 @@ public class LoginFrame extends JFrame {
         contentPane.add(passwordField);
         passwordField.setColumns(10);
 
-        JLabel labelFindPassword = new JLabel("找回密码");
-        labelFindPassword.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Desktop desktop = Desktop.getDesktop();
-                    String message = "mailto:JustinDellAdam@live.com";
-                    URI uri = URI.create(message);
-                    desktop.mail(uri);
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
-            }
-        });
-        labelFindPassword.setForeground(SystemColor.controlHighlight);
-        labelFindPassword.setBounds(373, 170, 54, 16);
-        contentPane.add(labelFindPassword);
-
         btnLogin = new JButton("Login Now!");
         btnLogin.setForeground(new Color(153, 50, 204));
-        btnLogin.setActionCommand("login");
+        btnLogin.setActionCommand(ACTION_LOGIN);
         btnLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         btnLogin.setBounds(119, 210, 242, 42);
         contentPane.add(btnLogin);
@@ -126,12 +87,31 @@ public class LoginFrame extends JFrame {
         checkboxSavePassword.setBounds(198, 264, 84, 23);
         contentPane.add(checkboxSavePassword);
 
-        JLabel lblCopyright = new JLabel("Copyright © 2018 Lixin. All rights reserved.");
+        btnRegister = new JButton("注册账号");
+        btnRegister.setActionCommand(ACTION_REGISTER);
+        btnRegister.setForeground(SystemColor.controlHighlight);
+        btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
+        btnRegister.setBounds(373, 116, 61, 16);
+        contentPane.add(btnRegister);
+
+        btnFindPassword = new JButton("找回密码");
+        btnFindPassword.setActionCommand(ACTION_FIND_PASSWORD);
+        btnFindPassword.setForeground(SystemColor.controlHighlight);
+        btnFindPassword.setBounds(373, 170, 61, 16);
+        contentPane.add(btnFindPassword);
+
+        JLabel lblCopyright = new JLabel(THE_COPYRIGHT);
         lblCopyright.setForeground(SystemColor.windowBorder);
         lblCopyright.setBounds(100, 316, 280, 16);
         contentPane.add(lblCopyright);
+    }
 
-//        decryptAndReadFromFile(passwordFile);
+    public JButton getBtnRegister() {
+        return btnRegister;
+    }
+
+    public JButton getBtnFindPassword() {
+        return btnFindPassword;
     }
 
     public JButton getBtnLogin() {
