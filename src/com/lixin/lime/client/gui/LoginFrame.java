@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
-import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -136,5 +136,9 @@ public class LoginFrame extends JFrame {
 
     public boolean savePassword() {
         return checkboxSavePassword.isSelected();
+    }
+
+    public void savePassword(boolean bool) {
+        checkboxSavePassword.setSelected(bool);
     }
 }

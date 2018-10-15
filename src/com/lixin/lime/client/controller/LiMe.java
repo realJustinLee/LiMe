@@ -3,15 +3,14 @@ package com.lixin.lime.client.controller;
 
 import com.lixin.lime.client.gui.LoginFrame;
 import com.lixin.lime.client.gui.RegisterFrame;
-import com.lixin.lime.client.util.crypto.AesCipher;
+import com.lixin.lime.util.crypto.AesCipher;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -35,20 +34,6 @@ public class LiMe implements ActionListener {
     private RegisterFrame registerFrame;
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                LiMe app = new LiMe();
-                app.connectServer();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
      * Create the application.
      */
     public LiMe() {
@@ -59,24 +44,29 @@ public class LiMe implements ActionListener {
      * Initialize the LoginFrame.
      */
     private void initialize() {
-        EventQueue.invokeLater(() -> {
-            try {
-                loginFrame = new LoginFrame();
-                loginFrame.setVisible(true);
-                loginFrame.getBtnLogin().addActionListener(this);
-                loginFrame.getBtnRegister().addActionListener(this);
-                loginFrame.getBtnFindPassword().addActionListener(this);
-                decryptAndReadFromFile(passwordFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        try {
+            loginFrame = new LoginFrame();
+            loginFrame.getBtnLogin().addActionListener(this);
+            loginFrame.getBtnRegister().addActionListener(this);
+            loginFrame.getBtnFindPassword().addActionListener(this);
+            decryptAndReadFromFile(passwordFile);
+
+            registerFrame = new RegisterFrame();
+
+            connectToServer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run() {
+        loginFrame.setVisible(true);
     }
 
     /**
      * Connect to the Server.
      */
-    private void connectServer() {
+    private void connectToServer() {
         // TODO: connect the server
     }
 
@@ -89,8 +79,11 @@ public class LiMe implements ActionListener {
             //true = append file
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            String cryptUsername = username == null ? "" : AesCipher.aesEncryptString(username, GOLDEN_KEY);
-            String cryptPassword = password == null ? "" : AesCipher.aesEncryptString(password, GOLDEN_KEY);
+            boolean savePassword = loginFrame.savePassword();
+            String cryptUsername = savePassword ? AesCipher.aesEncryptString(username, GOLDEN_KEY) : "";
+            String cryptPassword = savePassword ? AesCipher.aesEncryptString(password, GOLDEN_KEY) : "";
+            bufferedWriter.write(savePassword ? "true" : "false");
+            bufferedWriter.write("\n");
             bufferedWriter.write(cryptUsername);
             bufferedWriter.write("\n");
             bufferedWriter.write(cryptPassword);
@@ -107,10 +100,13 @@ public class LiMe implements ActionListener {
             }
             FileReader fileReader = new FileReader(file.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String savePassword = bufferedReader.readLine();
             String cryptUsername = bufferedReader.readLine();
             String cryptPassword = bufferedReader.readLine();
-            String username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
-            String password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
+            boolean bool = "true".equals(savePassword);
+            username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
+            password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
+            loginFrame.savePassword(bool);
             loginFrame.setUsername(username);
             loginFrame.setPassword(password);
             bufferedReader.close();
@@ -131,11 +127,7 @@ public class LiMe implements ActionListener {
                 } else if (password.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "请输入密码");
                 } else {
-                    if (loginFrame.savePassword()) {
-                        encryptAndWriteToFile(passwordFile, username, password);
-                    } else {
-                        encryptAndWriteToFile(passwordFile, null, null);
-                    }
+                    encryptAndWriteToFile(passwordFile, username, password);
 
                     /*
                      * TODO: 登陆校验
@@ -147,17 +139,15 @@ public class LiMe implements ActionListener {
                 }
                 break;
             case ACTION_REGISTER:
-                EventQueue.invokeLater(() -> {
-                    try {
-                        registerFrame = new RegisterFrame();
-                        registerFrame.setVisible(true);
-                    } catch (Exception exc) {
-                        exc.printStackTrace();
-                    }
-                });
+                loginFrame.setVisible(false);
+                registerFrame.setVisible(true);
                 break;
             case ACTION_FIND_PASSWORD:
                 emailAdmin();
+                break;
+            case ACTION_COMMIT_REGISTER:
+                // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
+
                 break;
             default:
                 JOptionPane.showMessageDialog(null,

@@ -1,6 +1,6 @@
 package com.lixin.lime.client.gui;
 
-import com.lixin.lime.client.util.factory.MyStaticFactory;
+import com.lixin.lime.util.factory.MyStaticFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static com.lixin.lime.client.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -73,22 +73,26 @@ public class RegisterFrame extends JFrame {
         labelGender.setBounds(71, 237, 36, 42);
         contentPane.add(labelGender);
 
-        JToggleButton tglbtnGender = new JToggleButton("男");
-        tglbtnGender.addActionListener(e -> {
-            switch (tglbtnGender.getText()) {
+        JToggleButton toggleButtonGender = new JToggleButton("男");
+        toggleButtonGender.addActionListener(e -> {
+            switch (toggleButtonGender.getText()) {
                 case "男":
-                    tglbtnGender.setText("女");
+                    toggleButtonGender.setText("女");
                     break;
                 case "女":
-                    tglbtnGender.setText("男");
+                    toggleButtonGender.setText("男");
                     break;
                 default:
+                    JOptionPane.showMessageDialog(null,
+                            "错误地址：" + this.getClass().getCanonicalName(),
+                            "发生未知错误",
+                            JOptionPane.ERROR_MESSAGE);
                     break;
             }
         });
-        tglbtnGender.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        tglbtnGender.setBounds(119, 238, 242, 42);
-        contentPane.add(tglbtnGender);
+        toggleButtonGender.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        toggleButtonGender.setBounds(119, 238, 242, 42);
+        contentPane.add(toggleButtonGender);
 
         JCheckBox checkboxAgree = new JCheckBox("我同意");
         checkboxAgree.addActionListener(e -> {
@@ -123,8 +127,8 @@ public class RegisterFrame extends JFrame {
         contentPane.add(labelAgreement);
 
         btnRegister = new JButton("注册");
+        btnRegister.setActionCommand(ACTION_COMMIT_REGISTER);
         btnRegister.addActionListener(e -> {
-            // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
 
         });
         btnRegister.setEnabled(false);
@@ -133,10 +137,6 @@ public class RegisterFrame extends JFrame {
         contentPane.add(btnRegister);
 
         JButton btnCancel = new JButton("取消");
-        btnCancel.addActionListener(e -> {
-            // TODO: 取消注册
-
-        });
         btnCancel.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnCancel.setBounds(245, 378, 117, 36);
         contentPane.add(btnCancel);

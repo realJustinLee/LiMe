@@ -1,4 +1,4 @@
-package com.lixin.lime.server.main;
+package com.lixin.lime.server.controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,20 +11,6 @@ import java.awt.event.MouseEvent;
 public class LiMeServer {
 
     private JFrame frame;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                LiMeServer window = new LiMeServer();
-                window.frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
     /**
      * Create the application.
@@ -76,5 +62,8 @@ public class LiMeServer {
         frame.getContentPane().add(btnStop);
     }
 
+    public void run() {
+        frame.setVisible(true);
+    }
 }
 

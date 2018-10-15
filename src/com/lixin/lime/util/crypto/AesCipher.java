@@ -1,4 +1,4 @@
-package com.lixin.lime.client.util.crypto;
+package com.lixin.lime.util.crypto;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
