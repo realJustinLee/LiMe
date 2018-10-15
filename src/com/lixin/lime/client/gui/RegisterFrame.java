@@ -1,4 +1,4 @@
-package com.lixin.lime.client.main;
+package com.lixin.lime.client.gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,11 +17,12 @@ public class RegisterFrame extends JFrame {
     private JTextField textFieldUsername;
     private JPasswordField passwordField;
     private JButton btnRegister;
+    private JTextField textFieldEmail;
 
     /**
      * Create the frame.
      */
-    public RegisterFrame() {
+    RegisterFrame() {
         setResizable(false);
         setTitle("Register LiMe");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -97,7 +98,17 @@ public class RegisterFrame extends JFrame {
                 btnRegister.setEnabled(false);
             }
         });
-        checkboxAgree.setBounds(168, 292, 72, 23);
+
+        JLabel labelEmail = new JLabel("Email");
+        labelEmail.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        labelEmail.setBounds(62, 291, 45, 42);
+        contentPane.add(labelEmail);
+
+        JLabel labelCopyright = new JLabel("Copyright © 2018 Lixin. All rights reserved.");
+        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setBounds(100, 556, 280, 16);
+        contentPane.add(labelCopyright);
+        checkboxAgree.setBounds(168, 346, 72, 23);
         contentPane.add(checkboxAgree);
 
         JLabel labelAgreement = new JLabel("《用户协议》");
@@ -116,17 +127,17 @@ public class RegisterFrame extends JFrame {
             }
         });
         labelAgreement.setForeground(SystemColor.controlHighlight);
-        labelAgreement.setBounds(235, 296, 80, 16);
+        labelAgreement.setBounds(235, 350, 80, 16);
         contentPane.add(labelAgreement);
 
         btnRegister = new JButton("注册");
         btnRegister.addActionListener(e -> {
-            // TODO: 注册信息写入数据库
+            // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
 
         });
         btnRegister.setEnabled(false);
         btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        btnRegister.setBounds(119, 324, 117, 36);
+        btnRegister.setBounds(119, 378, 117, 36);
         contentPane.add(btnRegister);
 
         JButton btnCancel = new JButton("取消");
@@ -135,7 +146,7 @@ public class RegisterFrame extends JFrame {
 
         });
         btnCancel.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        btnCancel.setBounds(245, 324, 117, 36);
+        btnCancel.setBounds(245, 378, 117, 36);
         contentPane.add(btnCancel);
 
         JLabel labelLime = new JLabel("LiMe");
@@ -146,6 +157,7 @@ public class RegisterFrame extends JFrame {
                 // TODO: 打开 LiMe 主页
                 try {
                     Desktop desktop = Desktop.getDesktop();
+                    // TODO: message 改成 LiMe 主页
                     String message = "https://great-li-xin.github.io/";
                     URI uri = URI.create(message);
                     desktop.browse(uri);
@@ -156,12 +168,13 @@ public class RegisterFrame extends JFrame {
         });
         labelLime.setForeground(SystemColor.windowBorder);
         labelLime.setFont(new Font("Harry P", Font.BOLD, 99));
-        labelLime.setBounds(157, 410, 166, 100);
+        labelLime.setBounds(157, 444, 166, 100);
         contentPane.add(labelLime);
 
-        JLabel labelCopyright = new JLabel("Copyright © 2018 Lixin. All rights reserved.");
-        labelCopyright.setForeground(SystemColor.windowBorder);
-        labelCopyright.setBounds(100, 556, 280, 16);
-        contentPane.add(labelCopyright);
+        textFieldEmail = new JTextField();
+        textFieldEmail.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        textFieldEmail.setColumns(10);
+        textFieldEmail.setBounds(119, 292, 242, 42);
+        contentPane.add(textFieldEmail);
     }
 }

@@ -1,6 +1,6 @@
-package com.lixin.lime.client.main;
+package com.lixin.lime.client.gui;
 
-import com.lixin.lime.crypto.AesCipher;
+import com.lixin.lime.client.util.crypto.AesCipher;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,13 +14,20 @@ import java.net.URI;
  * @author lixin
  */
 public class LoginFrame extends JFrame {
-    private File passwordFile = new File("password.lixin");
     /**
-     * A-16-Byte-String
+     * Statics
+     * GOLDEN_KEY : A-16-Byte-String
      */
-    private String lixinGoldenKey = "FuckYouMicrosoft";
+    private static final String GOLDEN_KEY = "FuckYouMicrosoft";
 
-    // UI elements
+    /**
+     * The variables
+     */
+    private final File passwordFile = new File("0xCafeBabe.lime");
+
+    /**
+     * UI elements
+     */
     private JPanel contentPane;
     private JTextField textFieldUsername;
     private JTextField passwordField;
@@ -124,14 +131,17 @@ public class LoginFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "请输入密码");
             } else {
                 if (checkboxSavePassword.isSelected()) {
-                    JOptionPane.showMessageDialog(null, "保存密码");
                     encryptAndWriteToFile(passwordFile, textFieldUsername.getText(), passwordField.getText());
                 } else {
-                    JOptionPane.showMessageDialog(null, "不保存密码");
                     encryptAndWriteToFile(passwordFile, null, null);
                 }
 
-                // TODO: 登陆校验
+                /*
+                 * TODO: 登陆校验
+                 *  发送 Json 文件到服务器
+                 *  服务器将注册信息写入数据库 (Json action : login)
+                 *  服务器返回 Json 文件批准登陆 (Json action : approve, arg: login)
+                 */
 
             }
         });
@@ -155,11 +165,14 @@ public class LoginFrame extends JFrame {
 
     private void encryptAndWriteToFile(File file, String username, String password) {
         try {
+            if (!file.exists()) {
+                Boolean res = file.createNewFile();
+            }
             //true = append file
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            String cryptUsername = username == null ? "" : AesCipher.aesEncryptString(username, lixinGoldenKey);
-            String cryptPassword = password == null ? "" : AesCipher.aesEncryptString(password, lixinGoldenKey);
+            String cryptUsername = username == null ? "" : AesCipher.aesEncryptString(username, GOLDEN_KEY);
+            String cryptPassword = password == null ? "" : AesCipher.aesEncryptString(password, GOLDEN_KEY);
             bufferedWriter.write(cryptUsername);
             bufferedWriter.write("\n");
             bufferedWriter.write(cryptPassword);
@@ -171,12 +184,15 @@ public class LoginFrame extends JFrame {
 
     private void decryptAndReadFromFile(File file) {
         try {
+            if (!file.exists()) {
+                Boolean res = file.createNewFile();
+            }
             FileReader fileReader = new FileReader(file.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String cryptUsername = bufferedReader.readLine();
             String cryptPassword = bufferedReader.readLine();
-            String username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, lixinGoldenKey);
-            String password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, lixinGoldenKey);
+            String username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
+            String password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
             textFieldUsername.setText(username);
             passwordField.setText(password);
             bufferedReader.close();
