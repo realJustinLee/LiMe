@@ -10,7 +10,7 @@ import static com.lixin.lime.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class LoginFrame extends JFrame {
+public class LiMeLoginFrame extends JFrame {
     /**
      * UI elements
      */
@@ -25,7 +25,7 @@ public class LoginFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public LoginFrame() {
+    public LiMeLoginFrame() {
         setResizable(false);
         setTitle(THE_BRAND);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

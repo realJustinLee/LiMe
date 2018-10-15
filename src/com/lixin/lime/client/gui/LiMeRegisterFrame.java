@@ -13,7 +13,7 @@ import static com.lixin.lime.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class RegisterFrame extends JFrame {
+public class LiMeRegisterFrame extends JFrame {
 
     private JPanel contentPane;
     private JTextField textFieldUsername;
@@ -24,7 +24,7 @@ public class RegisterFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public RegisterFrame() {
+    public LiMeRegisterFrame() {
         setResizable(false);
         setTitle("注册 " + THE_BRAND);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
