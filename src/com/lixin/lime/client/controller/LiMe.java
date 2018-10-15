@@ -1,6 +1,7 @@
 package com.lixin.lime.client.controller;
 
 
+import com.lixin.lime.client.gui.LiMeChatFrame;
 import com.lixin.lime.client.gui.LiMeLoginFrame;
 import com.lixin.lime.client.gui.LiMeRegisterFrame;
 import com.lixin.lime.util.crypto.AesCipher;
@@ -30,8 +31,9 @@ public class LiMe implements ActionListener {
     /**
      * The Frames
      */
-    private LiMeLoginFrame liMeLoginFrame;
-    private LiMeRegisterFrame liMeRegisterFrame;
+    private LiMeLoginFrame loginFrame;
+    private LiMeRegisterFrame registerFrame;
+    private LiMeChatFrame chatFrame;
 
     /**
      * Create the application.
@@ -45,13 +47,18 @@ public class LiMe implements ActionListener {
      */
     private void initialize() {
         try {
-            liMeLoginFrame = new LiMeLoginFrame();
-            liMeLoginFrame.getBtnLogin().addActionListener(this);
-            liMeLoginFrame.getBtnRegister().addActionListener(this);
-            liMeLoginFrame.getBtnFindPassword().addActionListener(this);
+            // Login Frame init
+            loginFrame = new LiMeLoginFrame();
+            loginFrame.getBtnLogin().addActionListener(this);
+            loginFrame.getBtnRegister().addActionListener(this);
+            loginFrame.getBtnFindPassword().addActionListener(this);
             decryptAndReadFromFile(passwordFile);
 
-            liMeRegisterFrame = new LiMeRegisterFrame();
+            // Register Frame init
+            registerFrame = new LiMeRegisterFrame();
+
+            // Chat Frame init
+            chatFrame = new LiMeChatFrame();
 
             connectToServer();
         } catch (Exception e) {
@@ -60,7 +67,7 @@ public class LiMe implements ActionListener {
     }
 
     public void run() {
-        liMeLoginFrame.setVisible(true);
+        loginFrame.setVisible(true);
     }
 
     /**
@@ -79,7 +86,7 @@ public class LiMe implements ActionListener {
             //true = append file
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            boolean savePassword = liMeLoginFrame.savePassword();
+            boolean savePassword = loginFrame.savePassword();
             String cryptUsername = savePassword ? AesCipher.aesEncryptString(username, GOLDEN_KEY) : "";
             String cryptPassword = savePassword ? AesCipher.aesEncryptString(password, GOLDEN_KEY) : "";
             bufferedWriter.write(savePassword ? "true" : "false");
@@ -106,9 +113,9 @@ public class LiMe implements ActionListener {
             boolean bool = "true".equals(savePassword);
             username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
             password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
-            liMeLoginFrame.savePassword(bool);
-            liMeLoginFrame.setUsername(username);
-            liMeLoginFrame.setPassword(password);
+            loginFrame.savePassword(bool);
+            loginFrame.setUsername(username);
+            loginFrame.setPassword(password);
             bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,8 +127,8 @@ public class LiMe implements ActionListener {
         switch (e.getActionCommand()) {
             case ACTION_LOGIN:
                 // 用户名、密码有无校验
-                username = liMeLoginFrame.getUsername();
-                password = liMeLoginFrame.getPassword();
+                username = loginFrame.getUsername();
+                password = loginFrame.getPassword();
                 if (username.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "请输入用户名");
                 } else if (password.isEmpty()) {
@@ -136,11 +143,17 @@ public class LiMe implements ActionListener {
                      *  服务器返回 Json 文件批准登陆 (Json action : approve, arg: login)
                      */
 
+                    boolean loggedIn = true;
+
+                    if (loggedIn) {
+                        chatFrame.setVisible(true);
+                    }
+
                 }
                 break;
             case ACTION_REGISTER:
-                liMeLoginFrame.setVisible(false);
-                liMeRegisterFrame.setVisible(true);
+                loginFrame.setVisible(false);
+                registerFrame.setVisible(true);
                 break;
             case ACTION_FIND_PASSWORD:
                 emailAdmin();
