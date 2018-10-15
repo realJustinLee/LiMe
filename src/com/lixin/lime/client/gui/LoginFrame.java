@@ -15,23 +15,15 @@ import java.net.URI;
  */
 public class LoginFrame extends JFrame {
     /**
-     * Statics
-     * GOLDEN_KEY : A-16-Byte-String
-     */
-    private static final String GOLDEN_KEY = "FuckYouMicrosoft";
-
-    /**
-     * The variables
-     */
-    private final File passwordFile = new File("0xCafeBabe.lime");
-
-    /**
      * UI elements
      */
     private JPanel contentPane;
     private JTextField textFieldUsername;
     private JTextField passwordField;
     private JCheckBox checkboxSavePassword;
+    private JButton btnLogin;
+
+
     private RegisterFrame registerFrame;
 
     /**
@@ -52,8 +44,9 @@ public class LoginFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "LiMe --> Lixin Messenger v0.1\n" +
-                                "Copyright © 2018 Lixin. All rights reserved.");
+                        "Copyright © 2018 Lixin. All rights reserved.",
+                        "LiMe --> Lixin Messenger v0.1",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         labelTitle.setForeground(new Color(153, 50, 204));
@@ -120,31 +113,9 @@ public class LoginFrame extends JFrame {
         labelFindPassword.setBounds(373, 170, 54, 16);
         contentPane.add(labelFindPassword);
 
-        JButton btnLogin = new JButton("Login Now!");
+        btnLogin = new JButton("Login Now!");
         btnLogin.setForeground(new Color(153, 50, 204));
-        btnLogin.addActionListener(e -> {
-
-            // 用户名、密码有无校验
-            if (textFieldUsername.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "请输入用户名");
-            } else if (passwordField.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "请输入密码");
-            } else {
-                if (checkboxSavePassword.isSelected()) {
-                    encryptAndWriteToFile(passwordFile, textFieldUsername.getText(), passwordField.getText());
-                } else {
-                    encryptAndWriteToFile(passwordFile, null, null);
-                }
-
-                /*
-                 * TODO: 登陆校验
-                 *  发送 Json 文件到服务器
-                 *  服务器将注册信息写入数据库 (Json action : login)
-                 *  服务器返回 Json 文件批准登陆 (Json action : approve, arg: login)
-                 */
-
-            }
-        });
+        btnLogin.setActionCommand("login");
         btnLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         btnLogin.setBounds(119, 210, 242, 42);
         contentPane.add(btnLogin);
@@ -160,44 +131,30 @@ public class LoginFrame extends JFrame {
         lblCopyright.setBounds(100, 316, 280, 16);
         contentPane.add(lblCopyright);
 
-        decryptAndReadFromFile(passwordFile);
+//        decryptAndReadFromFile(passwordFile);
     }
 
-    private void encryptAndWriteToFile(File file, String username, String password) {
-        try {
-            if (!file.exists()) {
-                Boolean res = file.createNewFile();
-            }
-            //true = append file
-            FileWriter fileWriter = new FileWriter(file.getName(), false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            String cryptUsername = username == null ? "" : AesCipher.aesEncryptString(username, GOLDEN_KEY);
-            String cryptPassword = password == null ? "" : AesCipher.aesEncryptString(password, GOLDEN_KEY);
-            bufferedWriter.write(cryptUsername);
-            bufferedWriter.write("\n");
-            bufferedWriter.write(cryptPassword);
-            bufferedWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public JButton getBtnLogin() {
+        return btnLogin;
     }
 
-    private void decryptAndReadFromFile(File file) {
-        try {
-            if (!file.exists()) {
-                Boolean res = file.createNewFile();
-            }
-            FileReader fileReader = new FileReader(file.getName());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String cryptUsername = bufferedReader.readLine();
-            String cryptPassword = bufferedReader.readLine();
-            String username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
-            String password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
-            textFieldUsername.setText(username);
-            passwordField.setText(password);
-            bufferedReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setUsername(String username) {
+        textFieldUsername.setText(username);
+    }
+
+    public String getUsername() {
+        return textFieldUsername.getText();
+    }
+
+    public void setPassword(String password) {
+        passwordField.setText(password);
+    }
+
+    public String getPassword() {
+        return passwordField.getText();
+    }
+
+    public boolean savePassword() {
+        return checkboxSavePassword.isSelected();
     }
 }
