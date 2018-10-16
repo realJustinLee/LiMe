@@ -1,6 +1,6 @@
 package com.lixin.lime;
 
-import com.lixin.lime.client.controller.LiMe;
+import com.lixin.lime.client.controller.LiMeController;
 
 import java.awt.*;
 
@@ -14,7 +14,7 @@ public class LiMeLauncher {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                LiMe lime = new LiMe();
+                LiMeController lime = new LiMeController();
                 lime.run();
             } catch (Exception e) {
                 e.printStackTrace();

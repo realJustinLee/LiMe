@@ -5,6 +5,6 @@ package com.lixin.lime.test;
  */
 public class MyTest {
     public static void main(String[] args) {
-        System.out.println("Hello, LiMe!");
+        System.out.println("Hello, LiMeController!");
     }
 }

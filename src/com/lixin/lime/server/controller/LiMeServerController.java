@@ -8,14 +8,14 @@ import java.awt.event.MouseEvent;
 /**
  * @author lixin
  */
-public class LiMeServer {
+public class LiMeServerController implements Runnable {
 
     private JFrame frame;
 
     /**
      * Create the application.
      */
-    public LiMeServer() {
+    public LiMeServerController() {
         initialize();
     }
 
@@ -25,12 +25,12 @@ public class LiMeServer {
     private void initialize() {
         frame = new JFrame();
         frame.setResizable(false);
-        frame.setTitle("LiMe Server --> The Lixin Messenger Server");
+        frame.setTitle("LiMeController Server --> The Lixin Messenger Server");
         frame.setBounds(600, 320, 480, 360);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JLabel label = new JLabel("LiMe");
+        JLabel label = new JLabel("LiMeController");
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -62,6 +62,7 @@ public class LiMeServer {
         frame.getContentPane().add(btnStop);
     }
 
+    @Override
     public void run() {
         frame.setVisible(true);
     }

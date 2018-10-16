@@ -30,6 +30,12 @@ public class MyStaticFactory {
      */
     public static final String GOLDEN_KEY = "FuckYouMicrosoft";
 
+    /**
+     * communication information
+     */
+    public static final int PORT = 5005;
+    public static final String HOST = "lime.lixin-computer.com";
+
     public static void showCopyright() {
         JOptionPane.showMessageDialog(null,
                 THE_TITLE + " " + THE_VERSION + "\n" + THE_COPYRIGHT,
@@ -37,11 +43,15 @@ public class MyStaticFactory {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public static void limeWarning(String message) {
+        JOptionPane.showMessageDialog(null, message, "LiMe Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
     public static void showAgreement() {
         // TODO: 打开用户协议网页
         try {
             Desktop desktop = Desktop.getDesktop();
-            String message = "https://great-li-xin.github.io/LiMe/Agreement";
+            String message = "lime.lixin-computer.com/Agreement";
             URI uri = URI.create(message);
             desktop.browse(uri);
         } catch (IOException exc) {
@@ -50,11 +60,11 @@ public class MyStaticFactory {
     }
 
     public static void showHomepage() {
-        // TODO: 打开 LiMe 主页
+        // TODO: 打开 LiMeController 主页
         try {
             Desktop desktop = Desktop.getDesktop();
-            // TODO: message 改成 LiMe 主页
-            String message = "https://great-li-xin.github.io/LiMe/";
+            // TODO: message 改成 LiMeController 主页
+            String message = "lime.lixin-computer.com/";
             URI uri = URI.create(message);
             desktop.browse(uri);
         } catch (IOException exc) {

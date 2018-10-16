@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
@@ -16,7 +17,7 @@ public class LiMeLoginFrame extends JFrame {
      */
     private JPanel contentPane;
     private JTextField textFieldUsername;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     private JButton btnLogin;
     private JCheckBox checkboxSavePassword;
     private JButton btnRegister;
@@ -131,7 +132,7 @@ public class LiMeLoginFrame extends JFrame {
     }
 
     public String getPassword() {
-        return passwordField.getText();
+        return String.valueOf(passwordField.getPassword());
     }
 
     public boolean savePassword() {

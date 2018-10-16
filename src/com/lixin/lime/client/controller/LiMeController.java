@@ -16,7 +16,7 @@ import static com.lixin.lime.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class LiMe implements ActionListener {
+public class LiMeController implements Runnable, ActionListener {
     /**
      * The password file
      */
@@ -26,6 +26,9 @@ public class LiMe implements ActionListener {
      * The variables
      */
     private String username;
+    /**
+     * TODO: password 改成 char[] 来提升安全性
+     */
     private String password;
 
     /**
@@ -38,7 +41,7 @@ public class LiMe implements ActionListener {
     /**
      * Create the application.
      */
-    public LiMe() {
+    public LiMeController() {
         initialize();
     }
 
@@ -56,6 +59,7 @@ public class LiMe implements ActionListener {
 
             // Register Frame init
             registerFrame = new LiMeRegisterFrame();
+            registerFrame.getBtnRegister().addActionListener(this);
 
             // Chat Frame init
             chatFrame = new LiMeChatFrame();
@@ -66,6 +70,7 @@ public class LiMe implements ActionListener {
         }
     }
 
+    @Override
     public void run() {
         loginFrame.setVisible(true);
     }
@@ -130,9 +135,9 @@ public class LiMe implements ActionListener {
                 username = loginFrame.getUsername();
                 password = loginFrame.getPassword();
                 if (username.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "请输入用户名");
+                    limeWarning("请输入用户名");
                 } else if (password.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "请输入密码");
+                    limeWarning("请输入密码");
                 } else {
                     encryptAndWriteToFile(passwordFile, username, password);
 
@@ -152,15 +157,29 @@ public class LiMe implements ActionListener {
                 }
                 break;
             case ACTION_REGISTER:
-                loginFrame.setVisible(false);
                 registerFrame.setVisible(true);
+                registerFrame.clearUI();
                 break;
             case ACTION_FIND_PASSWORD:
                 emailAdmin();
                 break;
             case ACTION_COMMIT_REGISTER:
-                // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
+                // 用户名、密码、email有无校验
+                username = registerFrame.getUsername();
+                password = registerFrame.getPassword();
+                String email = registerFrame.getEmail();
+                if (username.isEmpty()) {
+                    limeWarning("用户名不得为空");
+                } else if (password.isEmpty()) {
+                    limeWarning("密码不得为空");
+                } else if (email.isEmpty()) {
+                    limeWarning("Email不得为空");
+                } else {
+                    // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
 
+                    boolean registered;
+
+                }
                 break;
             default:
                 JOptionPane.showMessageDialog(null,
