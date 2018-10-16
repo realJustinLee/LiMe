@@ -1,5 +1,5 @@
 
-package com.lixin.lime.util.gui;
+package com.lixin.lime.protocol.util.gui;
 
 import java.awt.Component;
 import java.awt.Container;

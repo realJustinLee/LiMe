@@ -1,12 +1,12 @@
 package com.lixin.lime.client.gui;
 
-import com.lixin.lime.util.gui.FocusTraversalOnArray;
+import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-import static com.lixin.lime.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin

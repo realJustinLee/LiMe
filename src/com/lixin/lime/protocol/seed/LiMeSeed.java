@@ -1,15 +1,18 @@
-package com.lixin.lime.seed;
+package com.lixin.lime.protocol.seed;
+
+import java.io.Serializable;
 
 /**
  * @author lixin
  */
-public class LiMeSeed {
+public class LiMeSeed implements Serializable {
     /**
      * The Actions:
      * <p>
      * ERROR_REGISTER_CONFLICT  注册信息冲突
      * ERROR_LOGIN_CONFLICT     重复登录
-     * ERROR_LOGIN_PASSWORD     用户名密码错误
+     * ERROR_LOGIN_PASSWORD     用户名或密码错误
+     * ERROR_CONNECTION         连接错误
      * ERROR_UNKNOWN            未知错误
      * MESSAGE                  发信息
      * LOGIN                    登录
@@ -20,12 +23,13 @@ public class LiMeSeed {
     public static final int ERROR_REGISTER_CONFLICT = -4;
     public static final int ERROR_LOGIN_CONFLICT = -3;
     public static final int ERROR_LOGIN_PASSWORD = -2;
-    public static final int ERROR_UNKNOWN = -1;
-    public static final int MESSAGE = 0;
-    public static final int LOGIN = 1;
-    public static final int LOGIN_SUCCESS = 2;
-    public static final int REGISTER = 3;
-    public static final int REGISTER_SUCCESS = 4;
+    public static final int ERROR_CONNECTION = -1;
+    public static final int ERROR_UNKNOWN = 0;
+    public static final int MESSAGE = 1;
+    public static final int LOGIN = 2;
+    public static final int LOGIN_SUCCESS = 3;
+    public static final int REGISTER = 4;
+    public static final int REGISTER_SUCCESS = 5;
 
     private int action;
     private String sender;

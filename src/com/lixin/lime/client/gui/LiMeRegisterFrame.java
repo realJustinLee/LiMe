@@ -1,7 +1,7 @@
 package com.lixin.lime.client.gui;
 
-import com.lixin.lime.util.gui.FocusTraversalOnArray;
-import com.lixin.lime.util.factory.MyStaticFactory;
+import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
+import com.lixin.lime.protocol.util.factory.MyStaticFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static com.lixin.lime.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
@@ -172,7 +172,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 btnRegister.setEnabled(false);
             }
         } else {
-            limeUnknownError(this.getClass().getCanonicalName(), e.getSource().toString());
+            limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
         }
     }
 

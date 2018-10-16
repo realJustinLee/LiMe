@@ -1,9 +1,12 @@
-package com.lixin.lime.util.factory;
+package com.lixin.lime.protocol.util.factory;
+
+import com.lixin.lime.protocol.exception.LiMeException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Calendar;
 
 /**
  * @author lixin
@@ -40,6 +43,11 @@ public class MyStaticFactory {
     public static final int PORT = 5005;
     public static final String HOST = "lime.lixin-computer.com";
 
+    public static String getLiMeTime() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getTime().toString();
+    }
+
     public static void showCopyright() {
         JOptionPane.showMessageDialog(null,
                 THE_TITLE + " " + THE_VERSION + "\n" + THE_COPYRIGHT,
@@ -51,10 +59,14 @@ public class MyStaticFactory {
         JOptionPane.showMessageDialog(null, message, "LiMe Warning", JOptionPane.WARNING_MESSAGE);
     }
 
-    public static void limeUnknownError(String address, String param) {
+    public static void limeInternalError(String address, String param) {
         JOptionPane.showMessageDialog(null,
                 "错误地址：" + address + "\n" + "参数：" + param,
-                "发生未知错误", JOptionPane.ERROR_MESSAGE);
+                "内部错误", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void limeExternalError(String detail, String message) {
+        JOptionPane.showMessageDialog(null, detail, message, JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showAgreement() {

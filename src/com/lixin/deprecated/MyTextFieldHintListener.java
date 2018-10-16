@@ -1,4 +1,4 @@
-package com.lixin.lime.util.gui.deprecated;
+package com.lixin.deprecated;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;

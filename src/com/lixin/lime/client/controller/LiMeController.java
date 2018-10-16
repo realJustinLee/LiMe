@@ -4,18 +4,20 @@ package com.lixin.lime.client.controller;
 import com.lixin.lime.client.gui.LiMeChatFrame;
 import com.lixin.lime.client.gui.LiMeLoginFrame;
 import com.lixin.lime.client.gui.LiMeRegisterFrame;
-import com.lixin.lime.util.crypto.AesCipher;
+import com.lixin.lime.protocol.exception.LiMeException;
+import com.lixin.lime.protocol.seed.LiMeSeed;
+import com.lixin.lime.protocol.util.crypto.AesCipher;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-import static com.lixin.lime.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
 /**
  * @author lixin
  */
-public class LiMeController implements Runnable, ActionListener {
+public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     /**
      * The password file
      */
@@ -139,6 +141,11 @@ public class LiMeController implements Runnable, ActionListener {
     }
 
     @Override
+    public void newLiMeMessage(LiMeSeed seed) {
+
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case ACTION_LOGIN_LOGIN:
@@ -205,8 +212,13 @@ public class LiMeController implements Runnable, ActionListener {
                 disconnectFromServer();
                 break;
             default:
-                limeUnknownError(this.getClass().getCanonicalName(), e.getActionCommand());
+                limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
                 break;
         }
+    }
+
+    @Override
+    public void handleLiMeException(LiMeException e) {
+        limeExternalError(e.getDetail(), e.getMessage());
     }
 }
