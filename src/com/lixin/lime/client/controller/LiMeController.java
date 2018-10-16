@@ -6,7 +6,6 @@ import com.lixin.lime.client.gui.LiMeLoginFrame;
 import com.lixin.lime.client.gui.LiMeRegisterFrame;
 import com.lixin.lime.util.crypto.AesCipher;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -51,7 +50,6 @@ public class LiMeController implements Runnable, ActionListener {
     private void initialize() {
         try {
             initLoginFrame();
-            initRegisterFrame();
             connectToServer();
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,9 +58,9 @@ public class LiMeController implements Runnable, ActionListener {
 
     private void initLoginFrame() {
         loginFrame = new LiMeLoginFrame();
-        loginFrame.getBtnLogin().addActionListener(this);
-        loginFrame.getBtnRegister().addActionListener(this);
-        loginFrame.getBtnFindPassword().addActionListener(this);
+        loginFrame.getButtonLogin().addActionListener(this);
+        loginFrame.getButtonRegister().addActionListener(this);
+        loginFrame.getButtonFindPassword().addActionListener(this);
         decryptAndReadFromFile(passwordFile);
     }
 
@@ -172,9 +170,8 @@ public class LiMeController implements Runnable, ActionListener {
                 }
                 break;
             case ACTION_LOGIN_REGISTER:
+                initRegisterFrame();
                 registerFrame.setVisible(true);
-                registerFrame.clearUI();
-                loginFrame.setVisible(false);
                 break;
             case ACTION_LOGIN_FIND_PASSWORD:
                 emailAdmin();
@@ -183,6 +180,7 @@ public class LiMeController implements Runnable, ActionListener {
                 // 用户名、密码、email有无校验
                 username = registerFrame.getUsername();
                 password = registerFrame.getPassword();
+                String gender = registerFrame.getGender();
                 String email = registerFrame.getEmail();
                 if (username.isEmpty()) {
                     limeWarning("用户名不得为空");
@@ -198,9 +196,7 @@ public class LiMeController implements Runnable, ActionListener {
                 }
                 break;
             case ACTION_REGISTER_CANCEL:
-                registerFrame.clearUI();
                 registerFrame.dispose();
-                loginFrame.setVisible(true);
                 break;
             case ACTION_CHAT_LOGOUT:
                 chatFrame.dispose();

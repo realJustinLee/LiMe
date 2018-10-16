@@ -1,5 +1,6 @@
 package com.lixin.lime.client.gui;
 
+import com.lixin.lime.util.gui.FocusTraversalOnArray;
 import com.lixin.lime.util.factory.MyStaticFactory;
 
 import javax.swing.*;
@@ -100,11 +101,6 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         textFieldEmail.setBounds(119, 292, 242, 42);
         contentPane.add(textFieldEmail);
 
-        JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
-        labelCopyright.setForeground(SystemColor.windowBorder);
-        labelCopyright.setBounds(100, 556, 280, 16);
-        contentPane.add(labelCopyright);
-
         JLabel labelAgreement = new JLabel("《用户协议》");
         labelAgreement.addMouseListener(new MouseAdapter() {
             @Override
@@ -140,6 +136,25 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         labelBrand.setFont(new Font("Harry P", Font.BOLD, 99));
         labelBrand.setBounds(157, 444, 166, 100);
         contentPane.add(labelBrand);
+
+        JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setBounds(100, 556, 280, 16);
+        contentPane.add(labelCopyright);
+
+        setFocusTraversalPolicy(
+                new FocusTraversalOnArray(
+                        new Component[]{
+                                textFieldUsername,
+                                passwordField,
+                                toggleButtonGender,
+                                textFieldEmail,
+                                checkboxAgree,
+                                btnRegister,
+                                btnCancel
+                        }
+                )
+        );
     }
 
     @Override
@@ -173,43 +188,15 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         return textFieldUsername.getText();
     }
 
-    public void setUsername(String username) {
-        textFieldUsername.setText(username);
-    }
-
     public String getPassword() {
         return String.valueOf(passwordField.getPassword());
-    }
-
-    public void setPassword(String password) {
-        passwordField.setText(password);
     }
 
     public String getGender() {
         return toggleButtonGender.getText();
     }
 
-    public void setGender(boolean gender) {
-        toggleButtonGender.setSelected(gender);
-        if (gender) {
-            toggleButtonGender.setText("女");
-        } else {
-            toggleButtonGender.setText("男");
-        }
-    }
-
     public String getEmail() {
         return textFieldEmail.getText();
-    }
-
-    public void setEmail(String email) {
-        textFieldEmail.setText(email);
-    }
-
-    public void clearUI() {
-        setUsername(null);
-        setPassword(null);
-        setEmail(null);
-        setGender(false);
     }
 }

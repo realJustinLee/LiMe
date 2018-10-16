@@ -1,5 +1,7 @@
 package com.lixin.lime.client.gui;
 
+import com.lixin.lime.util.gui.FocusTraversalOnArray;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -47,8 +49,12 @@ public class LiMeChatFrame extends JFrame {
         contentPane.add(textFieldUsername);
 
         JList listFriends = new JList();
-        listFriends.setBounds(6, 78, 200, 614);
-        contentPane.add(listFriends);
+        listFriends.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        JScrollPane scrollPaneFriends = new JScrollPane(listFriends);
+        scrollPaneFriends.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneFriends.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneFriends.setBounds(6, 78, 200, 614);
+        contentPane.add(scrollPaneFriends);
 
         JSeparator separatorV = new JSeparator();
         separatorV.setOrientation(SwingConstants.VERTICAL);
@@ -56,16 +62,22 @@ public class LiMeChatFrame extends JFrame {
         contentPane.add(separatorV);
 
         JTextArea textAreaHistory = new JTextArea();
-        textAreaHistory.setBounds(242, 78, 832, 430);
-        contentPane.add(textAreaHistory);
-
-        JSeparator separatorH = new JSeparator();
-        separatorH.setBounds(242, 520, 832, 12);
-        contentPane.add(separatorH);
-
+        textAreaHistory.setEditable(false);
+        textAreaHistory.setLineWrap(true);
+        textAreaHistory.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        JScrollPane scrollPaneHistory = new JScrollPane(textAreaHistory);
+        scrollPaneHistory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneHistory.setPreferredSize(new Dimension(832, 430));
+        scrollPaneHistory.setMinimumSize(new Dimension(832, 150));
         JTextArea textAreaMessage = new JTextArea();
-        textAreaMessage.setBounds(242, 544, 832, 107);
-        contentPane.add(textAreaMessage);
+        textAreaMessage.setLineWrap(true);
+        textAreaMessage.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        JScrollPane scrollPaneMessage = new JScrollPane(textAreaMessage);
+        scrollPaneMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneMessage.setMinimumSize(new Dimension(832, 150));
+        JSplitPane splitPaneRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneHistory, scrollPaneMessage);
+        splitPaneRight.setBounds(242, 77, 832, 574);
+        contentPane.add(splitPaneRight);
 
         buttonLogout = new JButton("登出");
         buttonLogout.setForeground(Color.RED);
@@ -83,6 +95,22 @@ public class LiMeChatFrame extends JFrame {
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
         contentPane.add(buttonSendMessage);
+
+        JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setBounds(242, 676, 280, 16);
+        contentPane.add(labelCopyright);
+
+        // TODO: [BUG] 在 textArea 监听不到 Tab 键
+        setFocusTraversalPolicy(
+                new FocusTraversalOnArray(
+                        new Component[]{
+                                textAreaMessage,
+                                buttonSendMessage,
+                                buttonSendFile
+                        }
+                )
+        );
     }
 
     public JButton getButtonLogout() {

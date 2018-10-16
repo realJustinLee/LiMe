@@ -1,5 +1,7 @@
 package com.lixin.lime.client.gui;
 
+import com.lixin.lime.util.gui.FocusTraversalOnArray;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -17,11 +19,11 @@ public class LiMeLoginFrame extends JFrame {
      */
     private JPanel contentPane;
     private JTextField textFieldUsername;
+    private JButton buttonRegister;
     private JPasswordField passwordField;
-    private JButton btnLogin;
+    private JButton buttonFindPassword;
+    private JButton buttonLogin;
     private JCheckBox checkboxSavePassword;
-    private JButton btnRegister;
-    private JButton btnFindPassword;
 
     /**
      * Create the frame.
@@ -60,9 +62,16 @@ public class LiMeLoginFrame extends JFrame {
 
         textFieldUsername = new JTextField();
         textFieldUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        textFieldUsername.setColumns(10);
         textFieldUsername.setBounds(119, 102, 242, 42);
         contentPane.add(textFieldUsername);
-        textFieldUsername.setColumns(10);
+
+        buttonRegister = new JButton("注册账号");
+        buttonRegister.setForeground(SystemColor.controlHighlight);
+        buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
+        buttonRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
+        buttonRegister.setBounds(373, 111, 80, 29);
+        contentPane.add(buttonRegister);
 
         JLabel labelPassword = new JLabel("密码");
         labelPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
@@ -71,16 +80,22 @@ public class LiMeLoginFrame extends JFrame {
 
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        passwordField.setColumns(10);
         passwordField.setBounds(119, 156, 242, 42);
         contentPane.add(passwordField);
-        passwordField.setColumns(10);
 
-        btnLogin = new JButton("Login Now!");
-        btnLogin.setForeground(new Color(153, 50, 204));
-        btnLogin.setActionCommand(ACTION_LOGIN_LOGIN);
-        btnLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
-        btnLogin.setBounds(119, 210, 242, 42);
-        contentPane.add(btnLogin);
+        buttonFindPassword = new JButton("找回密码");
+        buttonFindPassword.setForeground(SystemColor.controlHighlight);
+        buttonFindPassword.setActionCommand(ACTION_LOGIN_FIND_PASSWORD);
+        buttonFindPassword.setBounds(373, 165, 80, 29);
+        contentPane.add(buttonFindPassword);
+
+        buttonLogin = new JButton("Login Now!");
+        buttonLogin.setForeground(new Color(153, 50, 204));
+        buttonLogin.setActionCommand(ACTION_LOGIN_LOGIN);
+        buttonLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
+        buttonLogin.setBounds(119, 210, 242, 42);
+        contentPane.add(buttonLogin);
 
         checkboxSavePassword = new JCheckBox("保存密码");
         checkboxSavePassword.setSelected(true);
@@ -88,35 +103,32 @@ public class LiMeLoginFrame extends JFrame {
         checkboxSavePassword.setBounds(198, 264, 84, 23);
         contentPane.add(checkboxSavePassword);
 
-        btnRegister = new JButton("注册账号");
-        btnRegister.setForeground(SystemColor.controlHighlight);
-        btnRegister.setActionCommand(ACTION_LOGIN_REGISTER);
-        btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        btnRegister.setBounds(373, 116, 61, 16);
-        contentPane.add(btnRegister);
+        JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setBounds(100, 316, 280, 16);
+        contentPane.add(labelCopyright);
 
-        btnFindPassword = new JButton("找回密码");
-        btnFindPassword.setForeground(SystemColor.controlHighlight);
-        btnFindPassword.setActionCommand(ACTION_LOGIN_FIND_PASSWORD);
-        btnFindPassword.setBounds(373, 170, 61, 16);
-        contentPane.add(btnFindPassword);
-
-        JLabel lblCopyright = new JLabel(THE_COPYRIGHT);
-        lblCopyright.setForeground(SystemColor.windowBorder);
-        lblCopyright.setBounds(100, 316, 280, 16);
-        contentPane.add(lblCopyright);
+        setFocusTraversalPolicy(
+                new FocusTraversalOnArray(
+                        new Component[]{
+                                textFieldUsername,
+                                passwordField,
+                                buttonLogin
+                        }
+                )
+        );
     }
 
-    public JButton getBtnRegister() {
-        return btnRegister;
+    public JButton getButtonRegister() {
+        return buttonRegister;
     }
 
-    public JButton getBtnFindPassword() {
-        return btnFindPassword;
+    public JButton getButtonFindPassword() {
+        return buttonFindPassword;
     }
 
-    public JButton getBtnLogin() {
-        return btnLogin;
+    public JButton getButtonLogin() {
+        return buttonLogin;
     }
 
     public void setUsername(String username) {
