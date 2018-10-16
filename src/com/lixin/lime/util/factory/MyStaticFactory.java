@@ -11,6 +11,7 @@ import java.net.URI;
 public class MyStaticFactory {
     /**
      * The Strings
+     * Name Format: THE_[Name]
      */
     public static final String THE_TITLE = "Lixin Messenger";
     public static final String THE_BRAND = "LiMe";
@@ -19,11 +20,14 @@ public class MyStaticFactory {
 
     /**
      * The Actions
+     * Name Format: ACTION_[Frame]_[Button]
      */
-    public static final String ACTION_LOGIN = "login";
-    public static final String ACTION_REGISTER = "register";
-    public static final String ACTION_FIND_PASSWORD = "find_password";
-    public static final String ACTION_COMMIT_REGISTER = "commit_register";
+    public static final String ACTION_LOGIN_LOGIN = "login";
+    public static final String ACTION_LOGIN_REGISTER = "register";
+    public static final String ACTION_LOGIN_FIND_PASSWORD = "find_password";
+    public static final String ACTION_REGISTER_REGISTER = "commit_register";
+    public static final String ACTION_REGISTER_CANCEL = "cancel_register";
+    public static final String ACTION_CHAT_LOGOUT = "logout";
 
     /**
      * GOLDEN_KEY : A-16-Byte-String
@@ -45,6 +49,12 @@ public class MyStaticFactory {
 
     public static void limeWarning(String message) {
         JOptionPane.showMessageDialog(null, message, "LiMe Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static void limeUnknownError(String address, String param) {
+        JOptionPane.showMessageDialog(null,
+                "错误地址：" + address + "\n" + "参数：" + param,
+                "发生未知错误", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showAgreement() {

@@ -8,4 +8,8 @@ public class LiMeModel {
     public LiMeModel(String host, int port) {
 
     }
+
+    public boolean login() {
+        return true;
+    }
 }

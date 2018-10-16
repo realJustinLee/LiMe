@@ -1,4 +1,4 @@
-package com.lixin.lime.protocal;
+package com.lixin.lime.seed;
 
 /**
  * @author lixin

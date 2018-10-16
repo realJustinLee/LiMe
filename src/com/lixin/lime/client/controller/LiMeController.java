@@ -50,24 +50,31 @@ public class LiMeController implements Runnable, ActionListener {
      */
     private void initialize() {
         try {
-            // Login Frame init
-            loginFrame = new LiMeLoginFrame();
-            loginFrame.getBtnLogin().addActionListener(this);
-            loginFrame.getBtnRegister().addActionListener(this);
-            loginFrame.getBtnFindPassword().addActionListener(this);
-            decryptAndReadFromFile(passwordFile);
-
-            // Register Frame init
-            registerFrame = new LiMeRegisterFrame();
-            registerFrame.getBtnRegister().addActionListener(this);
-
-            // Chat Frame init
-            chatFrame = new LiMeChatFrame();
-
+            initLoginFrame();
+            initRegisterFrame();
             connectToServer();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initLoginFrame() {
+        loginFrame = new LiMeLoginFrame();
+        loginFrame.getBtnLogin().addActionListener(this);
+        loginFrame.getBtnRegister().addActionListener(this);
+        loginFrame.getBtnFindPassword().addActionListener(this);
+        decryptAndReadFromFile(passwordFile);
+    }
+
+    private void initRegisterFrame() {
+        registerFrame = new LiMeRegisterFrame();
+        registerFrame.getBtnRegister().addActionListener(this);
+        registerFrame.getBtnCancel().addActionListener(this);
+    }
+
+    private void initChatFrame() {
+        chatFrame = new LiMeChatFrame(username);
+        chatFrame.getButtonLogout().addActionListener(this);
     }
 
     @Override
@@ -76,12 +83,18 @@ public class LiMeController implements Runnable, ActionListener {
     }
 
     /**
-     * Connect to the Server.
+     * Connect to Server.
      */
     private void connectToServer() {
-        // TODO: connect the server
+        // TODO: connect to server
     }
 
+    /**
+     * Disconnect from Server.
+     */
+    private void disconnectFromServer() {
+        // TODO: disconnect from Server
+    }
 
     private void encryptAndWriteToFile(File file, String username, String password) {
         try {
@@ -130,7 +143,7 @@ public class LiMeController implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case ACTION_LOGIN:
+            case ACTION_LOGIN_LOGIN:
                 // 用户名、密码有无校验
                 username = loginFrame.getUsername();
                 password = loginFrame.getPassword();
@@ -151,19 +164,22 @@ public class LiMeController implements Runnable, ActionListener {
                     boolean loggedIn = true;
 
                     if (loggedIn) {
+                        loginFrame.setVisible(false);
+                        initChatFrame();
                         chatFrame.setVisible(true);
                     }
 
                 }
                 break;
-            case ACTION_REGISTER:
+            case ACTION_LOGIN_REGISTER:
                 registerFrame.setVisible(true);
                 registerFrame.clearUI();
+                loginFrame.setVisible(false);
                 break;
-            case ACTION_FIND_PASSWORD:
+            case ACTION_LOGIN_FIND_PASSWORD:
                 emailAdmin();
                 break;
-            case ACTION_COMMIT_REGISTER:
+            case ACTION_REGISTER_REGISTER:
                 // 用户名、密码、email有无校验
                 username = registerFrame.getUsername();
                 password = registerFrame.getPassword();
@@ -181,11 +197,19 @@ public class LiMeController implements Runnable, ActionListener {
 
                 }
                 break;
+            case ACTION_REGISTER_CANCEL:
+                registerFrame.clearUI();
+                registerFrame.dispose();
+                loginFrame.setVisible(true);
+                break;
+            case ACTION_CHAT_LOGOUT:
+                chatFrame.dispose();
+                initLoginFrame();
+                loginFrame.setVisible(true);
+                disconnectFromServer();
+                break;
             default:
-                JOptionPane.showMessageDialog(null,
-                        "错误地址：" + this.getClass().getCanonicalName(),
-                        "发生未知错误",
-                        JOptionPane.ERROR_MESSAGE);
+                limeUnknownError(this.getClass().getCanonicalName(), e.getActionCommand());
                 break;
         }
     }

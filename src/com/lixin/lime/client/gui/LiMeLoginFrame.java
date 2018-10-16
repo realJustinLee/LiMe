@@ -3,8 +3,8 @@ package com.lixin.lime.client.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
@@ -77,7 +77,7 @@ public class LiMeLoginFrame extends JFrame {
 
         btnLogin = new JButton("Login Now!");
         btnLogin.setForeground(new Color(153, 50, 204));
-        btnLogin.setActionCommand(ACTION_LOGIN);
+        btnLogin.setActionCommand(ACTION_LOGIN_LOGIN);
         btnLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         btnLogin.setBounds(119, 210, 242, 42);
         contentPane.add(btnLogin);
@@ -89,15 +89,15 @@ public class LiMeLoginFrame extends JFrame {
         contentPane.add(checkboxSavePassword);
 
         btnRegister = new JButton("注册账号");
-        btnRegister.setActionCommand(ACTION_REGISTER);
         btnRegister.setForeground(SystemColor.controlHighlight);
+        btnRegister.setActionCommand(ACTION_LOGIN_REGISTER);
         btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         btnRegister.setBounds(373, 116, 61, 16);
         contentPane.add(btnRegister);
 
         btnFindPassword = new JButton("找回密码");
-        btnFindPassword.setActionCommand(ACTION_FIND_PASSWORD);
         btnFindPassword.setForeground(SystemColor.controlHighlight);
+        btnFindPassword.setActionCommand(ACTION_LOGIN_FIND_PASSWORD);
         btnFindPassword.setBounds(373, 170, 61, 16);
         contentPane.add(btnFindPassword);
 

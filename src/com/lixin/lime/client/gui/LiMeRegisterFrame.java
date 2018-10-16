@@ -5,8 +5,10 @@ import com.lixin.lime.util.factory.MyStaticFactory;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static com.lixin.lime.util.factory.MyStaticFactory.*;
 
@@ -115,14 +117,14 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(labelAgreement);
 
         btnRegister = new JButton("注册");
-        btnRegister.setActionCommand(ACTION_COMMIT_REGISTER);
+        btnRegister.setActionCommand(ACTION_REGISTER_REGISTER);
         btnRegister.setEnabled(false);
         btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnRegister.setBounds(119, 378, 117, 36);
         contentPane.add(btnRegister);
 
         btnCancel = new JButton("取消");
-        btnCancel.addActionListener(this);
+        btnCancel.setActionCommand(ACTION_REGISTER_CANCEL);
         btnCancel.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnCancel.setBounds(245, 378, 117, 36);
         contentPane.add(btnCancel);
@@ -154,19 +156,17 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
             } else {
                 btnRegister.setEnabled(false);
             }
-        } else if (e.getSource() == btnCancel) {
-            clearUI();
-            dispose();
         } else {
-            JOptionPane.showMessageDialog(null,
-                    "错误地址：" + this.getClass().getCanonicalName(),
-                    "发生未知错误",
-                    JOptionPane.ERROR_MESSAGE);
+            limeUnknownError(this.getClass().getCanonicalName(), e.getSource().toString());
         }
     }
 
     public JButton getBtnRegister() {
         return btnRegister;
+    }
+
+    public JButton getBtnCancel() {
+        return btnCancel;
     }
 
     public String getUsername() {

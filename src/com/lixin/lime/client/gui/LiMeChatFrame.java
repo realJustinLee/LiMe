@@ -4,18 +4,22 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static com.lixin.lime.util.factory.MyStaticFactory.*;
+
 /**
  * @author lixin
  */
 public class LiMeChatFrame extends JFrame {
 
     private JPanel contentPane;
-    private JTextField textFieldUsername;
+    private JButton buttonLogout;
 
     /**
      * Create the frame.
      */
-    public LiMeChatFrame() {
+    public LiMeChatFrame(String username) {
+        setTitle(THE_BRAND + " @" + username);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(300, 140, 1080, 720);
         contentPane = new JPanel();
@@ -34,7 +38,7 @@ public class LiMeChatFrame extends JFrame {
         labelUsername.setBounds(705, 24, 54, 42);
         contentPane.add(labelUsername);
 
-        textFieldUsername = new JTextField();
+        JTextField textFieldUsername = new JTextField("@" + username);
         textFieldUsername.setEnabled(false);
         textFieldUsername.setEditable(false);
         textFieldUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
@@ -63,10 +67,10 @@ public class LiMeChatFrame extends JFrame {
         textAreaMessage.setBounds(242, 544, 832, 107);
         contentPane.add(textAreaMessage);
 
-        JButton buttonLogout = new JButton("退出");
+        buttonLogout = new JButton("登出");
         buttonLogout.setForeground(Color.RED);
+        buttonLogout.setActionCommand(ACTION_CHAT_LOGOUT);
         buttonLogout.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonLogout.setActionCommand((String) null);
         buttonLogout.setBounds(1024, 33, 50, 29);
         contentPane.add(buttonLogout);
 
@@ -79,5 +83,9 @@ public class LiMeChatFrame extends JFrame {
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
         contentPane.add(buttonSendMessage);
+    }
+
+    public JButton getButtonLogout() {
+        return buttonLogout;
     }
 }
