@@ -16,8 +16,11 @@ public class MyStaticFactory {
      */
     public static final String THE_TITLE = "Lixin Messenger";
     public static final String THE_BRAND = "LiMe";
-    public static final String THE_COPYRIGHT = "Copyright © 2018 Lixin. All rights reserved.";
-    public static final String THE_VERSION = "v0.1";
+    public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " Lixin. All Rights Reserved.";
+    public static final String THE_LIME_VERSION = "L_v 0.1";
+    public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
+    public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
+    public static final String THE_SERVER_VERSION = "S_v 0.1";
 
     /**
      * The Actions
@@ -58,11 +61,9 @@ public class MyStaticFactory {
         return calendar.getTime().toString();
     }
 
-    public static void showCopyright() {
-        JOptionPane.showMessageDialog(null,
-                THE_TITLE + " " + THE_VERSION + "\n" + THE_COPYRIGHT,
-                THE_BRAND,
-                JOptionPane.INFORMATION_MESSAGE);
+    public static String getLiMeYear() {
+        Calendar calendar = Calendar.getInstance();
+        return String.valueOf(calendar.get(Calendar.YEAR));
     }
 
     public static void limeWarning(String message) {
@@ -78,6 +79,20 @@ public class MyStaticFactory {
 
     public static void limeExternalError(String detail, String message) {
         JOptionPane.showMessageDialog(null, detail, message, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void showCopyright() {
+        JOptionPane.showMessageDialog(null,
+                THE_TITLE + " " + THE_LIME_VERSION + "\n" + THE_COPYRIGHT,
+                THE_BRAND,
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void showServerCopyright() {
+        JOptionPane.showMessageDialog(null,
+                THE_SERVER_TITLE + " " + THE_SERVER_VERSION + "\n" + THE_COPYRIGHT,
+                THE_SERVER_BRAND,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void showHomepage() {

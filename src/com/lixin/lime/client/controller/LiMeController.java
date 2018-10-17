@@ -94,6 +94,8 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     private void initChatFrame() {
         chatFrame = new LiMeChatFrame(username);
         chatFrame.getButtonLogout().addActionListener(this);
+        chatFrame.getButtonSendFile().addActionListener(this);
+        chatFrame.getButtonSendMessage().addActionListener(this);
     }
 
     @Override
@@ -215,6 +217,14 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
                         handleLiMeException(ex);
                         System.exit(0);
                     }
+                    break;
+                case ACTION_CHAT_SEND_FILE:
+                    // TODO: 发送文件
+
+                    break;
+                case ACTION_CHAT_SEND_MESSAGE:
+                    // TODO: 发送消息
+
                     break;
                 default:
                     limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());

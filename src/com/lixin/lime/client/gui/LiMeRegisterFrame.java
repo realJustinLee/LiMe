@@ -139,7 +139,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(SystemColor.windowBorder);
-        labelCopyright.setBounds(100, 556, 280, 16);
+        labelCopyright.setBounds(92, 556, 296, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(

@@ -89,18 +89,20 @@ public class LiMeChatFrame extends JFrame {
         contentPane.add(buttonLogout);
 
         buttonSendFile = new JButton("传文件");
+        buttonSendFile.setActionCommand(ACTION_CHAT_SEND_FILE);
         buttonSendFile.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendFile.setBounds(835, 663, 117, 29);
         contentPane.add(buttonSendFile);
 
         buttonSendMessage = new JButton("发送");
+        buttonSendMessage.setActionCommand(ACTION_CHAT_SEND_MESSAGE);
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
         contentPane.add(buttonSendMessage);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(SystemColor.windowBorder);
-        labelCopyright.setBounds(242, 676, 280, 16);
+        labelCopyright.setBounds(242, 676, 296, 16);
         contentPane.add(labelCopyright);
 
         // TODO: [BUG] 在 textArea 监听不到 Tab 键

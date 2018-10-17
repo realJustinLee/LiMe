@@ -50,7 +50,7 @@ public class LiMeLoginFrame extends JFrame {
         labelTitle.setBounds(119, 30, 242, 60);
         contentPane.add(labelTitle);
 
-        JLabel labelVersion = new JLabel(THE_VERSION);
+        JLabel labelVersion = new JLabel(THE_LIME_VERSION);
         labelVersion.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         labelVersion.setBounds(350, 63, 61, 16);
         contentPane.add(labelVersion);
@@ -105,7 +105,7 @@ public class LiMeLoginFrame extends JFrame {
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(SystemColor.windowBorder);
-        labelCopyright.setBounds(100, 316, 280, 16);
+        labelCopyright.setBounds(92, 316, 296, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(
