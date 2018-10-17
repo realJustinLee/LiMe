@@ -4,6 +4,7 @@ package com.lixin.lime.client.controller;
 import com.lixin.lime.client.gui.LiMeChatFrame;
 import com.lixin.lime.client.gui.LiMeLoginFrame;
 import com.lixin.lime.client.gui.LiMeRegisterFrame;
+import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.util.crypto.AesCipher;
@@ -21,7 +22,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     /**
      * The password file
      */
-    private final File passwordFile = new File("0xCafeBabe.lime");
+    private final File passwordFile = new File(PASSWORD_FILE_PATH);
 
     /**
      * The variables
@@ -33,11 +34,16 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     private String password;
 
     /**
-     * The Frames
+     * The Views(Frames)
      */
     private LiMeLoginFrame loginFrame;
     private LiMeRegisterFrame registerFrame;
     private LiMeChatFrame chatFrame;
+
+    /**
+     * The Model
+     */
+    private LiMeModel model;
 
     /**
      * Create the application.
@@ -50,12 +56,25 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
      * Initialize the LiMeLoginFrame.
      */
     private void initialize() {
+        // 测试版本
         try {
             initLoginFrame();
-            connectToServer();
-        } catch (Exception e) {
+            model = new LiMeModel(HOST, PORT, this);
+            model.connectToServer();
+        } catch (LiMeException e) {
             e.printStackTrace();
+            handleLiMeException(e);
         }
+
+        // 发布版本
+        // try {
+        //     model = new LiMeModel(HOST, PORT, this);
+        //     model.connectToServer();
+        //     initLoginFrame();
+        // } catch (LiMeException e) {
+        //     handleLiMeException(e);
+        //     System.exit(0);
+        // }
     }
 
     private void initLoginFrame() {
@@ -80,20 +99,6 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     @Override
     public void run() {
         loginFrame.setVisible(true);
-    }
-
-    /**
-     * Connect to Server.
-     */
-    private void connectToServer() {
-        // TODO: connect to server
-    }
-
-    /**
-     * Disconnect from Server.
-     */
-    private void disconnectFromServer() {
-        // TODO: disconnect from Server
     }
 
     private void encryptAndWriteToFile(File file, String username, String password) {
@@ -147,73 +152,76 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case ACTION_LOGIN_LOGIN:
-                // 用户名、密码有无校验
-                username = loginFrame.getUsername();
-                password = loginFrame.getPassword();
-                if (username.isEmpty()) {
-                    limeWarning("请输入用户名");
-                } else if (password.isEmpty()) {
-                    limeWarning("请输入密码");
-                } else {
-                    encryptAndWriteToFile(passwordFile, username, password);
-
-                    /*
-                     * TODO: 登陆校验
-                     *  发送 Json 文件到服务器
-                     *  服务器将注册信息写入数据库 (Json action : login)
-                     *  服务器返回 Json 文件批准登陆 (Json action : approve, arg: login)
-                     */
-
-                    boolean loggedIn = true;
-
-                    if (loggedIn) {
-                        loginFrame.setVisible(false);
-                        initChatFrame();
-                        chatFrame.setVisible(true);
+        try {
+            switch (e.getActionCommand()) {
+                case ACTION_LOGIN_LOGIN:
+                    // 用户名、密码有无校验
+                    username = loginFrame.getUsername();
+                    password = loginFrame.getPassword();
+                    if (username.isEmpty()) {
+                        limeWarning("请输入用户名");
+                    } else if (password.isEmpty()) {
+                        limeWarning("请输入密码");
+                    } else {
+                        // login() throws LiMeException
+                        if (model.login(username, password)) {
+                            // 登录信息正确才写入文件
+                            encryptAndWriteToFile(passwordFile, username, password);
+                            loginFrame.setVisible(false);
+                            initChatFrame();
+                            chatFrame.setVisible(true);
+                        }
                     }
-
-                }
-                break;
-            case ACTION_LOGIN_REGISTER:
-                initRegisterFrame();
-                registerFrame.setVisible(true);
-                break;
-            case ACTION_LOGIN_FIND_PASSWORD:
-                emailAdmin();
-                break;
-            case ACTION_REGISTER_REGISTER:
-                // 用户名、密码、email有无校验
-                username = registerFrame.getUsername();
-                password = registerFrame.getPassword();
-                String gender = registerFrame.getGender();
-                String email = registerFrame.getEmail();
-                if (username.isEmpty()) {
-                    limeWarning("用户名不得为空");
-                } else if (password.isEmpty()) {
-                    limeWarning("密码不得为空");
-                } else if (email.isEmpty()) {
-                    limeWarning("Email不得为空");
-                } else {
-                    // TODO: 注册，发送Json文件到服务器，服务器将注册信息写入数据库 (Json action : register)
-
-                    boolean registered;
-
-                }
-                break;
-            case ACTION_REGISTER_CANCEL:
-                registerFrame.dispose();
-                break;
-            case ACTION_CHAT_LOGOUT:
-                chatFrame.dispose();
-                initLoginFrame();
-                loginFrame.setVisible(true);
-                disconnectFromServer();
-                break;
-            default:
-                limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
-                break;
+                    break;
+                case ACTION_LOGIN_REGISTER:
+                    initRegisterFrame();
+                    registerFrame.setVisible(true);
+                    break;
+                case ACTION_LOGIN_FIND_PASSWORD:
+                    limeEmailAdmin();
+                    break;
+                case ACTION_REGISTER_REGISTER:
+                    // 用户名、密码、email有无校验
+                    username = registerFrame.getUsername();
+                    password = registerFrame.getPassword();
+                    String gender = registerFrame.getGender();
+                    String email = registerFrame.getEmail();
+                    if (username.isEmpty()) {
+                        limeWarning("用户名不得为空");
+                    } else if (password.isEmpty()) {
+                        limeWarning("密码不得为空");
+                    } else if (email.isEmpty()) {
+                        limeWarning("Email不得为空");
+                    } else {
+                        // register() throws LiMeException
+                        if (model.register(username, password, gender, email)) {
+                            loginFrame.setUsername(username);
+                            loginFrame.setPassword(password);
+                            loginFrame.setVisible(true);
+                        }
+                    }
+                    break;
+                case ACTION_REGISTER_CANCEL:
+                    registerFrame.dispose();
+                    break;
+                case ACTION_CHAT_LOGOUT:
+                    try {
+                        // logout() throws LiMeException
+                        model.logout(username);
+                        chatFrame.dispose();
+                        initLoginFrame();
+                        loginFrame.setVisible(true);
+                    } catch (LiMeException ex) {
+                        handleLiMeException(ex);
+                        System.exit(0);
+                    }
+                    break;
+                default:
+                    limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
+                    break;
+            }
+        } catch (LiMeException ex) {
+            handleLiMeException(ex);
         }
     }
 

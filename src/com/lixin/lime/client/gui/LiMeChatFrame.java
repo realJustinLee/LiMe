@@ -15,6 +15,8 @@ public class LiMeChatFrame extends JFrame {
 
     private JPanel contentPane;
     private JButton buttonLogout;
+    private JButton buttonSendFile;
+    private JButton buttonSendMessage;
 
     /**
      * Create the frame.
@@ -86,12 +88,12 @@ public class LiMeChatFrame extends JFrame {
         buttonLogout.setBounds(1024, 33, 50, 29);
         contentPane.add(buttonLogout);
 
-        JButton buttonSendFile = new JButton("传文件");
+        buttonSendFile = new JButton("传文件");
         buttonSendFile.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendFile.setBounds(835, 663, 117, 29);
         contentPane.add(buttonSendFile);
 
-        JButton buttonSendMessage = new JButton("发送");
+        buttonSendMessage = new JButton("发送");
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
         contentPane.add(buttonSendMessage);
@@ -115,5 +117,13 @@ public class LiMeChatFrame extends JFrame {
 
     public JButton getButtonLogout() {
         return buttonLogout;
+    }
+
+    public JButton getButtonSendFile() {
+        return buttonSendFile;
+    }
+
+    public JButton getButtonSendMessage() {
+        return buttonSendMessage;
     }
 }

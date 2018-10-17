@@ -1,7 +1,5 @@
 package com.lixin.lime.protocol.util.factory;
 
-import com.lixin.lime.protocol.exception.LiMeException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -23,7 +21,7 @@ public class MyStaticFactory {
 
     /**
      * The Actions
-     * Name Format: ACTION_[Frame]_[Button]
+     * Name Format: ACTION_[Frame]_[Button]*
      */
     public static final String ACTION_LOGIN_LOGIN = "login";
     public static final String ACTION_LOGIN_REGISTER = "register";
@@ -31,17 +29,29 @@ public class MyStaticFactory {
     public static final String ACTION_REGISTER_REGISTER = "commit_register";
     public static final String ACTION_REGISTER_CANCEL = "cancel_register";
     public static final String ACTION_CHAT_LOGOUT = "logout";
+    public static final String ACTION_CHAT_SEND_MESSAGE = "send_message";
+    public static final String ACTION_CHAT_SEND_FILE = "send_file";
 
     /**
      * GOLDEN_KEY : A-16-Byte-String
      */
     public static final String GOLDEN_KEY = "FuckYouMicrosoft";
 
+    public static final String PASSWORD_FILE_PATH = "soil.lime";
+
     /**
      * communication information
      */
     public static final int PORT = 5005;
-    public static final String HOST = "lime.lixin-computer.com";
+    public static final String HOST = "127.0.0.1";
+    //public static final String HOST = "lime.lixin-computer.com";
+
+    private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
+    private static final String STAFF_EMAIL = "lixin@lixin-computer.com";
+    private static final String URL_LIME_HOMEPAGE = "lime.lixin-computer.com";
+    private static final String URL_LIME_AGREEMENT = "lime.lixin-computer.com/Agreement";
+
+    // The public methods
 
     public static String getLiMeTime() {
         Calendar calendar = Calendar.getInstance();
@@ -63,41 +73,47 @@ public class MyStaticFactory {
         JOptionPane.showMessageDialog(null,
                 "错误地址：" + address + "\n" + "参数：" + param,
                 "内部错误", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
     }
 
     public static void limeExternalError(String detail, String message) {
         JOptionPane.showMessageDialog(null, detail, message, JOptionPane.ERROR_MESSAGE);
     }
 
+    public static void showHomepage() {
+        // TODO: 打开 LiMe 主页
+        showUrl(URL_LIME_HOMEPAGE);
+    }
+
     public static void showAgreement() {
         // TODO: 打开用户协议网页
+        showUrl(URL_LIME_AGREEMENT);
+    }
+
+    public static void limeEmailAdmin() {
+        sendEmailFromLiMe(ADMIN_EMAIL);
+    }
+
+    public static void limeEmailStaff() {
+        sendEmailFromLiMe(STAFF_EMAIL);
+    }
+
+    // The private methods
+
+    private static void showUrl(String url) {
         try {
             Desktop desktop = Desktop.getDesktop();
-            String message = "lime.lixin-computer.com/Agreement";
-            URI uri = URI.create(message);
+            URI uri = URI.create(url);
             desktop.browse(uri);
         } catch (IOException exc) {
             exc.printStackTrace();
         }
     }
 
-    public static void showHomepage() {
-        // TODO: 打开 LiMeController 主页
+    private static void sendEmailFromLiMe(String to) {
         try {
             Desktop desktop = Desktop.getDesktop();
-            // TODO: message 改成 LiMeController 主页
-            String message = "lime.lixin-computer.com/";
-            URI uri = URI.create(message);
-            desktop.browse(uri);
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
-    }
-
-    public static void emailAdmin() {
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            String message = "mailto:JustinDellAdam@live.com";
+            String message = "mailto:" + to;
             URI uri = URI.create(message);
             desktop.mail(uri);
         } catch (IOException exc) {

@@ -3,6 +3,8 @@ package com.lixin.lime.protocol.seed;
 import java.io.Serializable;
 
 /**
+ * LiMe 信息传输协议
+ *
  * @author lixin
  */
 public class LiMeSeed implements Serializable {
@@ -17,6 +19,8 @@ public class LiMeSeed implements Serializable {
      * MESSAGE                  发信息
      * LOGIN                    登录
      * LOGIN_SUCCESS            登录成功
+     * LOGOUT                   登出
+     * FILE                     发文件
      * REGISTER                 注册
      * REGISTER_SUCCESS         注册成功
      */
@@ -28,8 +32,10 @@ public class LiMeSeed implements Serializable {
     public static final int MESSAGE = 1;
     public static final int LOGIN = 2;
     public static final int LOGIN_SUCCESS = 3;
-    public static final int REGISTER = 4;
-    public static final int REGISTER_SUCCESS = 5;
+    public static final int LOGOUT = 4;
+    public static final int RECEIVER_IP = 5;
+    public static final int REGISTER = 6;
+    public static final int REGISTER_SUCCESS = 7;
 
     private int action;
     private String sender;
@@ -37,31 +43,12 @@ public class LiMeSeed implements Serializable {
     private String message;
     private String time;
 
-    public LiMeSeed(String username, String password) {
-        action = LOGIN;
-        sender = username;
-        message = password;
-    }
-
-    public LiMeSeed(String sender, String receiver, String message, String time) {
-        action = MESSAGE;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.message = message;
-        this.time = time;
-    }
-
     public LiMeSeed(int action, String sender, String receiver, String message, String time) {
-        // action = REGISTER 复用 (REGISTER, String username, String password, String gender, String email)
         this.action = action;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.time = time;
-    }
-
-    public LiMeSeed(int action) {
-        this.action = action;
     }
 
     public int getAction() {
@@ -86,6 +73,6 @@ public class LiMeSeed implements Serializable {
 
     @Override
     public String toString() {
-        return action + "," + sender + "," + receiver + "," + message;
+        return action + "," + sender + "," + receiver + "," + message + "," + time;
     }
 }

@@ -2,9 +2,10 @@ package com.lixin.lime.client.model;
 
 import com.lixin.lime.client.controller.LiMeFarmer;
 import com.lixin.lime.protocol.exception.LiMeException;
-import com.lixin.lime.protocol.seed.LiMeSeed;
+import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -18,17 +19,25 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
  * @author lixin
  */
 public class LiMeModel {
+    private String host;
+    private int port;
+    private LiMeFarmer farmer;
+
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
-    private LiMeFarmer farmer;
 
 
     private LiMeExceptionFactory exceptionFactory;
 
-    public LiMeModel(String host, int port, LiMeFarmer farmer) throws LiMeException {
+    public LiMeModel(String host, int port, LiMeFarmer farmer) {
         exceptionFactory = new LiMeExceptionFactory();
+        this.host = host;
+        this.port = port;
         this.farmer = farmer;
+    }
+
+    public void connectToServer() throws LiMeException {
         try {
             socket = new Socket(host, port);
             oos = new ObjectOutputStream(socket.getOutputStream());
@@ -38,24 +47,8 @@ public class LiMeModel {
         }
     }
 
-    public void login(String username, String password) throws LiMeException {
-        LiMeSeed seedReturn = null;
-        try {
-            oos.writeObject(new LiMeSeed(username, password));
-            oos.flush();
-            seedReturn = (LiMeSeed) ois.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
-        }
-        if (seedReturn == null) {
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
-        } else {
-            int action = seedReturn.getAction();
-            if (action != LOGIN_SUCCESS) {
-                throw exceptionFactory.newLiMeException(action);
-            }
-        }
+    public boolean login(String username, String password) throws LiMeException {
+        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, password)), LOGIN_SUCCESS);
 
         /*
          * CachedThreadPool 是通过 java.util.concurrent.Executors 创建的 ThreadPoolExecutor 实例
@@ -66,14 +59,61 @@ public class LiMeModel {
          */
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
         cachedThreadPool.execute(new SeedGrinder());
+
+        return true;
     }
 
-    synchronized public void sendMessage(String sender, String receiver, String message) throws LiMeException {
+    public boolean register(String username, String password, String gender, String email) throws LiMeException {
+        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, password, gender, email)), REGISTER_SUCCESS);
+        return true;
+    }
+
+    public synchronized void logout(String username) throws LiMeException {
+        sendSeed(new LiMeSeedLogout(username));
+    }
+
+    public synchronized void sendMessage(String sender, String receiver, String message) throws LiMeException {
+        sendSeed(new LiMeSeedMessage(sender, receiver, message, getLiMeTime()));
+    }
+
+    public void sendFile(String sender, String receiver, File file) throws LiMeException {
+        LiMeSeed seedReturn = sendAndGetSeed(new LiMeSeedRequest(RECEIVER_IP, sender, receiver));
+        screenSeed(seedReturn, RECEIVER_IP);
+        // TODO: 服务器给两个LiMe发对方IP，两者建立独立TCP连接，互相传文件，不通过服务器
+        LiMeSeedRespond seedRespond = (LiMeSeedRespond) seedReturn;
+
+        // TODO: code here
+    }
+
+    private synchronized void sendSeed(LiMeSeed seed) throws LiMeException {
         try {
-            oos.writeObject(new LiMeSeed(sender, receiver, message, getLiMeTime()));
+            oos.writeObject(seed);
+            oos.flush();
         } catch (Exception e) {
             e.printStackTrace();
             throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+        }
+    }
+
+    private LiMeSeed sendAndGetSeed(LiMeSeed seed) throws LiMeException {
+        try {
+            oos.writeObject(seed);
+            oos.flush();
+            return (LiMeSeed) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+        }
+    }
+
+    private void screenSeed(LiMeSeed seed, int action) throws LiMeException {
+        if (seed == null) {
+            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+        } else {
+            int seedAction = seed.getAction();
+            if (seedAction != action) {
+                throw exceptionFactory.newLiMeException(seedAction);
+            }
         }
     }
 
