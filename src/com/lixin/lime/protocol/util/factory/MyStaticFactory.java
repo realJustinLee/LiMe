@@ -12,7 +12,7 @@ import java.util.Calendar;
 public class MyStaticFactory {
     /**
      * The Strings
-     * Name Format: THE_[Name]
+     * Name Format: THE_[Name]*
      */
     public static final String THE_TITLE = "Lixin Messenger";
     public static final String THE_BRAND = "LiMe";
@@ -36,6 +36,11 @@ public class MyStaticFactory {
     public static final String ACTION_CHAT_SEND_FILE = "send_file";
 
     /**
+     * The Server Actions
+     * Name Format: SERVER_ACTION_[Button]*
+     */
+
+    /**
      * GOLDEN_KEY : A-16-Byte-String
      */
     public static final String GOLDEN_KEY = "FuckYouMicrosoft";
@@ -44,10 +49,32 @@ public class MyStaticFactory {
 
     /**
      * communication information
+     * <p>
+     * PORT to choose
+     * <p>
+     * 5463 = T9 keyboard - LiMe
+     * 54946 = T9 keyboard - lixin
      */
-    public static final int PORT = 5005;
+    public static final int PORT = 5463;
+
+    /**
+     * communication information
+     * <p>
+     * HOST domain to choose
+     * <p>
+     * 1. limeler.xyz
+     * 2. limeler.top
+     * <p>
+     * WANTED DOMAIN: lime.com | lime.online
+     */
+
+    // 发布版本
+    // public static final String DOMAIN_NAME = "lixin-computer.com";
+    // public static final String SUB_DOMAIN = "lime";
+    // public static final String HOST = SUB_DOMAIN + DOMAIN_NAME;
+
     public static final String HOST = "127.0.0.1";
-    //public static final String HOST = "lime.lixin-computer.com";
+
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
     private static final String STAFF_EMAIL = "lixin@lixin-computer.com";

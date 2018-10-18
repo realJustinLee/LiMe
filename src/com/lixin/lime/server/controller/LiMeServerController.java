@@ -22,8 +22,12 @@ public class LiMeServerController implements Runnable {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        serverFrame = new LiMeServerFrame();
+        initServerFrame();
         serverModel = new LiMeServerModel();
+    }
+
+    private void initServerFrame() {
+        serverFrame = new LiMeServerFrame();
     }
 
     @Override
