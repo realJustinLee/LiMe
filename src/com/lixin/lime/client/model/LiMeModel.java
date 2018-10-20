@@ -24,8 +24,8 @@ public class LiMeModel {
     private LiMeFarmer farmer;
 
     private Socket socket;
-    private ObjectInputStream ois;
     private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
 
     private LiMeExceptionFactory exceptionFactory;

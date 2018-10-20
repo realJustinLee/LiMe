@@ -3,6 +3,8 @@ package com.lixin.lime.server.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,7 +13,7 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class LiMeServerFrame extends JFrame {
+public class LiMeServerFrame extends JFrame implements ActionListener {
     private JPanel contentPane;
     private JLabel labelBrand;
     private JLabel labelLog;
@@ -42,18 +44,8 @@ public class LiMeServerFrame extends JFrame {
         contentPane.add(labelBrand);
 
         buttonStart = new JButton("START");
-        buttonStart.addActionListener(e -> {
-            labelBrand.setForeground(new Color(153, 50, 204));
-            labelLog.setForeground(new Color(153, 50, 204));
-            labelHistory.setForeground(new Color(153, 50, 204));
-            buttonStart.setEnabled(false);
-            buttonStop.setEnabled(true);
-            // TODO: 其他所有控件解除灰化
-
-            // TODO: START Server
-
-        });
-
+        buttonStart.addActionListener(this);
+        buttonStart.setActionCommand(SERVER_ACTION_START);
         buttonStart.setForeground(Color.BLUE);
         buttonStart.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStart.setBounds(194, 13, 117, 36);
@@ -61,17 +53,8 @@ public class LiMeServerFrame extends JFrame {
 
         buttonStop = new JButton("STOP");
         buttonStop.setEnabled(false);
-        buttonStop.addActionListener(e -> {
-            labelBrand.setForeground(SystemColor.windowBorder);
-            labelLog.setForeground(SystemColor.windowBorder);
-            labelHistory.setForeground(SystemColor.windowBorder);
-            buttonStart.setEnabled(true);
-            buttonStop.setEnabled(false);
-            // TODO: 其他所有控件灰化
-
-            // TODO: STOP Server
-
-        });
+        buttonStop.addActionListener(this);
+        buttonStop.setActionCommand(SERVER_ACTION_STOP);
         buttonStop.setForeground(Color.RED);
         buttonStop.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStop.setBounds(194, 61, 117, 36);
@@ -100,10 +83,11 @@ public class LiMeServerFrame extends JFrame {
         separatorLeft.setBounds(318, 6, 12, 658);
         contentPane.add(separatorLeft);
 
-        labelLog = new JLabel("SERVER log");
+        labelLog = new JLabel("Server Log");
+        labelLog.setHorizontalAlignment(SwingConstants.CENTER);
         labelLog.setForeground(SystemColor.windowBorder);
         labelLog.setFont(new Font("Harry P", Font.PLAIN, 99));
-        labelLog.setBounds(342, 6, 387, 100);
+        labelLog.setBounds(342, 6, 397, 100);
         contentPane.add(labelLog);
 
         JTextArea textAreaLog = new JTextArea();
@@ -114,24 +98,25 @@ public class LiMeServerFrame extends JFrame {
         scrollPaneLog.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneLog.setPreferredSize(new Dimension(832, 430));
         scrollPaneLog.setMinimumSize(new Dimension(832, 150));
-        scrollPaneLog.setBounds(342, 119, 387, 506);
+        scrollPaneLog.setBounds(342, 119, 397, 506);
         contentPane.add(scrollPaneLog);
 
         JButton buttonClearLog = new JButton("清空 Log");
         buttonClearLog.setEnabled(false);
         buttonClearLog.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonClearLog.setBounds(342, 635, 387, 29);
+        buttonClearLog.setBounds(342, 635, 397, 29);
         contentPane.add(buttonClearLog);
 
         JSeparator separatorRight = new JSeparator();
         separatorRight.setOrientation(SwingConstants.VERTICAL);
-        separatorRight.setBounds(741, 6, 12, 658);
+        separatorRight.setBounds(751, 6, 12, 658);
         contentPane.add(separatorRight);
 
-        labelHistory = new JLabel("ChaT log");
+        labelHistory = new JLabel("Chat Log");
+        labelHistory.setHorizontalAlignment(SwingConstants.CENTER);
         labelHistory.setForeground(SystemColor.windowBorder);
         labelHistory.setFont(new Font("Harry P", Font.PLAIN, 99));
-        labelHistory.setBounds(765, 6, 300, 100);
+        labelHistory.setBounds(775, 6, 300, 100);
         contentPane.add(labelHistory);
 
         JTextArea textAreaGroup = new JTextArea();
@@ -142,18 +127,52 @@ public class LiMeServerFrame extends JFrame {
         scrollPaneGroup.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneGroup.setPreferredSize(new Dimension(832, 430));
         scrollPaneGroup.setMinimumSize(new Dimension(832, 150));
-        scrollPaneGroup.setBounds(765, 118, 300, 505);
+        scrollPaneGroup.setBounds(775, 119, 300, 505);
         contentPane.add(scrollPaneGroup);
 
         JButton buttonClearHistory = new JButton("清空群聊记录");
         buttonClearHistory.setEnabled(false);
         buttonClearHistory.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonClearHistory.setBounds(765, 635, 300, 29);
+        buttonClearHistory.setBounds(775, 635, 300, 29);
         contentPane.add(buttonClearHistory);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(SystemColor.windowBorder);
         labelCopyright.setBounds(392, 676, 296, 16);
         contentPane.add(labelCopyright);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == buttonStart) {
+            labelBrand.setForeground(new Color(153, 50, 204));
+            labelLog.setForeground(new Color(153, 50, 204));
+            labelHistory.setForeground(new Color(153, 50, 204));
+            buttonStart.setEnabled(false);
+            buttonStop.setEnabled(true);
+            // TODO: 其他所有控件解除灰化
+
+
+        } else if (source == buttonStop) {
+            labelBrand.setForeground(SystemColor.windowBorder);
+            labelLog.setForeground(SystemColor.windowBorder);
+            labelHistory.setForeground(SystemColor.windowBorder);
+            buttonStart.setEnabled(true);
+            buttonStop.setEnabled(false);
+            // TODO: 其他所有控件灰化
+
+
+        } else {
+            limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
+        }
+    }
+
+    public JButton getButtonStart() {
+        return buttonStart;
+    }
+
+    public JButton getButtonStop() {
+        return buttonStop;
     }
 }

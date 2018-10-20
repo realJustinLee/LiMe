@@ -37,8 +37,10 @@ public class MyStaticFactory {
 
     /**
      * The Server Actions
-     * Name Format: SERVER_ACTION_[Button]*
+     * Name Format: SERVER_ACTION_[Button]* = "server_[button]"
      */
+    public static final String SERVER_ACTION_START = "server_start";
+    public static final String SERVER_ACTION_STOP = "server_stop";
 
     /**
      * GOLDEN_KEY : A-16-Byte-String

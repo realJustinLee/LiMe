@@ -1,4 +1,4 @@
-package com.lixin.lime.protocol.util.datastructure;
+package com.lixin.lime.protocol.datastructure;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,4 +14,11 @@ public class LiMeStalk {
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
+
+    public LiMeStalk(String username, Socket socket, ObjectInputStream ois, ObjectOutputStream oos) {
+        this.username = username;
+        this.socket = socket;
+        this.ois = ois;
+        this.oos = oos;
+    }
 }

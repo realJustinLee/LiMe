@@ -58,23 +58,17 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     private void initialize() {
         // 测试版本
         try {
-            initLoginFrame();
             model = new LiMeModel(HOST, PORT, this);
+            initLoginFrame();
             model.connectToServer();
         } catch (LiMeException e) {
             e.printStackTrace();
             handleLiMeException(e);
-        }
 
-        // 发布版本
-        // try {
-        //     model = new LiMeModel(HOST, PORT, this);
-        //     model.connectToServer();
-        //     initLoginFrame();
-        // } catch (LiMeException e) {
-        //     handleLiMeException(e);
-        //     System.exit(0);
-        // }
+            // 发布版本
+            // handleLiMeException(e);
+            // System.exit(0);
+        }
     }
 
     private void initLoginFrame() {
@@ -101,55 +95,6 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     @Override
     public void run() {
         loginFrame.setVisible(true);
-    }
-
-    private void encryptAndWriteToFile(File file, String username, String password) {
-        try {
-            if (!file.exists()) {
-                Boolean res = file.createNewFile();
-            }
-            //true = append file
-            FileWriter fileWriter = new FileWriter(file.getName(), false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            boolean savePassword = loginFrame.savePassword();
-            String cryptUsername = savePassword ? AesCipher.aesEncryptString(username, GOLDEN_KEY) : "";
-            String cryptPassword = savePassword ? AesCipher.aesEncryptString(password, GOLDEN_KEY) : "";
-            bufferedWriter.write(savePassword ? "true" : "false");
-            bufferedWriter.write("\n");
-            bufferedWriter.write(cryptUsername);
-            bufferedWriter.write("\n");
-            bufferedWriter.write(cryptPassword);
-            bufferedWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void decryptAndReadFromFile(File file) {
-        try {
-            if (!file.exists()) {
-                Boolean res = file.createNewFile();
-            }
-            FileReader fileReader = new FileReader(file.getName());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String savePassword = bufferedReader.readLine();
-            String cryptUsername = bufferedReader.readLine();
-            String cryptPassword = bufferedReader.readLine();
-            boolean bool = "true".equals(savePassword);
-            username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
-            password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
-            loginFrame.savePassword(bool);
-            loginFrame.setUsername(username);
-            loginFrame.setPassword(password);
-            bufferedReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void newLiMeMessage(LiMeSeed seed) {
-
     }
 
     @Override
@@ -236,7 +181,57 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     }
 
     @Override
+    public void newLiMeMessage(LiMeSeed seed) {
+
+    }
+
+    @Override
     public void handleLiMeException(LiMeException e) {
         limeExternalError(e.getDetail(), e.getMessage());
     }
+
+    private void encryptAndWriteToFile(File file, String username, String password) {
+        try {
+            if (!file.exists()) {
+                Boolean res = file.createNewFile();
+            }
+            //true = append file
+            FileWriter fileWriter = new FileWriter(file.getName(), false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            boolean savePassword = loginFrame.savePassword();
+            String cryptUsername = savePassword ? AesCipher.aesEncryptString(username, GOLDEN_KEY) : "";
+            String cryptPassword = savePassword ? AesCipher.aesEncryptString(password, GOLDEN_KEY) : "";
+            bufferedWriter.write(savePassword ? "true" : "false");
+            bufferedWriter.write("\n");
+            bufferedWriter.write(cryptUsername);
+            bufferedWriter.write("\n");
+            bufferedWriter.write(cryptPassword);
+            bufferedWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void decryptAndReadFromFile(File file) {
+        try {
+            if (!file.exists()) {
+                Boolean res = file.createNewFile();
+            }
+            FileReader fileReader = new FileReader(file.getName());
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String savePassword = bufferedReader.readLine();
+            String cryptUsername = bufferedReader.readLine();
+            String cryptPassword = bufferedReader.readLine();
+            boolean bool = "true".equals(savePassword);
+            username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
+            password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
+            loginFrame.savePassword(bool);
+            loginFrame.setUsername(username);
+            loginFrame.setPassword(password);
+            bufferedReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -159,13 +159,14 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == toggleButtonGender) {
+        Object source = e.getSource();
+        if (source == toggleButtonGender) {
             if (toggleButtonGender.isSelected()) {
                 toggleButtonGender.setText("女");
             } else {
                 toggleButtonGender.setText("男");
             }
-        } else if (e.getSource() == checkboxAgree) {
+        } else if (source == checkboxAgree) {
             if (checkboxAgree.isSelected()) {
                 btnRegister.setEnabled(true);
             } else {
