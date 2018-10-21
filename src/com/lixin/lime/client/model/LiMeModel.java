@@ -48,7 +48,7 @@ public class LiMeModel {
     }
 
     public boolean login(String username, String password) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, password)), LOGIN_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, password)), STATUS_LOGIN_SUCCESS);
 
         /*
          * CachedThreadPool 是通过 java.util.concurrent.Executors 创建的 ThreadPoolExecutor 实例
@@ -64,7 +64,7 @@ public class LiMeModel {
     }
 
     public boolean register(String username, String password, String gender, String email) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, password, gender, email)), REGISTER_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, password, gender, email)), STATUS_REGISTER_SUCCESS);
         return true;
     }
 

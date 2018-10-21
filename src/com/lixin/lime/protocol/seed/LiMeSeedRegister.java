@@ -15,4 +15,20 @@ public class LiMeSeedRegister extends LiMeSeed {
     public LiMeSeedRegister(String username, String password, String gender, String email) {
         super(REGISTER, username, password, gender, email);
     }
+
+    public String getUsername() {
+        return getSender();
+    }
+
+    public String getPassword() {
+        return getReceiver();
+    }
+
+    public String getGender() {
+        return getMessage();
+    }
+
+    public String getEmail() {
+        return getTime();
+    }
 }

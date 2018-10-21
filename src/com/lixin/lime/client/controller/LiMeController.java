@@ -100,7 +100,8 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            switch (e.getActionCommand()) {
+            String actionCommand = e.getActionCommand();
+            switch (actionCommand) {
                 case ACTION_LOGIN_LOGIN:
                     // 用户名、密码有无校验
                     username = loginFrame.getUsername();
@@ -172,7 +173,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
 
                     break;
                 default:
-                    limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
+                    limeInternalError(this.getClass().getCanonicalName(), actionCommand);
                     break;
             }
         } catch (LiMeException ex) {

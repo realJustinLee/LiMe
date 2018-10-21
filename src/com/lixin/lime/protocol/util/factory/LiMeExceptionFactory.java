@@ -12,6 +12,7 @@ public class LiMeExceptionFactory {
 
     /**
      * @param errorCode statics from LiMeSeed
+     *                  <p> Error </p>
      *                  ERROR_REGISTER_CONFLICT  注册信息冲突
      *                  ERROR_LOGIN_CONFLICT     重复登录
      *                  ERROR_LOGIN_PASSWORD     用户名或密码错误

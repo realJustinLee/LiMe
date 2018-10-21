@@ -6,6 +6,5 @@ package com.lixin.lime.protocol.seed;
 public class LiMeSeedMessage extends LiMeSeed {
     public LiMeSeedMessage(String sender, String receiver, String message, String time) {
         super(MESSAGE, sender, receiver, message, time);
-
     }
 }

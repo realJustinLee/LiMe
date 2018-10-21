@@ -13,4 +13,12 @@ public class LiMeSeedLogin extends LiMeSeed {
     public LiMeSeedLogin(String username, String password) {
         super(LOGIN, username, null, password, null);
     }
+
+    public String getUsername() {
+        return getSender();
+    }
+
+    public String getPassword() {
+        return getMessage();
+    }
 }
