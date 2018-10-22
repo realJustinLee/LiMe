@@ -103,74 +103,28 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             String actionCommand = e.getActionCommand();
             switch (actionCommand) {
                 case ACTION_LOGIN_LOGIN:
-                    // 用户名、密码有无校验
-                    username = loginFrame.getUsername();
-                    password = loginFrame.getPassword();
-                    if (username.isEmpty()) {
-                        limeWarning("请输入用户名");
-                    } else if (password.isEmpty()) {
-                        limeWarning("请输入密码");
-                    } else {
-                        // login() throws LiMeException
-                        if (model.login(username, password)) {
-                            // 登录信息正确才写入文件
-                            encryptAndWriteToFile(passwordFile, username, password);
-                            loginFrame.setVisible(false);
-                            initChatFrame();
-                            chatFrame.setVisible(true);
-                        }
-                    }
+                    actionLoginLogin();
                     break;
                 case ACTION_LOGIN_REGISTER:
-                    initRegisterFrame();
-                    registerFrame.setVisible(true);
+                    actionLoginRegister();
                     break;
                 case ACTION_LOGIN_FIND_PASSWORD:
-                    limeEmailAdmin();
+                    actionLoginFindPassword();
                     break;
                 case ACTION_REGISTER_REGISTER:
-                    // 用户名、密码、email有无校验
-                    username = registerFrame.getUsername();
-                    password = registerFrame.getPassword();
-                    String gender = registerFrame.getGender();
-                    String email = registerFrame.getEmail();
-                    if (username.isEmpty()) {
-                        limeWarning("用户名不得为空");
-                    } else if (password.isEmpty()) {
-                        limeWarning("密码不得为空");
-                    } else if (email.isEmpty()) {
-                        limeWarning("Email不得为空");
-                    } else {
-                        // register() throws LiMeException
-                        if (model.register(username, password, gender, email)) {
-                            loginFrame.setUsername(username);
-                            loginFrame.setPassword(password);
-                            loginFrame.setVisible(true);
-                        }
-                    }
+                    actionRegisterRegister();
                     break;
                 case ACTION_REGISTER_CANCEL:
-                    registerFrame.dispose();
+                    actionRegisterCancel();
                     break;
                 case ACTION_CHAT_LOGOUT:
-                    try {
-                        // logout() throws LiMeException
-                        model.logout(username);
-                        chatFrame.dispose();
-                        initLoginFrame();
-                        loginFrame.setVisible(true);
-                    } catch (LiMeException ex) {
-                        handleLiMeException(ex);
-                        System.exit(0);
-                    }
-                    break;
-                case ACTION_CHAT_SEND_FILE:
-                    // TODO: 发送文件
-
+                    actionChatLogout();
                     break;
                 case ACTION_CHAT_SEND_MESSAGE:
-                    // TODO: 发送消息
-
+                    actionChatSendMessage();
+                    break;
+                case ACTION_CHAT_SEND_FILE:
+                    actionChatSendFile();
                     break;
                 default:
                     limeInternalError(this.getClass().getCanonicalName(), actionCommand);
@@ -235,4 +189,83 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         }
     }
 
+    // Actions
+
+    private void actionLoginLogin() throws LiMeException {
+        // 用户名、密码有无校验
+        username = loginFrame.getUsername();
+        password = loginFrame.getPassword();
+        if (username.isEmpty()) {
+            limeWarning("请输入用户名");
+        } else if (password.isEmpty()) {
+            limeWarning("请输入密码");
+        } else {
+            // login() throws LiMeException
+            if (model.login(username, password)) {
+                // 登录信息正确才写入文件
+                encryptAndWriteToFile(passwordFile, username, password);
+                loginFrame.setVisible(false);
+                initChatFrame();
+                chatFrame.setVisible(true);
+            }
+        }
+    }
+
+    private void actionLoginRegister() {
+        initRegisterFrame();
+        registerFrame.setVisible(true);
+    }
+
+    private void actionLoginFindPassword() {
+        limeEmailAdmin();
+    }
+
+    private void actionRegisterRegister() throws LiMeException {
+        // 用户名、密码、email有无校验
+        username = registerFrame.getUsername();
+        password = registerFrame.getPassword();
+        String gender = registerFrame.getGender();
+        String email = registerFrame.getEmail();
+        if (username.isEmpty()) {
+            limeWarning("用户名不得为空");
+        } else if (password.isEmpty()) {
+            limeWarning("密码不得为空");
+        } else if (email.isEmpty()) {
+            limeWarning("Email不得为空");
+        } else {
+            // register() throws LiMeException
+            if (model.register(username, password, gender, email)) {
+                loginFrame.setUsername(username);
+                loginFrame.setPassword(password);
+                loginFrame.setVisible(true);
+            }
+        }
+    }
+
+    private void actionRegisterCancel() {
+        registerFrame.dispose();
+    }
+
+    private void actionChatLogout() {
+        try {
+            // logout() throws LiMeException
+            model.logout(username);
+            chatFrame.dispose();
+            initLoginFrame();
+            loginFrame.setVisible(true);
+        } catch (LiMeException ex) {
+            handleLiMeException(ex);
+            System.exit(0);
+        }
+    }
+
+    private void actionChatSendMessage() {
+        // TODO: 发送消息
+
+    }
+
+    private void actionChatSendFile() {
+        // TODO: 发送文件
+
+    }
 }
