@@ -34,7 +34,6 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     private void initialize() {
         initServerFrame();
         serverModel = new LiMeServerModel(this);
-
         cachedThreadPool = Executors.newCachedThreadPool();
     }
 
@@ -53,13 +52,24 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case SERVER_ACTION_START:
-                // TODO: START Server
+                // START Server
                 cachedThreadPool.execute(serverModel);
-
                 break;
             case SERVER_ACTION_STOP:
                 // TODO: STOP Server
                 // cachedThreadPool.shutdown();
+                // System.exit(0);
+                break;
+            case SERVER_ACTION_KICK:
+
+                break;
+            case SERVER_ACTION_BAN:
+
+                break;
+            case SERVER_ACTION_CLEAR_LOG:
+
+                break;
+            case SERVER_ACTION_CLEAR_HISTORY:
 
                 break;
             default:

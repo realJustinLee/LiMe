@@ -41,6 +41,10 @@ public class MyStaticFactory {
      */
     public static final String SERVER_ACTION_START = "server_start";
     public static final String SERVER_ACTION_STOP = "server_stop";
+    public static final String SERVER_ACTION_KICK = "server_kick";
+    public static final String SERVER_ACTION_BAN = "server_ban";
+    public static final String SERVER_ACTION_CLEAR_LOG = "server_clear_log";
+    public static final String SERVER_ACTION_CLEAR_HISTORY = "server_clear_history";
 
     /**
      * GOLDEN_KEY : A-16-Byte-String

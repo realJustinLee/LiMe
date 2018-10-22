@@ -1,5 +1,7 @@
 package com.lixin.lime.server.gui;
 
+import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -16,10 +18,20 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 public class LiMeServerFrame extends JFrame implements ActionListener {
     private JPanel contentPane;
     private JLabel labelBrand;
-    private JLabel labelLog;
-    private JLabel labelHistory;
     private JButton buttonStart;
     private JButton buttonStop;
+
+    private JList listLimes;
+    private JButton buttonKick;
+    private JButton buttonBan;
+
+    private JLabel labelLog;
+    private JTextArea textAreaLog;
+    private JButton buttonClearLog;
+
+    private JLabel labelHistory;
+    private JTextArea textAreaGroup;
+    private JButton buttonClearHistory;
 
     public LiMeServerFrame() {
         setResizable(false);
@@ -60,7 +72,8 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setBounds(194, 61, 117, 36);
         contentPane.add(buttonStop);
 
-        JList listLimes = new JList();
+        listLimes = new JList();
+        listLimes.setEnabled(false);
         listLimes.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         JScrollPane scrollPaneLimes = new JScrollPane(listLimes);
         scrollPaneLimes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -68,13 +81,15 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         scrollPaneLimes.setBounds(6, 118, 300, 505);
         contentPane.add(scrollPaneLimes);
 
-        JButton buttonKick = new JButton("踢人");
+        buttonKick = new JButton("踢人");
         buttonKick.setEnabled(false);
+        buttonKick.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonKick.setBounds(6, 635, 145, 29);
         contentPane.add(buttonKick);
 
-        JButton buttonBan = new JButton("封号");
+        buttonBan = new JButton("封号");
         buttonBan.setEnabled(false);
+        buttonBan.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonBan.setBounds(161, 635, 145, 29);
         contentPane.add(buttonBan);
 
@@ -90,7 +105,8 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         labelLog.setBounds(342, 6, 397, 100);
         contentPane.add(labelLog);
 
-        JTextArea textAreaLog = new JTextArea();
+        textAreaLog = new JTextArea();
+        textAreaLog.setEnabled(false);
         textAreaLog.setLineWrap(true);
         textAreaLog.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         textAreaLog.setEditable(false);
@@ -101,7 +117,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         scrollPaneLog.setBounds(342, 119, 397, 506);
         contentPane.add(scrollPaneLog);
 
-        JButton buttonClearLog = new JButton("清空 Log");
+        buttonClearLog = new JButton("清空 Log");
         buttonClearLog.setEnabled(false);
         buttonClearLog.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonClearLog.setBounds(342, 635, 397, 29);
@@ -119,7 +135,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         labelHistory.setBounds(775, 6, 300, 100);
         contentPane.add(labelHistory);
 
-        JTextArea textAreaGroup = new JTextArea();
+        textAreaGroup = new JTextArea();
         textAreaGroup.setLineWrap(true);
         textAreaGroup.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         textAreaGroup.setEditable(false);
@@ -130,7 +146,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         scrollPaneGroup.setBounds(775, 119, 300, 505);
         contentPane.add(scrollPaneGroup);
 
-        JButton buttonClearHistory = new JButton("清空群聊记录");
+        buttonClearHistory = new JButton("清空群聊记录");
         buttonClearHistory.setEnabled(false);
         buttonClearHistory.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonClearHistory.setBounds(775, 635, 300, 29);
@@ -140,6 +156,15 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         labelCopyright.setForeground(SystemColor.windowBorder);
         labelCopyright.setBounds(392, 676, 296, 16);
         contentPane.add(labelCopyright);
+
+        setFocusTraversalPolicy(
+                new FocusTraversalOnArray(
+                        new Component[]{
+                                buttonStart,
+                                buttonStop
+                        }
+                )
+        );
     }
 
     @Override
@@ -149,20 +174,12 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
             labelBrand.setForeground(new Color(153, 50, 204));
             labelLog.setForeground(new Color(153, 50, 204));
             labelHistory.setForeground(new Color(153, 50, 204));
-            buttonStart.setEnabled(false);
-            buttonStop.setEnabled(true);
-            // TODO: 其他所有控件解除灰化
-
-
+            enableComponents(true);
         } else if (source == buttonStop) {
             labelBrand.setForeground(SystemColor.windowBorder);
             labelLog.setForeground(SystemColor.windowBorder);
             labelHistory.setForeground(SystemColor.windowBorder);
-            buttonStart.setEnabled(true);
-            buttonStop.setEnabled(false);
-            // TODO: 其他所有控件灰化
-
-
+            enableComponents(false);
         } else {
             limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
         }
@@ -174,5 +191,33 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
 
     public JButton getButtonStop() {
         return buttonStop;
+    }
+
+    public JButton getButtonKick() {
+        return buttonKick;
+    }
+
+    public JButton getButtonBan() {
+        return buttonBan;
+    }
+
+    public JButton getButtonClearLog() {
+        return buttonClearLog;
+    }
+
+    public JButton getButtonClearHistory() {
+        return buttonClearHistory;
+    }
+
+    private void enableComponents(boolean bool) {
+        buttonStart.setEnabled(!bool);
+        buttonStop.setEnabled(bool);
+        listLimes.setEnabled(bool);
+        buttonKick.setEnabled(bool);
+        buttonBan.setEnabled(bool);
+        textAreaLog.setEnabled(bool);
+        buttonClearLog.setEnabled(bool);
+        textAreaGroup.setEnabled(bool);
+        buttonClearHistory.setEnabled(bool);
     }
 }
