@@ -15,6 +15,11 @@ public class LiMeChatFrame extends JFrame {
 
     private JPanel contentPane;
     private JButton buttonLogout;
+
+    private JList listFriends;
+    private JTextArea textAreaHistory;
+    private JTextArea textAreaMessage;
+
     private JButton buttonSendFile;
     private JButton buttonSendMessage;
 
@@ -50,7 +55,7 @@ public class LiMeChatFrame extends JFrame {
         textFieldUsername.setBounds(770, 24, 242, 42);
         contentPane.add(textFieldUsername);
 
-        JList listFriends = new JList();
+        listFriends = new JList();
         listFriends.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         JScrollPane scrollPaneFriends = new JScrollPane(listFriends);
         scrollPaneFriends.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -63,7 +68,7 @@ public class LiMeChatFrame extends JFrame {
         separatorV.setBounds(218, 78, 12, 614);
         contentPane.add(separatorV);
 
-        JTextArea textAreaHistory = new JTextArea();
+        textAreaHistory = new JTextArea();
         textAreaHistory.setEditable(false);
         textAreaHistory.setLineWrap(true);
         textAreaHistory.setFont(new Font("PingFang SC", Font.PLAIN, 16));
@@ -71,7 +76,7 @@ public class LiMeChatFrame extends JFrame {
         scrollPaneHistory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneHistory.setPreferredSize(new Dimension(832, 430));
         scrollPaneHistory.setMinimumSize(new Dimension(832, 150));
-        JTextArea textAreaMessage = new JTextArea();
+        textAreaMessage = new JTextArea();
         textAreaMessage.setLineWrap(true);
         textAreaMessage.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         JScrollPane scrollPaneMessage = new JScrollPane(textAreaMessage);
@@ -105,7 +110,7 @@ public class LiMeChatFrame extends JFrame {
         labelCopyright.setBounds(242, 676, 296, 16);
         contentPane.add(labelCopyright);
 
-        // TODO: [BUG] 在 textArea 监听不到 Tab 键
+        // FIXME: 在 textArea 监听不到 Tab 键
         setFocusTraversalPolicy(
                 new FocusTraversalOnArray(
                         new Component[]{
@@ -119,6 +124,18 @@ public class LiMeChatFrame extends JFrame {
 
     public JButton getButtonLogout() {
         return buttonLogout;
+    }
+
+    public JList getListFriends() {
+        return listFriends;
+    }
+
+    public JTextArea getTextAreaHistory() {
+        return textAreaHistory;
+    }
+
+    public JTextArea getTextAreaMessage() {
+        return textAreaMessage;
     }
 
     public JButton getButtonSendFile() {

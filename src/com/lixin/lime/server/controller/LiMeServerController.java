@@ -57,7 +57,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 break;
             case SERVER_ACTION_STOP:
                 // TODO: STOP Server
-                // cachedThreadPool.shutdown();
+                // cachedThreadPool.shutdownNow();
                 // System.exit(0);
                 break;
             case SERVER_ACTION_KICK:
@@ -76,6 +76,21 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
                 break;
         }
+    }
+
+    @Override
+    public void newLog(String log) {
+
+    }
+
+    @Override
+    public void newOnline() {
+
+    }
+
+    @Override
+    public void newOffline() {
+
     }
 }
 

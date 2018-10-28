@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * @author lixin
  */
-public class LiMeLauncher {
+public class LiMe {
     /**
      * Launch the application.
      */

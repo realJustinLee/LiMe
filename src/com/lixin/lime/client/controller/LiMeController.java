@@ -62,12 +62,8 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             initLoginFrame();
             model.connectToServer();
         } catch (LiMeException e) {
-            e.printStackTrace();
             handleLiMeException(e);
-
-            // 发布版本
-            // handleLiMeException(e);
-            // System.exit(0);
+            System.exit(0);
         }
     }
 
@@ -204,7 +200,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             if (model.login(username, password)) {
                 // 登录信息正确才写入文件
                 encryptAndWriteToFile(passwordFile, username, password);
-                loginFrame.setVisible(false);
+                loginFrame.dispose();
                 initChatFrame();
                 chatFrame.setVisible(true);
             }
@@ -235,6 +231,8 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         } else {
             // register() throws LiMeException
             if (model.register(username, password, gender, email)) {
+                limeInfo("注册成功，即将转向登录界面");
+                registerFrame.dispose();
                 loginFrame.setUsername(username);
                 loginFrame.setPassword(password);
                 loginFrame.setVisible(true);
@@ -253,6 +251,10 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             chatFrame.dispose();
             initLoginFrame();
             loginFrame.setVisible(true);
+            limeInfo("已成功登出 " + THE_BRAND);
+
+            // FIXME: 发布版本删除此句子
+            System.exit(0);
         } catch (LiMeException ex) {
             handleLiMeException(ex);
             System.exit(0);
@@ -266,6 +268,6 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
 
     private void actionChatSendFile() {
         // TODO: 发送文件
-
+        limeInfo("功能正在开发，敬请期待");
     }
 }

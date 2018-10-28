@@ -5,7 +5,7 @@ import com.lixin.lime.server.controller.LiMeServerController;
 /**
  * @author lixin
  */
-public class LiMeServerLauncher {
+public class LiMeServer {
     /**
      * Launch the application.
      */

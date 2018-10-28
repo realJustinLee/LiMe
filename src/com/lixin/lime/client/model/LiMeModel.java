@@ -27,14 +27,22 @@ public class LiMeModel {
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
-
+    /**
+     * CachedThreadPool 是通过 java.util.concurrent.Executors 创建的 ThreadPoolExecutor 实例
+     * 这个实例会根据需要，在线程可用时，重用之前构造好的池中线程
+     * 这个线程池在执行 大量短生命周期的异步任务时（many short-lived asynchronous task），可以显著提高程序性能
+     * 调用 execute 时，可以重用之前已构造的可用线程，如果不存在可用线程，那么会重新创建一个新的线程并将其加入到线程池中
+     * 如果线程超过 60 秒还未被使用，就会被中止并从缓存中移除。因此，线程池在长时间空闲后不会消耗任何资源
+     */
+    private ExecutorService cachedThreadPool;
     private LiMeExceptionFactory exceptionFactory;
 
     public LiMeModel(String host, int port, LiMeFarmer farmer) {
-        exceptionFactory = new LiMeExceptionFactory();
         this.host = host;
         this.port = port;
         this.farmer = farmer;
+        cachedThreadPool = Executors.newCachedThreadPool();
+        exceptionFactory = new LiMeExceptionFactory();
     }
 
     public void connectToServer() throws LiMeException {
@@ -49,17 +57,7 @@ public class LiMeModel {
 
     public boolean login(String username, String password) throws LiMeException {
         screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, password)), STATUS_LOGIN_SUCCESS);
-
-        /*
-         * CachedThreadPool 是通过 java.util.concurrent.Executors 创建的 ThreadPoolExecutor 实例
-         * 这个实例会根据需要，在线程可用时，重用之前构造好的池中线程
-         * 这个线程池在执行 大量短生命周期的异步任务时（many short-lived asynchronous task），可以显著提高程序性能
-         * 调用 execute 时，可以重用之前已构造的可用线程，如果不存在可用线程，那么会重新创建一个新的线程并将其加入到线程池中
-         * 如果线程超过 60 秒还未被使用，就会被中止并从缓存中移除。因此，线程池在长时间空闲后不会消耗任何资源
-         */
-        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
         cachedThreadPool.execute(new SeedGrinder());
-
         return true;
     }
 
@@ -70,6 +68,8 @@ public class LiMeModel {
 
     public synchronized void logout(String username) throws LiMeException {
         sendSeed(new LiMeSeedLogout(username));
+        // TODO: 停止 SeedGrinder 的所有线程
+        // cachedThreadPool.shutdownNow();
     }
 
     public synchronized void sendMessage(String sender, String receiver, String message) throws LiMeException {
@@ -123,7 +123,22 @@ public class LiMeModel {
             LiMeSeed seed;
             try {
                 while ((seed = (LiMeSeed) ois.readObject()) != null) {
-                    farmer.newLiMeMessage(seed);
+                    int action = seed.getAction();
+                    switch (action) {
+                        case MESSAGE:
+                            farmer.newLiMeMessage(seed);
+                            break;
+                        case ERROR_ADMIN_KICKED:
+                            // TODO: 被踢
+
+                        case ERROR_ADMIN_BANNED:
+                            // TODO: 被封号
+
+                            break;
+                        default:
+                            limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
+                            break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

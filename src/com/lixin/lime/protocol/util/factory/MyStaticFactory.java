@@ -99,14 +99,18 @@ public class MyStaticFactory {
         return String.valueOf(calendar.get(Calendar.YEAR));
     }
 
+    public static void limeInfo(String message) {
+        JOptionPane.showMessageDialog(null, message, THE_BRAND + " 提示", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public static void limeWarning(String message) {
-        JOptionPane.showMessageDialog(null, message, "LiMe Warning", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, THE_BRAND + " 警告", JOptionPane.WARNING_MESSAGE);
     }
 
     public static void limeInternalError(String address, String param) {
         JOptionPane.showMessageDialog(null,
                 "错误地址：" + address + "\n" + "参数：" + param,
-                "内部错误", JOptionPane.ERROR_MESSAGE);
+                THE_BRAND + " 内部错误", JOptionPane.ERROR_MESSAGE);
         System.exit(0);
     }
 

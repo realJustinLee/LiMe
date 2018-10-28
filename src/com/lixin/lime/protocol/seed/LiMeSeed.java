@@ -10,7 +10,10 @@ import java.io.Serializable;
 public class LiMeSeed implements Serializable {
     /**
      * The Actions:
-     * <p> Error </p>
+     * <p> Error from Admin</p>
+     * ADMIN_BANNED             被封号
+     * ADMIN_KICKED             被踢
+     * <p> Error from inside</p>
      * ERROR_REGISTER_CONFLICT  注册信息冲突
      * ERROR_LOGIN_CONFLICT     重复登录
      * ERROR_LOGIN_PASSWORD     用户名或密码错误
@@ -22,10 +25,14 @@ public class LiMeSeed implements Serializable {
      * LOGOUT                   登出
      * REGISTER                 注册
      * RECEIVER_IP              请求接收方IP
+     * ALL_LIME                 请求所有在线用户
      * <p> Status </p>
      * STATUS_LOGIN_SUCCESS     登录成功
      * STATUS_REGISTER_SUCCESS  注册成功
      */
+    public static final int ERROR_ADMIN_BANNED = -6;
+    public static final int ERROR_ADMIN_KICKED = -5;
+
     public static final int ERROR_REGISTER_CONFLICT = -4;
     public static final int ERROR_LOGIN_CONFLICT = -3;
     public static final int ERROR_LOGIN_PASSWORD = -2;
@@ -37,9 +44,10 @@ public class LiMeSeed implements Serializable {
     public static final int LOGOUT = 3;
     public static final int REGISTER = 4;
     public static final int RECEIVER_IP = 5;
+    public static final int GET_FRIENDS = 6;
 
-    public static final int STATUS_LOGIN_SUCCESS = 6;
-    public static final int STATUS_REGISTER_SUCCESS = 7;
+    public static final int STATUS_LOGIN_SUCCESS = 7;
+    public static final int STATUS_REGISTER_SUCCESS = 8;
 
     private int action;
     private String sender;

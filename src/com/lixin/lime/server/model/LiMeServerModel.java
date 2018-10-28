@@ -100,15 +100,15 @@ public class LiMeServerModel implements Runnable {
                                 LiMeStalk stalk = new LiMeStalk(seedLogin.getUsername(), socketLime, ois, oos);
                                 if (!limeHub.contains(stalk)) {
                                     limeHub.add(stalk);
-                                    seedSendStatus(STATUS_LOGIN_SUCCESS);
+                                    sendSeedStatus(STATUS_LOGIN_SUCCESS);
                                     // TODO: Log UI
 
 
                                 } else {
-                                    seedSendStatus(ERROR_LOGIN_CONFLICT);
+                                    sendSeedStatus(ERROR_LOGIN_CONFLICT);
                                 }
                             } else {
-                                seedSendStatus(ERROR_LOGIN_PASSWORD);
+                                sendSeedStatus(ERROR_LOGIN_PASSWORD);
                             }
                             break;
                         case LOGOUT:
@@ -116,19 +116,28 @@ public class LiMeServerModel implements Runnable {
                             LiMeSeedLogout seedLogout = (LiMeSeedLogout) seed;
                             LiMeStalk stalk = new LiMeStalk(seedLogout.getUsername(), socketLime, ois, oos);
                             limeHub.remove(stalk);
+                            // TODO: Log UI
+
+
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
                             if (register(seedRegister.getUsername(), seedRegister.getPassword(), seedRegister.getGender(), seedRegister.getEmail())) {
-                                seedSendStatus(STATUS_REGISTER_SUCCESS);
+                                sendSeedStatus(STATUS_REGISTER_SUCCESS);
                             } else {
-                                seedSendStatus(ERROR_REGISTER_CONFLICT);
+                                sendSeedStatus(ERROR_REGISTER_CONFLICT);
                             }
                             break;
                         case RECEIVER_IP:
-                            //TODO: Respond receiver_ip
+                            // TODO: Respond receiver_ip
                             LiMeSeedRequest seedRequest = (LiMeSeedRequest) seed;
 
+
+                            break;
+                        case GET_FRIENDS:
+                            // TODO: (V2.0)Return the user's friends
+                            // TODO: Return all online
+                            LiMeSeedRequest request = (LiMeSeedRequest) seed;
 
                             break;
                         default:
@@ -144,8 +153,13 @@ public class LiMeServerModel implements Runnable {
             }
         }
 
-        private void seedSendStatus(int status) throws IOException {
+        private void sendSeedStatus(int status) throws IOException {
             oos.writeObject(new LiMeSeedStatus(status));
+            oos.flush();
+        }
+
+        private void sendSeedRespond(int type, String sender, String receiver, String message, ArrayList<String> limeList) throws IOException {
+            oos.writeObject(new LiMeSeedRespond(type, sender, receiver, message, limeList));
             oos.flush();
         }
     }
