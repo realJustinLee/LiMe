@@ -9,6 +9,7 @@ import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.util.crypto.AesCipher;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -261,9 +262,15 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         }
     }
 
-    private void actionChatSendMessage() {
+    private void actionChatSendMessage() throws LiMeException {
         // TODO: 发送消息
+        String receiver = chatFrame.getReceiver();
+        JTextArea textAreaMessage = chatFrame.getTextAreaMessage();
+        String message = textAreaMessage.getText();
+        model.sendMessage(username, receiver, message);
+        textAreaMessage.setText(null);
 
+        // TODO: 写入历史
     }
 
     private void actionChatSendFile() {

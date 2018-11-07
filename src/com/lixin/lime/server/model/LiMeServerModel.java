@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,13 +21,13 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
  * @author lixin
  */
 public class LiMeServerModel implements Runnable {
-    private ArrayList<LiMeStalk> limeHub;
+    private HashMap<String, LiMeStalk> limeHub;
     private LiMeServerFarmer serverFarmer;
 
     private ExecutorService cachedThreadPool;
 
     public LiMeServerModel(LiMeServerFarmer serverFarmer) {
-        limeHub = new ArrayList<>();
+        limeHub = new HashMap<>();
         this.serverFarmer = serverFarmer;
         cachedThreadPool = Executors.newCachedThreadPool();
     }
@@ -90,16 +91,17 @@ public class LiMeServerModel implements Runnable {
                         case MESSAGE:
                             // TODO: pass Message
                             LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-
+                            LiMeStalk receiverStalk = limeHub.get(seedMessage.getReceiver());
 
                             break;
                         case LOGIN:
                             // TODO: Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
-                            if (verify(seedLogin.getUsername(), seedLogin.getPassword())) {
+                            String username = seedLogin.getUsername();
+                            if (verify(username, seedLogin.getPassword())) {
                                 LiMeStalk stalk = new LiMeStalk(seedLogin.getUsername(), socketLime, ois, oos);
-                                if (!limeHub.contains(stalk)) {
-                                    limeHub.add(stalk);
+                                if (!limeHub.containsKey(username)) {
+                                    limeHub.put(username, stalk);
                                     sendSeedStatus(STATUS_LOGIN_SUCCESS);
                                     // TODO: Log UI
 

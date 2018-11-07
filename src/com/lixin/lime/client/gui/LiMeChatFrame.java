@@ -5,6 +5,7 @@ import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.HashMap;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
@@ -12,6 +13,9 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
  * @author lixin
  */
 public class LiMeChatFrame extends JFrame {
+
+    private String receiver;
+    private HashMap<String, String> history;
 
     private JPanel contentPane;
     private JButton buttonLogout;
@@ -57,6 +61,13 @@ public class LiMeChatFrame extends JFrame {
 
         listFriends = new JList();
         listFriends.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        listFriends.addListSelectionListener(e -> {
+            // 在鼠标松开时候和键盘移动之后响应事件
+            if (!e.getValueIsAdjusting()) {
+                // TODO: 切换 receiver 并且转换历史数据
+                System.out.println(listFriends.getSelectedValue());
+            }
+        });
         JScrollPane scrollPaneFriends = new JScrollPane(listFriends);
         scrollPaneFriends.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneFriends.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -144,5 +155,9 @@ public class LiMeChatFrame extends JFrame {
 
     public JButton getButtonSendMessage() {
         return buttonSendMessage;
+    }
+
+    public String getReceiver() {
+        return receiver;
     }
 }

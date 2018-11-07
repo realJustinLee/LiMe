@@ -21,4 +21,26 @@ public class LiMeStalk {
         this.ois = ois;
         this.oos = oos;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        LiMeStalk stalk = (LiMeStalk) obj;
+        return username.equals(stalk.username);
+    }
 }
