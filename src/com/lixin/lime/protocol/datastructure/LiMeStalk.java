@@ -43,4 +43,9 @@ public class LiMeStalk {
         LiMeStalk stalk = (LiMeStalk) obj;
         return username.equals(stalk.username);
     }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
 }

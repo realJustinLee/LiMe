@@ -9,8 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -69,6 +69,8 @@ public class LiMeServerModel implements Runnable {
         private Socket socketLime;
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
+        private boolean loggedIn;
+        private String username;
 
 
         ServerSeedGrinder(Socket socketLime) {
@@ -76,6 +78,7 @@ public class LiMeServerModel implements Runnable {
                 this.socketLime = socketLime;
                 oos = new ObjectOutputStream(socketLime.getOutputStream());
                 ois = new ObjectInputStream(socketLime.getInputStream());
+                loggedIn = false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,15 +92,16 @@ public class LiMeServerModel implements Runnable {
                     int action = seed.getAction();
                     switch (action) {
                         case MESSAGE:
-                            // TODO: pass Message
                             LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
                             LiMeStalk receiverStalk = limeHub.get(seedMessage.getReceiver());
-
+                            receiverStalk.getOos().writeObject(seedMessage);
+                            receiverStalk.getOos().flush();
+                            // TODO: 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
                             break;
                         case LOGIN:
                             // TODO: Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
-                            String username = seedLogin.getUsername();
+                            username = seedLogin.getUsername();
                             if (verify(username, seedLogin.getPassword())) {
                                 LiMeStalk stalk = new LiMeStalk(seedLogin.getUsername(), socketLime, ois, oos);
                                 if (!limeHub.containsKey(username)) {
@@ -114,13 +118,6 @@ public class LiMeServerModel implements Runnable {
                             }
                             break;
                         case LOGOUT:
-                            // Logout: remove the LiMeStalk from the limeHub
-                            LiMeSeedLogout seedLogout = (LiMeSeedLogout) seed;
-                            LiMeStalk stalk = new LiMeStalk(seedLogout.getUsername(), socketLime, ois, oos);
-                            limeHub.remove(stalk);
-                            // TODO: Log UI
-
-
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
@@ -131,16 +128,16 @@ public class LiMeServerModel implements Runnable {
                             }
                             break;
                         case RECEIVER_IP:
-                            // TODO: Respond receiver_ip
+                            // Respond receiver_ip
                             LiMeSeedRequest seedRequest = (LiMeSeedRequest) seed;
-
-
+                            String receiverIp = limeHub.get(seedRequest.getReceiver()).getSocket().getInetAddress().getHostAddress();
+                            sendSeedRespond(GET_FRIENDS, null, seedRequest.getSender(), receiverIp, null);
                             break;
                         case GET_FRIENDS:
                             // TODO: (V2.0)Return the user's friends
-                            // TODO: Return all online
                             LiMeSeedRequest request = (LiMeSeedRequest) seed;
-
+                            // Return all online
+                            sendSeedRespond(GET_FRIENDS, null, request.getSender(), null, limeHub.keySet());
                             break;
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
@@ -155,13 +152,19 @@ public class LiMeServerModel implements Runnable {
             }
         }
 
+        private void actionLogout() {
+            // Logout: remove the LiMeStalk from the limeHub
+            limeHub.remove(username);
+            // TODO: Log UI
+        }
+
         private void sendSeedStatus(int status) throws IOException {
             oos.writeObject(new LiMeSeedStatus(status));
             oos.flush();
         }
 
-        private void sendSeedRespond(int type, String sender, String receiver, String message, ArrayList<String> limeList) throws IOException {
-            oos.writeObject(new LiMeSeedRespond(type, sender, receiver, message, limeList));
+        private void sendSeedRespond(int type, String sender, String receiver, String message, Set<String> limeSet) throws IOException {
+            oos.writeObject(new LiMeSeedRespond(type, sender, receiver, message, limeSet));
             oos.flush();
         }
     }
