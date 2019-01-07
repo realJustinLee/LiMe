@@ -14,6 +14,8 @@ public interface LiMeFarmer {
      */
     void newLiMeMessage(LiMeSeed seed);
 
+    void renewFriendList(LiMeSeed seed);
+
     /**
      * 处理由 LiMe 抛出的 LiMeException
      *

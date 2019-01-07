@@ -129,18 +129,21 @@ public class LiMeModel {
                             farmer.newLiMeMessage(seed);
                             break;
                         case ERROR_ADMIN_KICKED:
-                            // TODO: 被踢
-
+                            // 被踢
+                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
                         case ERROR_ADMIN_BANNED:
-                            // TODO: 被封号
-
-                            break;
+                            // 被封号
+                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_BANNED);
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
                             break;
                     }
                 }
-            } catch (Exception e) {
+            }catch (LiMeException e){
+                limeExternalError(e.getDetail(), e.getMessage());
+                System.exit(0);
+            }
+            catch (Exception e) {
                 e.printStackTrace();
                 farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_CONNECTION));
             }

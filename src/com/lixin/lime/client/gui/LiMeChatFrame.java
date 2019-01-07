@@ -15,6 +15,10 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 public class LiMeChatFrame extends JFrame {
 
     private String receiver;
+
+    /**
+     * HashMap[String receiver, String text]
+     */
     private HashMap<String, String> history;
 
     private JPanel contentPane;
@@ -65,7 +69,8 @@ public class LiMeChatFrame extends JFrame {
             // 在鼠标松开时候和键盘移动之后响应事件
             if (!e.getValueIsAdjusting()) {
                 // TODO: 切换 receiver 并且转换历史数据
-                System.out.println(listFriends.getSelectedValue());
+                // System.out.println(listFriends.getSelectedValue());
+                receiver = (String) listFriends.getSelectedValue();
             }
         });
         JScrollPane scrollPaneFriends = new JScrollPane(listFriends);
@@ -131,6 +136,10 @@ public class LiMeChatFrame extends JFrame {
                         }
                 )
         );
+
+
+        history = new HashMap<>();
+        // TODO: Read History From File
     }
 
     public JButton getButtonLogout() {
@@ -159,5 +168,13 @@ public class LiMeChatFrame extends JFrame {
 
     public String getReceiver() {
         return receiver;
+    }
+
+    public void writeChatHisroty(String text) {
+        history.put(receiver, text);
+    }
+
+    public String readChatHistory() {
+        return history.get(receiver);
     }
 }
