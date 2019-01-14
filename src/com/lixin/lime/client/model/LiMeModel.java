@@ -134,7 +134,9 @@ public class LiMeModel {
                             farmer.updateFriendList(seed);
                         case FILE:
                             // TODO: Recv file
-                            limeExternalError("File", "File");
+
+
+                            limeInfo("You got a file!");
                             break;
                         case ERROR_ADMIN_KICKED:
                             // 被踢

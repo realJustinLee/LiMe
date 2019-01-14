@@ -15,6 +15,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
@@ -137,17 +139,37 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     @Override
     public void newLiMeMessage(LiMeSeed seed) {
         LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-        //TODO: code here...
-
-
+        // The sender here is the sender of the Message == the receiver in the ChatFrame
+        String sender = seedMessage.getSender();
+        String message = seedMessage.getMessage();
+        String time = seedMessage.getTime();
+        HashMap<String, String> history = chatFrame.getHistory();
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message;
+        history.put(sender, msgLog);
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
     }
 
     @Override
     public void updateFriendList(LiMeSeed seed) {
         LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
-        String[] newStrings = seedRespond.getFriendList().toArray(new String[0]);
-        chatFrame.getListFriends().setListData(newStrings);
-        chatFrame.invalidate();
+        HashMap<String, String> history = chatFrame.getHistory();
+        HashSet<String> friendList = (HashSet<String>) history.keySet();
+        HashSet<String> newFriendList = (HashSet<String>) seedRespond.getFriendList();
+        // Add new friends to oldList
+        for (String friend : newFriendList) {
+            if (!friendList.contains(friend)) {
+                history.put(friend, "");
+            }
+        }
+        // Remove ex-friends from oldList
+        for (String friend : friendList) {
+            if (!newFriendList.contains(friend)) {
+                history.remove(friend);
+            }
+        }
+        // Update UI from history
+        chatFrame.updateListFriends();
     }
 
     @Override
@@ -276,14 +298,18 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     }
 
     private void actionChatSendMessage() throws LiMeException {
-        // TODO: 发送消息
+        // 发送消息
         String receiver = chatFrame.getReceiver();
         JTextArea textAreaMessage = chatFrame.getTextAreaMessage();
         String message = textAreaMessage.getText();
         model.sendMessage(username, receiver, message);
         textAreaMessage.setText(null);
-
-        // TODO: 写入历史
+        // 写入历史
+        HashMap<String, String> history = chatFrame.getHistory();
+        String msgLog = history.get(receiver) + "< " + receiver + " > | < " + getLiMeTime() + " >\n" + message;
+        history.put(receiver, msgLog);
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
     }
 
     private void actionChatSendFile() {

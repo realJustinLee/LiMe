@@ -41,7 +41,8 @@ public class LiMeServerModel implements Runnable {
                     Socket socketLime = serverSock.accept();
                     cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
                     System.out.println("got a connection");
-                    // TODO: Log connection to UI
+                    // TODO: Log connection count to UI
+                    //  HAVE to Build UI in advance
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -99,7 +100,7 @@ public class LiMeServerModel implements Runnable {
                             // TODO: 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
                             break;
                         case LOGIN:
-                            // TODO: Login
+                            // Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
                             username = seedLogin.getUsername();
                             if (verify(username, seedLogin.getPassword())) {
@@ -107,9 +108,8 @@ public class LiMeServerModel implements Runnable {
                                 if (!limeHub.containsKey(username)) {
                                     limeHub.put(username, stalk);
                                     sendSeedStatus(STATUS_LOGIN_SUCCESS);
-                                    // TODO: Log UI
-
-
+                                    // Log UI
+                                    serverFarmer.newOnline(username);
                                 } else {
                                     sendSeedStatus(ERROR_LOGIN_CONFLICT);
                                 }
@@ -118,6 +118,7 @@ public class LiMeServerModel implements Runnable {
                             }
                             break;
                         case LOGOUT:
+                            actionLogout();
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
@@ -145,17 +146,22 @@ public class LiMeServerModel implements Runnable {
                     }
                 }
             } catch (Exception e) {
+                actionLogout();
                 e.printStackTrace();
-                //TODO: Catch Exception
-
-
             }
         }
 
         private void actionLogout() {
             // Logout: remove the LiMeStalk from the limeHub
+            LiMeStalk stalk = limeHub.get(username);
+            try {
+                stalk.getSocket().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             limeHub.remove(username);
-            // TODO: Log UI
+            // Log UI
+            serverFarmer.newOffline(username);
         }
 
         private void sendSeedStatus(int status) throws IOException {

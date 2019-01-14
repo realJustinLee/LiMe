@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class AesCipher {
     /**
-     * A-16-Byte-String
+     * Ab-16-Byte-String
      */
     private static final String IV_STRING = "NowIWorkForApple";
     private static final String CHARSET = "UTF-8";

@@ -4,9 +4,10 @@ package com.lixin.lime.server.controller;
  * @author lixin
  */
 public interface LiMeServerFarmer {
-    void newLog(String log);
+    void newChatLog(String log);
 
-    void newOnline();
+    void newOnline(String username);
 
-    void newOffline();
+    void newOffline(String username);
+
 }

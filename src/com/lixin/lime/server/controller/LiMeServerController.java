@@ -79,17 +79,17 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     }
 
     @Override
-    public void newLog(String log) {
+    public void newChatLog(String log) {
 
     }
 
     @Override
-    public void newOnline() {
+    public void newOnline(String username) {
 
     }
 
     @Override
-    public void newOffline() {
+    public void newOffline(String username) {
 
     }
 }

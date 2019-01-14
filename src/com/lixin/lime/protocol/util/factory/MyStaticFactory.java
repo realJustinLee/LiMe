@@ -47,7 +47,7 @@ public class MyStaticFactory {
     public static final String SERVER_ACTION_CLEAR_HISTORY = "server_clear_history";
 
     /**
-     * GOLDEN_KEY : A-16-Byte-String
+     * GOLDEN_KEY : Ab-16-Byte-String
      */
     public static final String GOLDEN_KEY = "FuckYouMicrosoft";
 

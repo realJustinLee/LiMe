@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
@@ -69,9 +68,9 @@ public class LiMeChatFrame extends JFrame {
         listFriends.addListSelectionListener(e -> {
             // 在鼠标松开时候和键盘移动之后响应事件
             if (!e.getValueIsAdjusting()) {
-                // TODO: 切换 receiver 并且转换历史数据
-                // System.out.println(listFriends.getSelectedValue());
+                // 切换 receiver 并且转换历史数据
                 receiver = (String) listFriends.getSelectedValue();
+                updateTextAreaHistory();
             }
         });
         JScrollPane scrollPaneFriends = new JScrollPane(listFriends);
@@ -147,10 +146,6 @@ public class LiMeChatFrame extends JFrame {
         return buttonLogout;
     }
 
-    public JList getListFriends() {
-        return listFriends;
-    }
-
     public JTextArea getTextAreaHistory() {
         return textAreaHistory;
     }
@@ -171,20 +166,17 @@ public class LiMeChatFrame extends JFrame {
         return receiver;
     }
 
-    public void writeChatHisroty(String text) {
-        history.put(receiver, text);
+    public HashMap<String, String> getHistory() {
+        return history;
     }
 
-    public String readChatHistory() {
-        return history.get(receiver);
+    public void updateListFriends() {
+        listFriends.setListData(history.keySet().toArray(new String[0]));
+        this.invalidate();
     }
 
-    public void UpdateListFriends(HashSet<String> newFriendList) {
-        HashSet<String> friendList = (HashSet<String>) history.keySet();
-        for (String friend : newFriendList) {
-            if (!friendList.contains(friend)) {
-                history.put(friend, "");
-            }
-        }
+    public void updateTextAreaHistory() {
+        textAreaHistory.setText(history.get(receiver));
+        this.invalidate();
     }
 }
