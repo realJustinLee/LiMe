@@ -53,6 +53,18 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
+    public void sendSeedStatus(String username, int status) {
+        LiMeStalk stalk = limeHub.get(username);
+        ObjectOutputStream oos = stalk.getOos();
+        try {
+            oos.writeObject(new LiMeSeedStatus(status));
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            removeLime(username);
+        }
+    }
+
     private boolean verify(String username, String password) {
         // TODO: Verify Login from Database[MySql Server]
 
@@ -65,12 +77,23 @@ public class LiMeServerModel implements Runnable {
         return true;
     }
 
+    private void removeLime(String username) {
+        // Logout: remove the LiMeStalk from the limeHub
+        LiMeStalk stalk = limeHub.get(username);
+        try {
+            stalk.getSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        limeHub.remove(username);
+        // Log UI
+        serverFarmer.newOffline(username);
+    }
 
     private class ServerSeedGrinder implements Runnable {
         private Socket socketLime;
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
-        private boolean loggedIn;
         private String username;
 
 
@@ -79,7 +102,6 @@ public class LiMeServerModel implements Runnable {
                 this.socketLime = socketLime;
                 oos = new ObjectOutputStream(socketLime.getOutputStream());
                 ois = new ObjectInputStream(socketLime.getInputStream());
-                loggedIn = false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -110,6 +132,7 @@ public class LiMeServerModel implements Runnable {
                                     sendSeedStatus(STATUS_LOGIN_SUCCESS);
                                     // Log UI
                                     serverFarmer.newOnline(username);
+                                    sendSeedRespond(FRIENDS_UPDATE, null, seedLogin.getSender(), null, limeHub.keySet());
                                 } else {
                                     sendSeedStatus(ERROR_LOGIN_CONFLICT);
                                 }
@@ -118,7 +141,7 @@ public class LiMeServerModel implements Runnable {
                             }
                             break;
                         case LOGOUT:
-                            actionLogout();
+                            removeLime(username);
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
@@ -146,22 +169,9 @@ public class LiMeServerModel implements Runnable {
                     }
                 }
             } catch (Exception e) {
-                actionLogout();
+                removeLime(username);
                 e.printStackTrace();
             }
-        }
-
-        private void actionLogout() {
-            // Logout: remove the LiMeStalk from the limeHub
-            LiMeStalk stalk = limeHub.get(username);
-            try {
-                stalk.getSocket().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            limeHub.remove(username);
-            // Log UI
-            serverFarmer.newOffline(username);
         }
 
         private void sendSeedStatus(int status) throws IOException {
