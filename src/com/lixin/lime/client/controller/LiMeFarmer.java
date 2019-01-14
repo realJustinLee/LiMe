@@ -14,7 +14,12 @@ public interface LiMeFarmer {
      */
     void newLiMeMessage(LiMeSeed seed);
 
-    void renewFriendList(LiMeSeed seed);
+    /**
+     * 接收到新好友列表，显示在屏幕左侧
+     *
+     * @param seed 承载信息的 LiMeSeed
+     */
+    void updateFriendList(LiMeSeed seed);
 
     /**
      * 处理由 LiMe 抛出的 LiMeException

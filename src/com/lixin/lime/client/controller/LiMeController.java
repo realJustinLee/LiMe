@@ -7,6 +7,8 @@ import com.lixin.lime.client.gui.LiMeRegisterFrame;
 import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
+import com.lixin.lime.protocol.seed.LiMeSeedMessage;
+import com.lixin.lime.protocol.seed.LiMeSeedRespond;
 import com.lixin.lime.protocol.util.crypto.AesCipher;
 
 import javax.swing.*;
@@ -134,7 +136,18 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
 
     @Override
     public void newLiMeMessage(LiMeSeed seed) {
+        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
+        //TODO: code here...
 
+
+    }
+
+    @Override
+    public void updateFriendList(LiMeSeed seed) {
+        LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
+        String[] newStrings = seedRespond.getFriendList().toArray(new String[0]);
+        chatFrame.getListFriends().setListData(newStrings);
+        chatFrame.invalidate();
     }
 
     @Override

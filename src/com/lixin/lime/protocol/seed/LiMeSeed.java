@@ -44,10 +44,12 @@ public class LiMeSeed implements Serializable {
     public static final int LOGOUT = 3;
     public static final int REGISTER = 4;
     public static final int RECEIVER_IP = 5;
-    public static final int GET_FRIENDS = 6;
+    public static final int FRIENDS_UPDATE = 6;
+    public static final int FILE = 7;
 
     public static final int STATUS_LOGIN_SUCCESS = 7;
     public static final int STATUS_REGISTER_SUCCESS = 8;
+
 
     private int action;
     private String sender;
@@ -63,23 +65,23 @@ public class LiMeSeed implements Serializable {
         this.time = time;
     }
 
-    public final int getAction() {
+    public int getAction() {
         return action;
     }
 
-    public final String getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public final String getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public final String getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public final String getTime() {
+    public String getTime() {
         return time;
     }
 

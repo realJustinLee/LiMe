@@ -8,19 +8,19 @@ import java.util.Set;
  * @author lixin
  */
 public class LiMeSeedRespond extends LiMeSeed {
-    private Set<String> limeSet;
+    private Set<String> friendList;
 
     /**
      * @param type     信息类型
      * @param sender   发送方
      * @param receiver 接收方
      */
-    public LiMeSeedRespond(int type, String sender, String receiver, String message, Set<String> limeSet) {
+    public LiMeSeedRespond(int type, String sender, String receiver, String message, Set<String> friendList) {
         super(type, sender, receiver, message, null);
-        this.limeSet = limeSet;
+        this.friendList = friendList;
     }
 
-    public Set<String> getLimeSet() {
-        return limeSet;
+    public Set<String> getFriendList() {
+        return friendList;
     }
 }

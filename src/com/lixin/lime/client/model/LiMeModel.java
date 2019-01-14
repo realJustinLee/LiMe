@@ -76,12 +76,14 @@ public class LiMeModel {
         sendSeed(new LiMeSeedMessage(sender, receiver, message, getLiMeTime()));
     }
 
-    public void sendFile(String sender, String receiver, File file) throws LiMeException {
-        LiMeSeed seedReturn = sendAndGetSeed(new LiMeSeedRequest(RECEIVER_IP, sender, receiver));
-        screenSeed(seedReturn, RECEIVER_IP);
-        // TODO: 服务器给两个LiMe发对方IP，两者建立独立TCP连接，互相传文件，不通过服务器
-        LiMeSeedRespond seedRespond = (LiMeSeedRespond) seedReturn;
 
+    public void sendFile(String sender, String receiver, File file) throws LiMeException {
+        // 通过服务器传文件
+        sendSeed(new LiMeSeedFile(sender, receiver, file));
+        // TODO: 服务器给两个LiMe发对方IP，两者建立独立TCP连接，互相传文件，不通过服务器
+        //LiMeSeed seedReturn = sendAndGetSeed(new LiMeSeedRequest(RECEIVER_IP, sender, receiver));
+        //screenSeed(seedReturn, RECEIVER_IP);
+        //LiMeSeedRespond seedRespond = (LiMeSeedRespond) seedReturn;
         // TODO: code here
     }
 
@@ -128,6 +130,12 @@ public class LiMeModel {
                         case MESSAGE:
                             farmer.newLiMeMessage(seed);
                             break;
+                        case FRIENDS_UPDATE:
+                            farmer.updateFriendList(seed);
+                        case FILE:
+                            // TODO: Recv file
+                            limeExternalError("File", "File");
+                            break;
                         case ERROR_ADMIN_KICKED:
                             // 被踢
                             throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
@@ -139,11 +147,10 @@ public class LiMeModel {
                             break;
                     }
                 }
-            }catch (LiMeException e){
+            } catch (LiMeException e) {
                 limeExternalError(e.getDetail(), e.getMessage());
                 System.exit(0);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_CONNECTION));
             }

@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
@@ -176,5 +177,14 @@ public class LiMeChatFrame extends JFrame {
 
     public String readChatHistory() {
         return history.get(receiver);
+    }
+
+    public void UpdateListFriends(HashSet<String> newFriendList) {
+        HashSet<String> friendList = (HashSet<String>) history.keySet();
+        for (String friend : newFriendList) {
+            if (!friendList.contains(friend)) {
+                history.put(friend, "");
+            }
+        }
     }
 }

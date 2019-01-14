@@ -131,13 +131,13 @@ public class LiMeServerModel implements Runnable {
                             // Respond receiver_ip
                             LiMeSeedRequest seedRequest = (LiMeSeedRequest) seed;
                             String receiverIp = limeHub.get(seedRequest.getReceiver()).getSocket().getInetAddress().getHostAddress();
-                            sendSeedRespond(GET_FRIENDS, null, seedRequest.getSender(), receiverIp, null);
+                            sendSeedRespond(FRIENDS_UPDATE, null, seedRequest.getSender(), receiverIp, null);
                             break;
-                        case GET_FRIENDS:
+                        case FRIENDS_UPDATE:
                             // TODO: (V2.0)Return the user's friends
                             LiMeSeedRequest request = (LiMeSeedRequest) seed;
                             // Return all online
-                            sendSeedRespond(GET_FRIENDS, null, request.getSender(), null, limeHub.keySet());
+                            sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, limeHub.keySet());
                             break;
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
