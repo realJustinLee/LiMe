@@ -1,11 +1,22 @@
 package com.lixin.test;
 
 
+import com.lixin.lime.client.controller.LiMeController;
+
+import java.awt.*;
+
 /**
  * @author lixin
  */
 public class MyTest {
     public static void main(String[] args) {
-        System.out.println("MyTest");
+        EventQueue.invokeLater(() -> {
+            try {
+                LiMeController lime = new LiMeController();
+                lime.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
