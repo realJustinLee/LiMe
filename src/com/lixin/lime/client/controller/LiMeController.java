@@ -1,9 +1,9 @@
 package com.lixin.lime.client.controller;
 
 
-import com.lixin.lime.client.gui.LiMeChatFrame;
-import com.lixin.lime.client.gui.LiMeLoginFrame;
-import com.lixin.lime.client.gui.LiMeRegisterFrame;
+import com.lixin.lime.client.view.LiMeChatFrame;
+import com.lixin.lime.client.view.LiMeLoginFrame;
+import com.lixin.lime.client.view.LiMeRegisterFrame;
 import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;

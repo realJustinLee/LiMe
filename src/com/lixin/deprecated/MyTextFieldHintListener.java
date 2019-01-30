@@ -43,4 +43,3 @@ public class MyTextFieldHintListener implements FocusListener {
         }
     }
 }
-

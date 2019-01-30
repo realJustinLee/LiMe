@@ -1,6 +1,6 @@
 package com.lixin.lime.server.controller;
 
-import com.lixin.lime.server.gui.LiMeServerFrame;
+import com.lixin.lime.server.view.LiMeServerFrame;
 import com.lixin.lime.server.model.LiMeServerModel;
 
 import java.awt.event.ActionEvent;

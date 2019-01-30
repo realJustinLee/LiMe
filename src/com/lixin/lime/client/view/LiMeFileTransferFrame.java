@@ -1,4 +1,4 @@
-package com.lixin.lime.client.gui;
+package com.lixin.lime.client.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

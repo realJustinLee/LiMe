@@ -1,4 +1,4 @@
-package com.lixin.lime.server.gui;
+package com.lixin.lime.server.view;
 
 import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
 
