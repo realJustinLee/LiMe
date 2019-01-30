@@ -223,7 +223,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
 
     // Actions
 
-    private void actionLoginLogin() throws LiMeException {
+    private synchronized void actionLoginLogin() throws LiMeException {
         // 用户名、密码有无校验
         username = loginFrame.getUsername();
         password = loginFrame.getPassword();
@@ -233,13 +233,12 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             limeWarning("请输入密码");
         } else {
             // login() throws LiMeException
+            initChatFrame();
             if (model.login(username, password)) {
                 // 登录信息正确才写入文件
                 encryptAndWriteToFile(passwordFile, username, password);
                 loginFrame.dispose();
-                initChatFrame();
                 chatFrame.setVisible(true);
-                model.requsetFriendList(username);
             }
         }
     }

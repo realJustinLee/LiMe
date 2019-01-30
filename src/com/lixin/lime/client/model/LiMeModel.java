@@ -72,6 +72,7 @@ public class LiMeModel {
         // cachedThreadPool.shutdownNow();
     }
 
+    // Perhaps deprecated
     public synchronized void requsetFriendList(String username) throws LiMeException {
         sendSeed(new LiMeSeedRequest(FRIENDS_UPDATE, username, null));
     }

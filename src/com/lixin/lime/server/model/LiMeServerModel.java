@@ -67,6 +67,16 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
+    private void broadcastFriendList() throws IOException {
+        // TODO: 下个版本发准确的朋友列表
+        HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+        for (LiMeStalk stalk : limeHub.values()) {
+            ObjectOutputStream oos = stalk.getOos();
+            oos.writeObject(new LiMeSeedRespond(FRIENDS_UPDATE, null, null, null, keySet));
+            oos.flush();
+        }
+    }
+
     // *************************************************************************************
     // private methods
     // *************************************************************************************
@@ -143,6 +153,8 @@ public class LiMeServerModel implements Runnable {
                                     // Log UI
                                     HashSet<String> keySet = new HashSet<>(limeHub.keySet());
                                     serverFarmer.newOnline(username, keySet);
+                                    // broadcast friendList
+                                    broadcastFriendList();
                                 } else {
                                     sendSeedStatus(ERROR_LOGIN_CONFLICT);
                                 }
