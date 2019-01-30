@@ -77,15 +77,15 @@ public class MyStaticFactory {
     // 发布版本
     // public static final String DOMAIN_NAME = "lixin-computer.com";
     // public static final String SUB_DOMAIN = "lime";
-    // public static final String HOST = SUB_DOMAIN + DOMAIN_NAME;
+    // public static final String HOST = SUB_DOMAIN + "." + DOMAIN_NAME;
 
     public static final String HOST = "127.0.0.1";
 
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
     private static final String STAFF_EMAIL = "lixin@lixin-computer.com";
-    private static final String URL_LIME_HOMEPAGE = "lime.lixin-computer.com";
-    private static final String URL_LIME_AGREEMENT = "lime.lixin-computer.com/Agreement";
+    private static final String URL_LIME_HOMEPAGE = HOST;
+    private static final String URL_LIME_AGREEMENT = HOST + "/Agreement";
 
     // The public methods
 

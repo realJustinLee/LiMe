@@ -41,7 +41,7 @@ public class LiMeServerModel implements Runnable {
                 try {
                     Socket socketLime = serverSock.accept();
                     cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
-                    System.out.println("got a connection");
+                    System.out.println("Got a connection");
                     serverFarmer.enablePrivileges(true);
                     // TODO: Log connection count to UI
                     //  HAVE to Build UI in advance
@@ -195,7 +195,7 @@ public class LiMeServerModel implements Runnable {
                 }
             } catch (EOFException e) {
                 removeLime(username);
-                System.out.println("lost a connection");
+                System.out.println("Lost a connection");
             } catch (Exception e) {
                 e.printStackTrace();
             }
