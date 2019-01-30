@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LiMeServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LiMeServer_jar</output-path>
+    <root id="archive" name="LiMe.jar">
+      <element id="module-output" name="LiMe" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/com/lixin/lime/server/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
