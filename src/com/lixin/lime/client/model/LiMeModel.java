@@ -136,6 +136,7 @@ public class LiMeModel {
                             break;
                         case FRIENDS_UPDATE:
                             farmer.updateFriendList(seed);
+                            break;
                         case FILE:
                             // TODO: Recv file
 

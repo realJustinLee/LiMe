@@ -99,7 +99,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
 
         buttonBan = new JButton("封号");
         buttonBan.setEnabled(false);
-        buttonBan.setActionCommand(SERVER_ACTION_STOP);
+        buttonBan.setActionCommand(SERVER_ACTION_BAN);
         buttonBan.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonBan.setBounds(161, 635, 145, 29);
         contentPane.add(buttonBan);
@@ -226,12 +226,15 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStart.setEnabled(!bool);
         buttonStop.setEnabled(bool);
         listLimes.setEnabled(bool);
-        buttonKick.setEnabled(bool);
-        buttonBan.setEnabled(bool);
         textAreaLog.setEnabled(bool);
         buttonClearLog.setEnabled(bool);
         textAreaHistory.setEnabled(bool);
         buttonClearHistory.setEnabled(bool);
+    }
+
+    public void enablePrivileges(boolean bool){
+        buttonKick.setEnabled(bool);
+        buttonBan.setEnabled(bool);
     }
 
     public String getHighlightedLime() {

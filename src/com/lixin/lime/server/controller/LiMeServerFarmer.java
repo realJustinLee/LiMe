@@ -12,4 +12,5 @@ public interface LiMeServerFarmer {
 
     void newOffline(String username, HashSet<String> limeSet);
 
+    void enablePrivileges(boolean bool);
 }

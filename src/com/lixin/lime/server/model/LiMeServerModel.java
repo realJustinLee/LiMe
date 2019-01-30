@@ -42,6 +42,7 @@ public class LiMeServerModel implements Runnable {
                     Socket socketLime = serverSock.accept();
                     cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
                     System.out.println("got a connection");
+                    serverFarmer.enablePrivileges(true);
                     // TODO: Log connection count to UI
                     //  HAVE to Build UI in advance
 
@@ -94,6 +95,9 @@ public class LiMeServerModel implements Runnable {
         // Log UI
         HashSet<String> keySet = new HashSet<>(limeHub.keySet());
         serverFarmer.newOffline(username, keySet);
+        if (keySet.isEmpty()) {
+            serverFarmer.enablePrivileges(false);
+        }
     }
 
     private class ServerSeedGrinder implements Runnable {

@@ -71,12 +71,12 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
             case SERVER_ACTION_KICK:
                 serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);
                 // log UI
-                serverFrame.appendLog("[" + time + "]\n< " + user + " > KICKED.\n");
+                serverFrame.appendLog("[" + time + "]\n< " + user + " > is KICKED.\n");
                 break;
             case SERVER_ACTION_BAN:
                 serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
                 // log UI
-                serverFrame.appendLog("[" + time + "]\n< " + user + " > BANNED.\n");
+                serverFrame.appendLog("[" + time + "]\n< " + user + " > is BANNED.\n");
                 // TODO: Ban user in database
                 break;
             case SERVER_ACTION_CLEAR_LOG:
@@ -100,12 +100,19 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     public void newOnline(String username, HashSet<String> limeSet) {
         String time = getLiMeTime();
         serverFrame.appendLog("[" + time + "]\n< " + username + " > is on line.\n");
+        serverFrame.updateListLimes(limeSet);
     }
 
     @Override
     public void newOffline(String username, HashSet<String> limeSet) {
         String time = getLiMeTime();
         serverFrame.appendLog("[" + time + "]\n< " + username + " > is off line.\n");
+        serverFrame.updateListLimes(limeSet);
+    }
+
+    @Override
+    public void enablePrivileges(boolean bool) {
+        serverFrame.enablePrivileges(bool);
     }
 }
 

@@ -11,8 +11,8 @@ public class LiMeSeed implements Serializable {
     /**
      * The Actions:
      * <p> Error from Admin</p>
-     * ADMIN_BANNED             被封号
-     * ADMIN_KICKED             被踢
+     * ERROR_ADMIN_BANNED       被封号
+     * ERROR_ADMIN_KICKED       被踢
      * <p> Error from inside</p>
      * ERROR_REGISTER_CONFLICT  注册信息冲突
      * ERROR_LOGIN_CONFLICT     重复登录
@@ -47,8 +47,8 @@ public class LiMeSeed implements Serializable {
     public static final int FRIENDS_UPDATE = 6;
     public static final int FILE = 7;
 
-    public static final int STATUS_LOGIN_SUCCESS = 7;
-    public static final int STATUS_REGISTER_SUCCESS = 8;
+    public static final int STATUS_LOGIN_SUCCESS = 8;
+    public static final int STATUS_REGISTER_SUCCESS = 9;
 
 
     private int action;
