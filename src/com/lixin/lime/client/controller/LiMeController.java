@@ -144,7 +144,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         String message = seedMessage.getMessage();
         String time = seedMessage.getTime();
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message;
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n";
         history.put(sender, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();
@@ -154,7 +154,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     public void updateFriendList(LiMeSeed seed) {
         LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
         HashMap<String, String> history = chatFrame.getHistory();
-        HashSet<String> friendList = (HashSet<String>) history.keySet();
+        HashSet<String> friendList = new HashSet<>(history.keySet());
         HashSet<String> newFriendList = (HashSet<String>) seedRespond.getFriendList();
         // Add new friends to oldList
         for (String friend : newFriendList) {
@@ -239,6 +239,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
                 loginFrame.dispose();
                 initChatFrame();
                 chatFrame.setVisible(true);
+                model.requsetFriendList(username);
             }
         }
     }
@@ -306,7 +307,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         textAreaMessage.setText(null);
         // 写入历史
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(receiver) + "< " + receiver + " > | < " + getLiMeTime() + " >\n" + message;
+        String msgLog = history.get(receiver) + "< " + receiver + " > | < " + getLiMeTime() + " >\n" + message + "\n";
         history.put(receiver, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();

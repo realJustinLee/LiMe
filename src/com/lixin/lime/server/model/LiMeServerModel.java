@@ -4,13 +4,14 @@ import com.lixin.lime.protocol.datastructure.LiMeStalk;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.server.controller.LiMeServerFarmer;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -65,6 +66,10 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
+    // *************************************************************************************
+    // private methods
+    // *************************************************************************************
+
     private boolean verify(String username, String password) {
         // TODO: Verify Login from Database[MySql Server]
 
@@ -87,7 +92,8 @@ public class LiMeServerModel implements Runnable {
         }
         limeHub.remove(username);
         // Log UI
-        serverFarmer.newOffline(username);
+        HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+        serverFarmer.newOffline(username, keySet);
     }
 
     private class ServerSeedGrinder implements Runnable {
@@ -119,7 +125,7 @@ public class LiMeServerModel implements Runnable {
                             LiMeStalk receiverStalk = limeHub.get(seedMessage.getReceiver());
                             receiverStalk.getOos().writeObject(seedMessage);
                             receiverStalk.getOos().flush();
-                            // TODO: 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
+                            // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
                             break;
                         case LOGIN:
                             // Login
@@ -131,8 +137,8 @@ public class LiMeServerModel implements Runnable {
                                     limeHub.put(username, stalk);
                                     sendSeedStatus(STATUS_LOGIN_SUCCESS);
                                     // Log UI
-                                    serverFarmer.newOnline(username);
-                                    sendSeedRespond(FRIENDS_UPDATE, null, seedLogin.getSender(), null, limeHub.keySet());
+                                    HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+                                    serverFarmer.newOnline(username, keySet);
                                 } else {
                                     sendSeedStatus(ERROR_LOGIN_CONFLICT);
                                 }
@@ -161,15 +167,18 @@ public class LiMeServerModel implements Runnable {
                             // TODO: (V2.0)Return the user's friends
                             LiMeSeedRequest request = (LiMeSeedRequest) seed;
                             // Return all online
-                            sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, limeHub.keySet());
+                            HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+                            sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, keySet);
                             break;
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
                             break;
                     }
                 }
-            } catch (Exception e) {
+            } catch (EOFException e) {
                 removeLime(username);
+                System.out.println("lost a connection");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -179,7 +188,7 @@ public class LiMeServerModel implements Runnable {
             oos.flush();
         }
 
-        private void sendSeedRespond(int type, String sender, String receiver, String message, Set<String> limeSet) throws IOException {
+        private void sendSeedRespond(int type, String sender, String receiver, String message, HashSet<String> limeSet) throws IOException {
             oos.writeObject(new LiMeSeedRespond(type, sender, receiver, message, limeSet));
             oos.flush();
         }

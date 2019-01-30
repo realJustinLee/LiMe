@@ -5,9 +5,11 @@ import com.lixin.lime.server.model.LiMeServerModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.lixin.lime.protocol.seed.LiMeSeed.*;
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
 /**
@@ -41,6 +43,10 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
         serverFrame = new LiMeServerFrame();
         serverFrame.getButtonStart().addActionListener(this);
         serverFrame.getButtonStop().addActionListener(this);
+        serverFrame.getButtonKick().addActionListener(this);
+        serverFrame.getButtonBan().addActionListener(this);
+        serverFrame.getButtonClearLog().addActionListener(this);
+        serverFrame.getButtonClearHistory().addActionListener(this);
     }
 
     @Override
@@ -50,6 +56,8 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String user = serverFrame.getHighlightedLime();
+        String time = getLiMeTime();
         switch (e.getActionCommand()) {
             case SERVER_ACTION_START:
                 // START Server
@@ -61,16 +69,21 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 // System.exit(0);
                 break;
             case SERVER_ACTION_KICK:
-
+                serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);
+                // log UI
+                serverFrame.appendLog("[" + time + "]\n< " + user + " > KICKED.\n");
                 break;
             case SERVER_ACTION_BAN:
-
+                serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
+                // log UI
+                serverFrame.appendLog("[" + time + "]\n< " + user + " > BANNED.\n");
+                // TODO: Ban user in database
                 break;
             case SERVER_ACTION_CLEAR_LOG:
-
+                serverFrame.clearLog();
                 break;
             case SERVER_ACTION_CLEAR_HISTORY:
-
+                serverFrame.clearHistory();
                 break;
             default:
                 limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
@@ -79,18 +92,20 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     }
 
     @Override
-    public void newChatLog(String log) {
-
+    public void newChatHistory(String sender, String time, String message) {
+        serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n");
     }
 
     @Override
-    public void newOnline(String username) {
-
+    public void newOnline(String username, HashSet<String> limeSet) {
+        String time = getLiMeTime();
+        serverFrame.appendLog("[" + time + "]\n< " + username + " > is on line.\n");
     }
 
     @Override
-    public void newOffline(String username) {
-
+    public void newOffline(String username, HashSet<String> limeSet) {
+        String time = getLiMeTime();
+        serverFrame.appendLog("[" + time + "]\n< " + username + " > is off line.\n");
     }
 }
 

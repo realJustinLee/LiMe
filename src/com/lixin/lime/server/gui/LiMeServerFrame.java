@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
@@ -16,12 +17,15 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
  * @author lixin
  */
 public class LiMeServerFrame extends JFrame implements ActionListener {
+
+    private String highlightedLime;
+
     private JPanel contentPane;
     private JLabel labelBrand;
     private JButton buttonStart;
     private JButton buttonStop;
 
-    private JList listLimes;
+    private JList<String> listLimes;
     private JButton buttonKick;
     private JButton buttonBan;
 
@@ -30,7 +34,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
     private JButton buttonClearLog;
 
     private JLabel labelHistory;
-    private JTextArea textAreaGroup;
+    private JTextArea textAreaHistory;
     private JButton buttonClearHistory;
 
     public LiMeServerFrame() {
@@ -72,9 +76,14 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setBounds(194, 61, 117, 36);
         contentPane.add(buttonStop);
 
-        listLimes = new JList();
+        listLimes = new JList<String>();
         listLimes.setEnabled(false);
         listLimes.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        listLimes.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                highlightedLime = listLimes.getSelectedValue();
+            }
+        });
         JScrollPane scrollPaneLimes = new JScrollPane(listLimes);
         scrollPaneLimes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneLimes.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -138,11 +147,11 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         labelHistory.setBounds(775, 6, 300, 100);
         contentPane.add(labelHistory);
 
-        textAreaGroup = new JTextArea();
-        textAreaGroup.setLineWrap(true);
-        textAreaGroup.setFont(new Font("PingFang SC", Font.PLAIN, 16));
-        textAreaGroup.setEditable(false);
-        JScrollPane scrollPaneGroup = new JScrollPane(textAreaGroup);
+        textAreaHistory = new JTextArea();
+        textAreaHistory.setLineWrap(true);
+        textAreaHistory.setFont(new Font("PingFang SC", Font.PLAIN, 16));
+        textAreaHistory.setEditable(false);
+        JScrollPane scrollPaneGroup = new JScrollPane(textAreaHistory);
         scrollPaneGroup.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneGroup.setPreferredSize(new Dimension(832, 430));
         scrollPaneGroup.setMinimumSize(new Dimension(832, 150));
@@ -221,7 +230,32 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonBan.setEnabled(bool);
         textAreaLog.setEnabled(bool);
         buttonClearLog.setEnabled(bool);
-        textAreaGroup.setEnabled(bool);
+        textAreaHistory.setEnabled(bool);
         buttonClearHistory.setEnabled(bool);
+    }
+
+    public String getHighlightedLime() {
+        return highlightedLime;
+    }
+
+    public void appendLog(String newLog) {
+        textAreaLog.append(newLog);
+    }
+
+    public void clearLog() {
+        textAreaLog.setText("");
+    }
+
+    public void appendHistory(String newHistory) {
+        textAreaHistory.append(newHistory);
+    }
+
+    public void clearHistory() {
+        textAreaHistory.setText("");
+    }
+
+    public void updateListLimes(HashSet<String> limeSet) {
+        listLimes.setListData(limeSet.toArray(new String[0]));
+        this.invalidate();
     }
 }

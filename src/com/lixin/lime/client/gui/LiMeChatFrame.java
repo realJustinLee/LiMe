@@ -24,7 +24,7 @@ public class LiMeChatFrame extends JFrame {
     private JPanel contentPane;
     private JButton buttonLogout;
 
-    private JList listFriends;
+    private JList<String> listFriends;
     private JTextArea textAreaHistory;
     private JTextArea textAreaMessage;
 
@@ -63,13 +63,13 @@ public class LiMeChatFrame extends JFrame {
         textFieldUsername.setBounds(770, 24, 242, 42);
         contentPane.add(textFieldUsername);
 
-        listFriends = new JList();
+        listFriends = new JList<>();
         listFriends.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         listFriends.addListSelectionListener(e -> {
             // 在鼠标松开时候和键盘移动之后响应事件
             if (!e.getValueIsAdjusting()) {
                 // 切换 receiver 并且转换历史数据
-                receiver = (String) listFriends.getSelectedValue();
+                receiver = listFriends.getSelectedValue();
                 updateTextAreaHistory();
             }
         });
@@ -144,10 +144,6 @@ public class LiMeChatFrame extends JFrame {
 
     public JButton getButtonLogout() {
         return buttonLogout;
-    }
-
-    public JTextArea getTextAreaHistory() {
-        return textAreaHistory;
     }
 
     public JTextArea getTextAreaMessage() {
