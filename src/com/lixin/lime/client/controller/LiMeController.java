@@ -282,7 +282,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         registerFrame.dispose();
     }
 
-    private void actionChatLogout() {
+    private synchronized void actionChatLogout() {
         try {
             // logout() throws LiMeException
             model.logout(username);

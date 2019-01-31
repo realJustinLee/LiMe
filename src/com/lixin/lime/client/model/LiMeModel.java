@@ -5,10 +5,7 @@ import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -69,8 +66,9 @@ public class LiMeModel {
 
     public synchronized void logout(String username) throws LiMeException {
         sendSeed(new LiMeSeedLogout(username));
-        // TODO: 停止 SeedGrinder 的所有线程
+        // TODO: 停止 SeedGrinder 的所有线程, 并关闭 socket
         // cachedThreadPool.shutdownNow();
+        // socket.close();
     }
 
     // Perhaps deprecated
