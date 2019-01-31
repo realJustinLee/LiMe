@@ -16,7 +16,8 @@ public class MyStaticFactory {
      */
     public static final String THE_TITLE = "Lixin Messenger";
     public static final String THE_BRAND = "LiMe";
-    public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " Lixin. All Rights Reserved.";
+    public static final String THE_AUTHOR = "Lixin";
+    public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
     public static final String THE_LIME_VERSION = "L_v 0.1";
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
@@ -74,18 +75,16 @@ public class MyStaticFactory {
      * WANTED DOMAIN: lime.com | lime.online
      */
 
-    // 发布版本
-    // public static final String DOMAIN_NAME = "lixin-computer.com";
-    // public static final String SUB_DOMAIN = "lime";
-    // public static final String HOST = SUB_DOMAIN + "." + DOMAIN_NAME;
+    public static final String DOMAIN_NAME = "lixin-computer.com";
+    public static final String SUB_DOMAIN = "lime";
+    public static final String WEB_MOST = SUB_DOMAIN + "." + DOMAIN_NAME;
 
     public static final String HOST = "127.0.0.1";
 
-
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
-    private static final String STAFF_EMAIL = "lixin@lixin-computer.com";
-    private static final String URL_LIME_HOMEPAGE = HOST;
-    private static final String URL_LIME_AGREEMENT = HOST + "/Agreement";
+    private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
+    private static final String URL_LIME_HOMEPAGE = WEB_MOST;
+    private static final String URL_LIME_AGREEMENT = WEB_MOST + "/Agreement";
 
     // The public methods
 
