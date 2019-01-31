@@ -5,6 +5,7 @@ import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -139,10 +140,10 @@ public class LiMeModel {
                             farmer.updateFriendList(seed);
                             break;
                         case FILE:
+                            limeInfo("You got a file!");
                             // TODO: Recv file
 
 
-                            limeInfo("You got a file!");
                             break;
                         case ERROR_ADMIN_KICKED:
                             // 被踢
@@ -156,11 +157,15 @@ public class LiMeModel {
                     }
                 }
             } catch (LiMeException e) {
-                limeExternalError(e.getDetail(), e.getMessage());
+                farmer.handleLiMeException(e);
+                System.exit(0);
+            } catch (EOFException e) {
+                farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_CONNECTION));
                 System.exit(0);
             } catch (Exception e) {
+                farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_UNKNOWN));
                 e.printStackTrace();
-                farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_CONNECTION));
+                System.exit(0);
             }
         }
     }

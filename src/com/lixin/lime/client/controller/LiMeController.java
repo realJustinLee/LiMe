@@ -144,7 +144,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         String message = seedMessage.getMessage();
         String time = seedMessage.getTime();
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n";
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
         history.put(sender, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();
@@ -308,7 +308,7 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         textAreaMessage.setText(null);
         // 写入历史
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(receiver) + "< " + username + " > | < " + getLiMeTime() + " >\n" + message + "\n";
+        String msgLog = history.get(receiver) + "< " + username + " > | < " + getLiMeTime() + " >\n" + message + "\n\n";
         history.put(receiver, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();
