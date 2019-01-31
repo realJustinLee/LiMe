@@ -168,6 +168,8 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
                 history.remove(friend);
             }
         }
+        // Remove self from friend list
+        history.remove(username);
         // Update UI from history
         chatFrame.updateListFriends();
     }
