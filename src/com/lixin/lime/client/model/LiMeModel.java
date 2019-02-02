@@ -66,9 +66,8 @@ public class LiMeModel {
 
     public synchronized void logout(String username) throws LiMeException {
         sendSeed(new LiMeSeedLogout(username));
-        // TODO: 停止 SeedGrinder 的所有线程, 并关闭 socket
+        // TODO: 停止 SeedGrinder 的所有线程，但不需要重新连接
         // cachedThreadPool.shutdownNow();
-        // socket.close();
     }
 
     // Perhaps deprecated
