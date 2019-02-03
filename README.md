@@ -1,5 +1,5 @@
 # LiMe
-The Lixin Messenger
+The Li Xin Messenger
 
 ## Version
 - C_v 0.3
@@ -41,15 +41,14 @@ The Chat GUI of user @Test
 
 ![](./ScreenShots/LiMeChatTest.png)
 
-# The File Transmission
+## The File Transmission
 
 ![](./ScreenShots/LiMeChatFile.png)
 
-# Data persistence and user management
+## Data persistence and user management
 
 MySQL
 
-# TODO
-- The file transmission function
-- There should be a website for LiMe
-- There should be am anonymous group chat to be developed
+## TODO
+- Anonymous group chat for all users
+- A fancy website for LiMe
