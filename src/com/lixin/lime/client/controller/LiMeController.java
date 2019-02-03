@@ -204,17 +204,16 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     private void decryptAndReadFromFile(File file) {
         try {
             if (!file.exists()) {
-                Boolean res = file.createNewFile();
+                return;
             }
             FileReader fileReader = new FileReader(file.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String savePassword = bufferedReader.readLine();
+            boolean savePassword = "true".equals(bufferedReader.readLine());
             String cryptUsername = bufferedReader.readLine();
             String cryptPassword = bufferedReader.readLine();
-            boolean bool = "true".equals(savePassword);
             username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
             password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
-            loginFrame.savePassword(bool);
+            loginFrame.savePassword(savePassword);
             loginFrame.setUsername(username);
             loginFrame.setPassword(password);
             bufferedReader.close();

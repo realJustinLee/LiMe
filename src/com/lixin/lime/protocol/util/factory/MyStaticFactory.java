@@ -76,10 +76,11 @@ public class MyStaticFactory {
      */
 
     public static final String DOMAIN_NAME = "lixin-computer.com";
-    public static final String SUB_DOMAIN = "lime";
-    public static final String WEB_MOST = SUB_DOMAIN + "." + DOMAIN_NAME;
+    public static final String HOST_NAME = "lime";
+    public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
     public static final String HOST = "127.0.0.1";
+    public static final String SQL_HOST = "127.0.0.1";
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
     private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
@@ -154,7 +155,8 @@ public class MyStaticFactory {
     private static void showUrl(String url) {
         try {
             Desktop desktop = Desktop.getDesktop();
-            URI uri = URI.create(url);
+            String message = "https://" + url;
+            URI uri = URI.create(message);
             desktop.browse(uri);
         } catch (IOException exc) {
             exc.printStackTrace();
