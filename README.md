@@ -1,6 +1,10 @@
 # LiMe
 The Lixin Messenger
 
+## Version
+- C_v 0.3
+- S_v 0.3
+
 ## Platform compatibility: 
 - macOS
 > If you would like to use it with windows, you should clone this repo and rebuild it with windows
@@ -25,6 +29,10 @@ The Chat GUI of user @Lixin, the friend list is on the left side of the panel
 The Chat GUI of user @Test
 
 ![](./ScreenShots/LiMeChatTest.png)
+
+# The File Transmission
+
+![](./ScreenShots/LiMeChatFile.png)
 
 # Data persistence and user management
 

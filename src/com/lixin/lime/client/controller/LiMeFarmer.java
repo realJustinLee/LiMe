@@ -19,7 +19,14 @@ public interface LiMeFarmer {
      *
      * @param seed 承载信息的 LiMeSeed
      */
-    void updateFriendList(LiMeSeed seed);
+    void newFriendList(LiMeSeed seed);
+
+    /**
+     * 接收到新的文件，选择地方存储
+     *
+     * @param seed 承载文件的 LiMeSeed
+     */
+    void newLiMeFile(LiMeSeed seed);
 
     /**
      * 处理由 LiMe 抛出的 LiMeException

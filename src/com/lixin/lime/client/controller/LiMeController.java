@@ -7,6 +7,7 @@ import com.lixin.lime.client.view.LiMeLoginFrame;
 import com.lixin.lime.client.view.LiMeRegisterFrame;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
+import com.lixin.lime.protocol.seed.LiMeSeedFile;
 import com.lixin.lime.protocol.seed.LiMeSeedMessage;
 import com.lixin.lime.protocol.seed.LiMeSeedRespond;
 
@@ -14,10 +15,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.MyStaticFactory.getLiMeTime;
 
 /**
  * @author lixin
@@ -32,6 +35,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
      * The variables
      */
     private String username;
+    private String receiver;
     /**
      * TODO: password 改成 char[] 来提升安全性
      */
@@ -213,7 +217,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     private void actionChatSendMessage() throws LiMeException {
         // 发送消息
-        String receiver = chatFrame.getReceiver();
+        receiver = chatFrame.getReceiver();
         JTextArea textAreaMessage = chatFrame.getTextAreaMessage();
         String message = textAreaMessage.getText();
         model.sendMessage(username, receiver, message);
@@ -226,9 +230,22 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         chatFrame.updateTextAreaHistory();
     }
 
-    private void actionChatSendFile() {
-        // TODO: 发送文件
-        limeInfo("功能正在开发，敬请期待");
+    private void actionChatSendFile() throws LiMeException {
+        // 发送文件
+        receiver = chatFrame.getReceiver();
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.showDialog(new JLabel(), "选择");
+        File file = chooser.getSelectedFile();
+        if (file != null) {
+            model.sendFile(username, receiver, file);
+            // Log UI
+            HashMap<String, String> history = chatFrame.getHistory();
+            String msgLog = history.get(receiver) + "< " + username + " > | < " + getLiMeTime() + " >\n" + file.getName() + "\n\n";
+            history.put(receiver, msgLog);
+            // Update UI from history
+            chatFrame.updateTextAreaHistory();
+        }
     }
 
     @Override
@@ -289,7 +306,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     }
 
     @Override
-    public void updateFriendList(LiMeSeed seed) {
+    public void newFriendList(LiMeSeed seed) {
         LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
         HashMap<String, String> history = chatFrame.getHistory();
         HashSet<String> friendList = new HashSet<>(history.keySet());
@@ -310,6 +327,48 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         history.remove(username);
         // Update UI from history
         chatFrame.updateListFriends();
+    }
+
+    @Override
+    public synchronized void newLiMeFile(LiMeSeed seed) {
+        // the ignored boolean
+        boolean res;
+        // recv and store the file
+        LiMeSeedFile seedFile = (LiMeSeedFile) seed;
+        File fileRecv = seedFile.getFile();
+        // 选择路径
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.showDialog(new JLabel(), "选择文件夹");
+        File folder = chooser.getSelectedFile();
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            res = folder.mkdirs();
+        }
+        try {
+            // 如果文件不存在就创建
+            File fileDest = new File(folder.getAbsolutePath() + "/" + fileRecv.getName());
+            System.out.println(fileDest.getAbsolutePath());
+            if (!fileDest.exists()) {
+                res = fileDest.createNewFile();
+            }
+            // 写入文件
+            FileChannel inputChannel = new FileInputStream(fileRecv).getChannel();
+            FileChannel outputChannel = new FileOutputStream(fileDest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+            inputChannel.close();
+            outputChannel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Log UI
+        String time = getLiMeTime();
+        HashMap<String, String> history = chatFrame.getHistory();
+        String sender = seed.getSender();
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + fileRecv.getName() + "\n\n";
+        history.put(sender, msgLog);
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
     }
 
     @Override

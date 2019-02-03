@@ -148,6 +148,8 @@ public class LiMeServerModel implements Runnable {
         LiMeStalk stalk = limeHub.get(username);
         try {
             stalk.getSocket().close();
+            stalk.getOis().close();
+            stalk.getOos().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -190,6 +192,13 @@ public class LiMeServerModel implements Runnable {
                             receiverStalk.getOos().writeObject(seedMessage);
                             receiverStalk.getOos().flush();
                             // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
+                            break;
+                        case FILE:
+                            // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
+                            LiMeSeedFile seedFile = (LiMeSeedFile) seed;
+                            LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
+                            limeStalk.getOos().writeObject(seedFile);
+                            limeStalk.getOos().flush();
                             break;
                         case LOGIN:
                             // Login
