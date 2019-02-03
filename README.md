@@ -5,6 +5,17 @@ The Lixin Messenger
 - C_v 0.3
 - S_v 0.3
 
+```
+ _________________
+< Finally, v_0.3! >
+ -----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\ LiMe  )\/\
+                ||----w |
+                ||     ||
+```
+
 ## Platform compatibility: 
 - macOS
 > If you would like to use it with windows, you should clone this repo and rebuild it with windows
