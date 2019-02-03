@@ -3,13 +3,26 @@ package com.lixin.lime.protocol.entity;
 /**
  * @author lixin
  */
-public class user {
-    int id;
-    String username;
-    String password;
-    String gender;
-    String email;
-    boolean banned;
+public class User {
+    private int id;
+    private String username;
+    private String password;
+    private String gender;
+    private String email;
+    private boolean banned;
+
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, String gender, String email) {
+        this.username = username;
+        this.password = password;
+        this.gender = gender;
+        this.email = email;
+    }
 
     // Setters
 

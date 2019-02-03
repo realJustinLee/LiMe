@@ -1,8 +1,10 @@
 package com.lixin.lime.server.model;
 
 import com.lixin.lime.protocol.datastructure.LiMeStalk;
+import com.lixin.lime.protocol.entity.User;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.server.controller.LiMeServerFarmer;
+import com.lixin.lime.server.dao.MyDatabaseConnector;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -10,6 +12,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
@@ -24,17 +30,24 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 public class LiMeServerModel implements Runnable {
     private HashMap<String, LiMeStalk> limeHub;
     private LiMeServerFarmer serverFarmer;
+    private MyDatabaseConnector databaseConnector;
+    private Connection connection;
 
     private ExecutorService cachedThreadPool;
 
     public LiMeServerModel(LiMeServerFarmer serverFarmer) {
         limeHub = new HashMap<>();
         this.serverFarmer = serverFarmer;
+
         cachedThreadPool = Executors.newCachedThreadPool();
     }
 
     @Override
     public void run() {
+        // init sql
+        databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
+        connection = databaseConnector.getConnection();
+        // init socket
         try {
             ServerSocket serverSock = new ServerSocket(PORT);
             while (true) {
@@ -67,13 +80,15 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
-    private void broadcastFriendList() throws IOException {
-        // TODO: 下个版本发准确的朋友列表
-        HashSet<String> keySet = new HashSet<>(limeHub.keySet());
-        for (LiMeStalk stalk : limeHub.values()) {
-            ObjectOutputStream oos = stalk.getOos();
-            oos.writeObject(new LiMeSeedRespond(FRIENDS_UPDATE, null, null, null, keySet));
-            oos.flush();
+    public void ban(String username) {
+        // Ban User to Database[MySql Server]
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE users SET banned = TRUE WHERE username = ?;");
+            preparedStatement.setString(1, username);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,16 +98,49 @@ public class LiMeServerModel implements Runnable {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private boolean verify(String username, String password) {
-        // TODO: Verify Login from Database[MySql Server]
-
-        return true;
+    private boolean verify(User user) {
+        // Verify Login from Database[MySql Server]
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT password FROM users WHERE username = ? AND banned = FALSE;");
+            preparedStatement.setString(1, user.getUsername());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString(1).equals(user.getPassword());
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    private boolean register(String username, String password, String gender, String email) {
-        // TODO: Register User to Database[MySql Server]
+    private boolean register(User user) {
+        // Register User to Database[MySql Server]
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO users(username, password, gender, email) VALUES (?, ?, ?, ?);");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getGender());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-        return true;
+    private void broadcastFriendList() throws IOException {
+        // TODO: 下个版本发准确的朋友列表
+        HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+        for (LiMeStalk stalk : limeHub.values()) {
+            ObjectOutputStream oos = stalk.getOos();
+            oos.writeObject(new LiMeSeedRespond(FRIENDS_UPDATE, null, null, null, keySet));
+            oos.flush();
+        }
     }
 
     private void removeLime(String username) {
@@ -147,7 +195,7 @@ public class LiMeServerModel implements Runnable {
                             // Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
                             username = seedLogin.getUsername();
-                            if (verify(username, seedLogin.getPassword())) {
+                            if (verify(new User(username, seedLogin.getPassword()))) {
                                 LiMeStalk stalk = new LiMeStalk(seedLogin.getUsername(), socketLime, ois, oos);
                                 if (!limeHub.containsKey(username)) {
                                     limeHub.put(username, stalk);
@@ -169,7 +217,7 @@ public class LiMeServerModel implements Runnable {
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
-                            if (register(seedRegister.getUsername(), seedRegister.getPassword(), seedRegister.getGender(), seedRegister.getEmail())) {
+                            if (register(new User(seedRegister.getUsername(), seedRegister.getPassword(), seedRegister.getGender(), seedRegister.getEmail()))) {
                                 sendSeedStatus(STATUS_REGISTER_SUCCESS);
                             } else {
                                 sendSeedStatus(ERROR_REGISTER_CONFLICT);
@@ -182,7 +230,7 @@ public class LiMeServerModel implements Runnable {
                             sendSeedRespond(FRIENDS_UPDATE, null, seedRequest.getSender(), receiverIp, null);
                             break;
                         case FRIENDS_UPDATE:
-                            // TODO: (V2.0)Return the user's friends
+                            // TODO: (V2.0)Return the User's friends
                             LiMeSeedRequest request = (LiMeSeedRequest) seed;
                             // Return all online
                             HashSet<String> keySet = new HashSet<>(limeHub.keySet());

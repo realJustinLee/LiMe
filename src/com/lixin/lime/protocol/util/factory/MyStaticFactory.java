@@ -1,5 +1,7 @@
 package com.lixin.lime.protocol.util.factory;
 
+import com.lixin.lime.protocol.util.crypto.AesCipher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -74,18 +76,26 @@ public class MyStaticFactory {
      * <p>
      * WANTED DOMAIN: lime.com | lime.online
      */
-
     public static final String DOMAIN_NAME = "lixin-computer.com";
     public static final String HOST_NAME = "lime";
     public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
     public static final String HOST = "127.0.0.1";
-    public static final String SQL_HOST = "127.0.0.1";
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
     private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
     private static final String URL_LIME_HOMEPAGE = WEB_MOST;
     private static final String URL_LIME_AGREEMENT = WEB_MOST + "/Agreement";
+
+
+    // SQL properties
+
+    public static final String SQL_HOST = "admin.lixin-computer.com";
+    public static final int SQL_PORT = 3306;
+    public static final String SQL_DATABASE = "lime";
+    public static final String SQL_USERNAME = "lixin";
+    public static final String SQL_PASSWORD = "BASNDAFWAUSMC";
+    public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     // The public methods
 
@@ -148,6 +158,24 @@ public class MyStaticFactory {
 
     public static void limeEmailStaff() {
         sendEmailFromLiMe(STAFF_EMAIL);
+    }
+
+    public static String encrypt(String password) {
+        try {
+            return AesCipher.aesEncryptString(password, GOLDEN_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String decrypt(String password) {
+        try {
+            return AesCipher.aesDecryptString(password, GOLDEN_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     // The private methods

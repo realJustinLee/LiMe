@@ -5,7 +5,10 @@ import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,13 +57,13 @@ public class LiMeModel {
     }
 
     public boolean login(String username, String password) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, password)), STATUS_LOGIN_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, encrypt(password))), STATUS_LOGIN_SUCCESS);
         cachedThreadPool.execute(new SeedGrinder());
         return true;
     }
 
     public boolean register(String username, String password, String gender, String email) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, password, gender, email)), STATUS_REGISTER_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, encrypt(password), gender, email)), STATUS_REGISTER_SUCCESS);
         return true;
     }
 
@@ -70,7 +73,9 @@ public class LiMeModel {
         // cachedThreadPool.shutdownNow();
     }
 
-    // Perhaps deprecated
+    /**
+     * Perhaps deprecated
+     */
     public synchronized void requsetFriendList(String username) throws LiMeException {
         sendSeed(new LiMeSeedRequest(FRIENDS_UPDATE, username, null));
     }

@@ -75,9 +75,10 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 break;
             case SERVER_ACTION_BAN:
                 serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
+                // Ban User in database
+                serverModel.ban(user);
                 // log UI
                 serverFrame.appendLog("[" + time + "]\n< " + user + " > is BANNED.\n");
-                // TODO: Ban user in database
                 break;
             case SERVER_ACTION_CLEAR_LOG:
                 serverFrame.clearLog();

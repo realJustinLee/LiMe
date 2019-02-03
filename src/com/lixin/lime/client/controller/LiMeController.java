@@ -1,15 +1,14 @@
 package com.lixin.lime.client.controller;
 
 
+import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.client.view.LiMeChatFrame;
 import com.lixin.lime.client.view.LiMeLoginFrame;
 import com.lixin.lime.client.view.LiMeRegisterFrame;
-import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.seed.LiMeSeedMessage;
 import com.lixin.lime.protocol.seed.LiMeSeedRespond;
-import com.lixin.lime.protocol.util.crypto.AesCipher;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -188,13 +187,13 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             boolean savePassword = loginFrame.savePassword();
-            String cryptUsername = savePassword ? AesCipher.aesEncryptString(username, GOLDEN_KEY) : "";
-            String cryptPassword = savePassword ? AesCipher.aesEncryptString(password, GOLDEN_KEY) : "";
+            String encryptedUsername = savePassword ? encrypt(username) : "";
+            String encryptedPassword = savePassword ? encrypt(password) : "";
             bufferedWriter.write(savePassword ? "true" : "false");
             bufferedWriter.write("\n");
-            bufferedWriter.write(cryptUsername);
+            bufferedWriter.write(encryptedUsername);
             bufferedWriter.write("\n");
-            bufferedWriter.write(cryptPassword);
+            bufferedWriter.write(encryptedPassword);
             bufferedWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,10 +208,10 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
             FileReader fileReader = new FileReader(file.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             boolean savePassword = "true".equals(bufferedReader.readLine());
-            String cryptUsername = bufferedReader.readLine();
-            String cryptPassword = bufferedReader.readLine();
-            username = cryptUsername == null ? "" : AesCipher.aesDecryptString(cryptUsername, GOLDEN_KEY);
-            password = cryptPassword == null ? "" : AesCipher.aesDecryptString(cryptPassword, GOLDEN_KEY);
+            String encryptedUsername = bufferedReader.readLine();
+            String encryptedPassword = bufferedReader.readLine();
+            username = encryptedUsername == null ? "" : decrypt(encryptedUsername);
+            password = encryptedPassword == null ? "" : decrypt(encryptedPassword);
             loginFrame.savePassword(savePassword);
             loginFrame.setUsername(username);
             loginFrame.setPassword(password);

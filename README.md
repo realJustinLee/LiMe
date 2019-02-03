@@ -21,7 +21,10 @@ The Chat GUI of user @Test
 
 ![](./ScreenShots/LiMeChatTest.png)
 
+# Data persistence and user management
+
+MySQL
+
 # TODO
-- Use database to validate and manage the user
 - There should be a website for LiMe
 - There should be am anonymous group chat to be developed
