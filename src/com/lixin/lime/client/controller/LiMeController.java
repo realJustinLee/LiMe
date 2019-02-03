@@ -22,7 +22,7 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
+public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiMeKnight {
     /**
      * The password file
      */
@@ -90,92 +90,6 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
         chatFrame.getButtonLogout().addActionListener(this);
         chatFrame.getButtonSendFile().addActionListener(this);
         chatFrame.getButtonSendMessage().addActionListener(this);
-    }
-
-    @Override
-    public void run() {
-        loginFrame.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            String actionCommand = e.getActionCommand();
-            switch (actionCommand) {
-                case ACTION_LOGIN_LOGIN:
-                    actionLoginLogin();
-                    break;
-                case ACTION_LOGIN_REGISTER:
-                    actionLoginRegister();
-                    break;
-                case ACTION_LOGIN_FIND_PASSWORD:
-                    actionLoginFindPassword();
-                    break;
-                case ACTION_REGISTER_REGISTER:
-                    actionRegisterRegister();
-                    break;
-                case ACTION_REGISTER_CANCEL:
-                    actionRegisterCancel();
-                    break;
-                case ACTION_CHAT_LOGOUT:
-                    actionChatLogout();
-                    break;
-                case ACTION_CHAT_SEND_MESSAGE:
-                    actionChatSendMessage();
-                    break;
-                case ACTION_CHAT_SEND_FILE:
-                    actionChatSendFile();
-                    break;
-                default:
-                    limeInternalError(this.getClass().getCanonicalName(), actionCommand);
-                    break;
-            }
-        } catch (LiMeException ex) {
-            handleLiMeException(ex);
-        }
-    }
-
-    @Override
-    public void newLiMeMessage(LiMeSeed seed) {
-        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-        // The sender here is the sender of the Message == the receiver in the ChatFrame
-        String sender = seedMessage.getSender();
-        String message = seedMessage.getMessage();
-        String time = seedMessage.getTime();
-        HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
-        history.put(sender, msgLog);
-        // Update UI from history
-        chatFrame.updateTextAreaHistory();
-    }
-
-    @Override
-    public void updateFriendList(LiMeSeed seed) {
-        LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
-        HashMap<String, String> history = chatFrame.getHistory();
-        HashSet<String> friendList = new HashSet<>(history.keySet());
-        HashSet<String> newFriendList = (HashSet<String>) seedRespond.getFriendList();
-        // Add new friends to oldList
-        for (String friend : newFriendList) {
-            if (!friendList.contains(friend)) {
-                history.put(friend, "");
-            }
-        }
-        // Remove ex-friends from oldList
-        for (String friend : friendList) {
-            if (!newFriendList.contains(friend)) {
-                history.remove(friend);
-            }
-        }
-        // Remove self from friend list
-        history.remove(username);
-        // Update UI from history
-        chatFrame.updateListFriends();
-    }
-
-    @Override
-    public void handleLiMeException(LiMeException e) {
-        limeExternalError(e.getDetail(), e.getMessage());
     }
 
     private void encryptAndWriteToFile(File file, String username, String password) {
@@ -315,5 +229,96 @@ public class LiMeController implements Runnable, LiMeFarmer, ActionListener {
     private void actionChatSendFile() {
         // TODO: 发送文件
         limeInfo("功能正在开发，敬请期待");
+    }
+
+    @Override
+    public void run() {
+        loginFrame.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            String actionCommand = e.getActionCommand();
+            switch (actionCommand) {
+                case ACTION_LOGIN_LOGIN:
+                    actionLoginLogin();
+                    break;
+                case ACTION_LOGIN_REGISTER:
+                    actionLoginRegister();
+                    break;
+                case ACTION_LOGIN_FIND_PASSWORD:
+                    actionLoginFindPassword();
+                    break;
+                case ACTION_REGISTER_REGISTER:
+                    actionRegisterRegister();
+                    break;
+                case ACTION_REGISTER_CANCEL:
+                    actionRegisterCancel();
+                    break;
+                case ACTION_CHAT_LOGOUT:
+                    actionChatLogout();
+                    break;
+                case ACTION_CHAT_SEND_MESSAGE:
+                    actionChatSendMessage();
+                    break;
+                case ACTION_CHAT_SEND_FILE:
+                    actionChatSendFile();
+                    break;
+                default:
+                    limeInternalError(this.getClass().getCanonicalName(), actionCommand);
+                    break;
+            }
+        } catch (LiMeException ex) {
+            handleLiMeException(ex);
+        }
+    }
+
+    @Override
+    public void newLiMeMessage(LiMeSeed seed) {
+        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
+        // The sender here is the sender of the Message == the receiver in the ChatFrame
+        String sender = seedMessage.getSender();
+        String message = seedMessage.getMessage();
+        String time = seedMessage.getTime();
+        HashMap<String, String> history = chatFrame.getHistory();
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
+        history.put(sender, msgLog);
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
+    }
+
+    @Override
+    public void updateFriendList(LiMeSeed seed) {
+        LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
+        HashMap<String, String> history = chatFrame.getHistory();
+        HashSet<String> friendList = new HashSet<>(history.keySet());
+        HashSet<String> newFriendList = (HashSet<String>) seedRespond.getFriendList();
+        // Add new friends to oldList
+        for (String friend : newFriendList) {
+            if (!friendList.contains(friend)) {
+                history.put(friend, "");
+            }
+        }
+        // Remove ex-friends from oldList
+        for (String friend : friendList) {
+            if (!newFriendList.contains(friend)) {
+                history.remove(friend);
+            }
+        }
+        // Remove self from friend list
+        history.remove(username);
+        // Update UI from history
+        chatFrame.updateListFriends();
+    }
+
+    @Override
+    public void handleLiMeException(LiMeException e) {
+        limeExternalError(e.getDetail(), e.getMessage());
+    }
+
+    @Override
+    public void newGroupChat(String sender, String time, String message) {
+
     }
 }

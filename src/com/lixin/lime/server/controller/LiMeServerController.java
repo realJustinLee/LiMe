@@ -15,7 +15,7 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 /**
  * @author lixin
  */
-public class LiMeServerController implements Runnable, ActionListener, LiMeServerFarmer {
+public class LiMeServerController implements Runnable, ActionListener, LiMeServerFarmer, LiMeServerKnight {
 
     private LiMeServerFrame serverFrame;
     private LiMeServerModel serverModel;
@@ -93,11 +93,6 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     }
 
     @Override
-    public void newChatHistory(String sender, String time, String message) {
-        serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n");
-    }
-
-    @Override
     public void newOnline(String username, HashSet<String> limeSet) {
         String time = getLiMeTime();
         serverFrame.appendLog("[" + time + "]\n< " + username + " > is on line.\n");
@@ -114,6 +109,11 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     @Override
     public void enablePrivileges(boolean bool) {
         serverFrame.enablePrivileges(bool);
+    }
+
+    @Override
+    public void newChatHistory(String sender, String time, String message) {
+        serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n");
     }
 }
 

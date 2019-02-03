@@ -31,5 +31,6 @@ The Chat GUI of user @Test
 MySQL
 
 # TODO
+- The file transmission function
 - There should be a website for LiMe
 - There should be am anonymous group chat to be developed

@@ -76,7 +76,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setBounds(194, 61, 117, 36);
         contentPane.add(buttonStop);
 
-        listLimes = new JList<String>();
+        listLimes = new JList<>();
         listLimes.setEnabled(false);
         listLimes.setFont(new Font("PingFang SC", Font.PLAIN, 16));
         listLimes.addListSelectionListener(e -> {
@@ -232,7 +232,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonClearHistory.setEnabled(bool);
     }
 
-    public void enablePrivileges(boolean bool){
+    public void enablePrivileges(boolean bool) {
         buttonKick.setEnabled(bool);
         buttonBan.setEnabled(bool);
     }
