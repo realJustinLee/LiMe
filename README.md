@@ -1,6 +1,11 @@
 # LiMe
 The Lixin Messenger
 
+## Platform compatibility: 
+- macOS
+> If you would like to use it with windows, you should clone this repo and rebuild it with windows
+
+
 ## The Server GUI
 ![](./ScreenShots/LiMeServer.png)
 
