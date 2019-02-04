@@ -60,6 +60,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         textFieldUsername = new JTextField();
         textFieldUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         textFieldUsername.setColumns(10);
+        textFieldUsername.setHorizontalAlignment(JTextField.CENTER);
         textFieldUsername.setBounds(119, 130, 242, 42);
         contentPane.add(textFieldUsername);
 
@@ -71,6 +72,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         passwordField.setColumns(10);
+        passwordField.setHorizontalAlignment(JTextField.CENTER);
         passwordField.setBounds(119, 184, 242, 42);
         contentPane.add(passwordField);
 
@@ -98,6 +100,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         textFieldEmail = new JTextField();
         textFieldEmail.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         textFieldEmail.setColumns(10);
+        textFieldEmail.setHorizontalAlignment(JTextField.CENTER);
         textFieldEmail.setBounds(119, 292, 242, 42);
         contentPane.add(textFieldEmail);
 

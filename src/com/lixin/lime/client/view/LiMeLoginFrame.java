@@ -63,6 +63,7 @@ public class LiMeLoginFrame extends JFrame {
         textFieldUsername = new JTextField();
         textFieldUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         textFieldUsername.setColumns(10);
+        textFieldUsername.setHorizontalAlignment(JTextField.CENTER);
         textFieldUsername.setBounds(119, 102, 242, 42);
         contentPane.add(textFieldUsername);
 
@@ -81,6 +82,7 @@ public class LiMeLoginFrame extends JFrame {
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         passwordField.setColumns(10);
+        passwordField.setHorizontalAlignment(JTextField.CENTER);
         passwordField.setBounds(119, 156, 242, 42);
         contentPane.add(passwordField);
 
