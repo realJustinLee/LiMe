@@ -1,0 +1,5 @@
+<root>
+    <item name='com.sun.awt.AWTUtilities'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

@@ -54,7 +54,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
                 showServerCopyright();
             }
         });
-        labelBrand.setForeground(SystemColor.windowBorder);
+        labelBrand.setForeground(new Color(154, 154, 154));
         labelBrand.setFont(new Font("Harry P", Font.BOLD, 99));
         labelBrand.setBounds(6, 6, 166, 100);
         contentPane.add(labelBrand);
@@ -62,7 +62,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStart = new JButton("START");
         buttonStart.addActionListener(this);
         buttonStart.setActionCommand(SERVER_ACTION_START);
-        buttonStart.setForeground(Color.BLUE);
+        buttonStart.setForeground(new Color(73, 156, 84));
         buttonStart.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStart.setBounds(194, 13, 117, 36);
         contentPane.add(buttonStart);
@@ -71,7 +71,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setEnabled(false);
         buttonStop.addActionListener(this);
         buttonStop.setActionCommand(SERVER_ACTION_STOP);
-        buttonStop.setForeground(Color.RED);
+        buttonStop.setForeground(new Color(199, 84, 80));
         buttonStop.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStop.setBounds(194, 61, 117, 36);
         contentPane.add(buttonStop);
@@ -111,7 +111,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
 
         labelLog = new JLabel("Server Log");
         labelLog.setHorizontalAlignment(SwingConstants.CENTER);
-        labelLog.setForeground(SystemColor.windowBorder);
+        labelLog.setForeground(new Color(154, 154, 154));
         labelLog.setFont(new Font("Harry P", Font.PLAIN, 99));
         labelLog.setBounds(342, 6, 397, 100);
         contentPane.add(labelLog);
@@ -142,7 +142,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
 
         labelHistory = new JLabel("Chat Log");
         labelHistory.setHorizontalAlignment(SwingConstants.CENTER);
-        labelHistory.setForeground(SystemColor.windowBorder);
+        labelHistory.setForeground(new Color(154, 154, 154));
         labelHistory.setFont(new Font("Harry P", Font.PLAIN, 99));
         labelHistory.setBounds(775, 6, 300, 100);
         contentPane.add(labelHistory);
@@ -166,7 +166,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         contentPane.add(buttonClearHistory);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
-        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setForeground(new Color(154, 154, 154));
         labelCopyright.setBounds(392, 676, 296, 16);
         contentPane.add(labelCopyright);
 
@@ -189,9 +189,9 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
             labelHistory.setForeground(new Color(153, 50, 204));
             enableComponents(true);
         } else if (source == buttonStop) {
-            labelBrand.setForeground(SystemColor.windowBorder);
-            labelLog.setForeground(SystemColor.windowBorder);
-            labelHistory.setForeground(SystemColor.windowBorder);
+            labelBrand.setForeground(new Color(154, 154, 154));
+            labelLog.setForeground(new Color(154, 154, 154));
+            labelHistory.setForeground(new Color(154, 154, 154));
             enableComponents(false);
         } else {
             limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());

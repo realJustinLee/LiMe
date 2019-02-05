@@ -50,7 +50,7 @@ public class LiMeFileTransferFrame extends JFrame {
         contentPane.add(buttonOk);
 
         JButton buttonCancel = new JButton("取消");
-        // 乱写进度条的
+        // 乱写的进度条
         buttonCancel.addActionListener(e -> {
             int val = progressBar.getValue();
             progressBar.setValue(++val);

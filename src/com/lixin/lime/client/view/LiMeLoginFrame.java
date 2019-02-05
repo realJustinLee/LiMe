@@ -68,7 +68,7 @@ public class LiMeLoginFrame extends JFrame {
         contentPane.add(textFieldUsername);
 
         buttonRegister = new JButton("注册账号");
-        buttonRegister.setForeground(SystemColor.controlHighlight);
+        buttonRegister.setForeground(new Color(7, 73, 217));
         buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
         buttonRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonRegister.setBounds(373, 111, 80, 29);
@@ -87,7 +87,7 @@ public class LiMeLoginFrame extends JFrame {
         contentPane.add(passwordField);
 
         buttonFindPassword = new JButton("找回密码");
-        buttonFindPassword.setForeground(SystemColor.controlHighlight);
+        buttonFindPassword.setForeground(new Color(7, 73, 217));
         buttonFindPassword.setActionCommand(ACTION_LOGIN_FIND_PASSWORD);
         buttonFindPassword.setBounds(373, 165, 80, 29);
         contentPane.add(buttonFindPassword);
@@ -101,12 +101,12 @@ public class LiMeLoginFrame extends JFrame {
 
         checkboxSavePassword = new JCheckBox("保存密码");
         checkboxSavePassword.setSelected(true);
-        checkboxSavePassword.setForeground(SystemColor.windowBorder);
+        checkboxSavePassword.setForeground(new Color(154, 154, 154));
         checkboxSavePassword.setBounds(198, 264, 84, 23);
         contentPane.add(checkboxSavePassword);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
-        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setForeground(new Color(154, 154, 154));
         labelCopyright.setBounds(92, 316, 296, 16);
         contentPane.add(labelCopyright);
 

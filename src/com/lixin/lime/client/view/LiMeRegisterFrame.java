@@ -64,10 +64,10 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         textFieldUsername.setBounds(119, 130, 242, 42);
         contentPane.add(textFieldUsername);
 
-        JLabel labelPassowrd = new JLabel("密码");
-        labelPassowrd.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        labelPassowrd.setBounds(71, 183, 36, 42);
-        contentPane.add(labelPassowrd);
+        JLabel labelPassword = new JLabel("密码");
+        labelPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
+        labelPassword.setBounds(71, 183, 36, 42);
+        contentPane.add(labelPassword);
 
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("PingFang SC", Font.PLAIN, 18));
@@ -111,7 +111,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 showAgreement();
             }
         });
-        labelAgreement.setForeground(SystemColor.controlHighlight);
+        labelAgreement.setForeground(new Color(7, 73, 217));
         labelAgreement.setBounds(235, 350, 80, 16);
         contentPane.add(labelAgreement);
 
@@ -135,13 +135,13 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 showHomepage();
             }
         });
-        labelBrand.setForeground(SystemColor.windowBorder);
+        labelBrand.setForeground(new Color(154, 154, 154));
         labelBrand.setFont(new Font("Harry P", Font.BOLD, 99));
         labelBrand.setBounds(157, 444, 166, 100);
         contentPane.add(labelBrand);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
-        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setForeground(new Color(154, 154, 154));
         labelCopyright.setBounds(92, 556, 296, 16);
         contentPane.add(labelCopyright);
 

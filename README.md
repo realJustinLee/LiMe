@@ -50,5 +50,6 @@ The Chat GUI of user @Test
 MySQL
 
 ## TODO
+- The process bar for the file transmission
 - Anonymous group chat for all users
 - A fancy website for LiMe

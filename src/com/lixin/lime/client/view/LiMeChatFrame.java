@@ -44,7 +44,7 @@ public class LiMeChatFrame extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel labelTitle = new JLabel("Lixin Messenger");
+        JLabel labelTitle = new JLabel(THE_TITLE);
         labelTitle.setForeground(new Color(153, 50, 204));
         labelTitle.setFont(new Font("Harry P", Font.BOLD, 50));
         labelTitle.setBounds(6, 5, 242, 60);
@@ -122,7 +122,7 @@ public class LiMeChatFrame extends JFrame {
         contentPane.add(buttonSendMessage);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
-        labelCopyright.setForeground(SystemColor.windowBorder);
+        labelCopyright.setForeground(new Color(154, 154, 154));
         labelCopyright.setBounds(242, 676, 296, 16);
         contentPane.add(labelCopyright);
 
