@@ -76,7 +76,7 @@ public class LiMeServerModel implements Runnable {
             oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            removeLime(username);
+            removeLime(username, true);
         }
     }
 
@@ -143,16 +143,18 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
-    private void removeLime(String username) {
+    private void removeLime(String username, boolean closeSocket) {
         // Logout: remove the LiMeStalk from the limeHub
         if (limeHub.containsKey(username)) {
             LiMeStalk stalk = limeHub.get(username);
-            try {
-                stalk.getSocket().close();
-                stalk.getOis().close();
-                stalk.getOos().close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (closeSocket) {
+                try {
+                    stalk.getSocket().close();
+                    stalk.getOis().close();
+                    stalk.getOos().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             limeHub.remove(username);
             // Log UI
@@ -224,7 +226,7 @@ public class LiMeServerModel implements Runnable {
                             }
                             break;
                         case LOGOUT:
-                            removeLime(username);
+                            removeLime(username, false);
                             break;
                         case REGISTER:
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
@@ -253,7 +255,7 @@ public class LiMeServerModel implements Runnable {
                     }
                 }
             } catch (EOFException e) {
-                removeLime(username);
+                removeLime(username, true);
                 System.out.println("Lost a connection");
             } catch (Exception e) {
                 e.printStackTrace();

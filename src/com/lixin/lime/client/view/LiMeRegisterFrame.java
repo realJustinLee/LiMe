@@ -211,7 +211,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
     }
 
     public String getGender() {
-        return toggleButtonGender.getText();
+        return toggleButtonGender.isSelected() ? "Female" : "Male";
     }
 
     public String getEmail() {
