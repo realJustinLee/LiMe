@@ -50,6 +50,8 @@ The Chat GUI of user @Test
 MySQL
 
 ## TODO
+- Email is should be a unique key (LiMeSeedRecoverPassword)
+- Enable user to reset password via a server Email
 - The process bar for the file transmission
 - Anonymous group chat for all users
 - A fancy website for LiMe

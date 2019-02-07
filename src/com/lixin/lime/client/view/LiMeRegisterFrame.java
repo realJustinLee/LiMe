@@ -1,7 +1,6 @@
 package com.lixin.lime.client.view;
 
 import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
-import com.lixin.lime.protocol.util.factory.MyStaticFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +16,8 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
  * @author lixin
  */
 public class LiMeRegisterFrame extends JFrame implements ActionListener {
+
+    private LiMeUserAgreementFrame userAgreementFrame;
 
     private JPanel contentPane;
     private JTextField textFieldUsername;
@@ -44,7 +45,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         labelTitle.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MyStaticFactory.showCopyright();
+                showCopyright();
             }
         });
         labelTitle.setForeground(new Color(153, 50, 204));
@@ -108,7 +109,8 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         labelAgreement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showAgreement();
+                initUserAgreementFrame();
+                userAgreementFrame.setVisible(true);
             }
         });
         labelAgreement.setForeground(new Color(7, 73, 217));
@@ -160,6 +162,12 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         );
     }
 
+    private void initUserAgreementFrame() {
+        userAgreementFrame = new LiMeUserAgreementFrame(URL_LIME_AGREEMENT_OFFLINE);
+        userAgreementFrame.setLocationRelativeTo(this);
+        userAgreementFrame.getButtonAgree().addActionListener(this);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
@@ -176,7 +184,13 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 btnRegister.setEnabled(false);
             }
         } else {
-            limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
+            if (e.getActionCommand().equals(ACTION_AGREEMENT_CONFIRM)) {
+                checkboxAgree.setSelected(true);
+                btnRegister.setEnabled(true);
+                userAgreementFrame.dispose();
+            } else {
+                limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
+            }
         }
     }
 

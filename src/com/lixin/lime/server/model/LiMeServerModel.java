@@ -145,20 +145,22 @@ public class LiMeServerModel implements Runnable {
 
     private void removeLime(String username) {
         // Logout: remove the LiMeStalk from the limeHub
-        LiMeStalk stalk = limeHub.get(username);
-        try {
-            stalk.getSocket().close();
-            stalk.getOis().close();
-            stalk.getOos().close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        limeHub.remove(username);
-        // Log UI
-        HashSet<String> keySet = new HashSet<>(limeHub.keySet());
-        serverFarmer.newOffline(username, keySet);
-        if (keySet.isEmpty()) {
-            serverFarmer.enablePrivileges(false);
+        if (limeHub.containsKey(username)) {
+            LiMeStalk stalk = limeHub.get(username);
+            try {
+                stalk.getSocket().close();
+                stalk.getOis().close();
+                stalk.getOos().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            limeHub.remove(username);
+            // Log UI
+            HashSet<String> keySet = new HashSet<>(limeHub.keySet());
+            serverFarmer.newOffline(username, keySet);
+            if (keySet.isEmpty()) {
+                serverFarmer.enablePrivileges(false);
+            }
         }
     }
 

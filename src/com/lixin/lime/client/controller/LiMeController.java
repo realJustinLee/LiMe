@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.getLiMeTime;
 
 /**
  * @author lixin

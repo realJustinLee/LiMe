@@ -20,10 +20,10 @@ public class MyStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Lixin";
     public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.3";
+    public static final String THE_LIME_VERSION = "C_v 0.4";
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.3";
+    public static final String THE_SERVER_VERSION = "S_v 0.4";
 
     /**
      * The Actions
@@ -34,6 +34,7 @@ public class MyStaticFactory {
     public static final String ACTION_LOGIN_FIND_PASSWORD = "find_password";
     public static final String ACTION_REGISTER_REGISTER = "commit_register";
     public static final String ACTION_REGISTER_CANCEL = "cancel_register";
+    public static final String ACTION_AGREEMENT_CONFIRM = "confirm_agreement";
     public static final String ACTION_CHAT_LOGOUT = "logout";
     public static final String ACTION_CHAT_SEND_MESSAGE = "send_message";
     public static final String ACTION_CHAT_SEND_FILE = "send_file";
@@ -86,6 +87,8 @@ public class MyStaticFactory {
     private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
     private static final String URL_LIME_HOMEPAGE = WEB_MOST;
     private static final String URL_LIME_AGREEMENT = WEB_MOST + "/Agreement";
+
+    public static final String URL_LIME_AGREEMENT_OFFLINE = "/index.html";
 
 
     // SQL properties
@@ -147,6 +150,9 @@ public class MyStaticFactory {
         showUrl(URL_LIME_HOMEPAGE);
     }
 
+    /**
+     * This method is Deprecated
+     */
     public static void showAgreement() {
         // TODO: 打开用户协议网页
         showUrl(URL_LIME_AGREEMENT);
