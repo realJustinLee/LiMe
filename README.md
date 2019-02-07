@@ -2,8 +2,8 @@
 The Li Xin Messenger
 
 ## Version
-- C_v 0.3
-- S_v 0.3
+- C_v 0.4
+- S_v 0.4
 
 ```
  _________________
@@ -50,7 +50,6 @@ The Chat GUI of user @Test
 MySQL
 
 ## TODO
-- Email is should be a unique key (LiMeSeedRecoverPassword)
 - Enable user to reset password via a server Email
 - The process bar for the file transmission
 - Anonymous group chat for all users

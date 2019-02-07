@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2019-02-03 08:02:47
+-- 生成日期： 2019-02-07 18:05:43
 -- 服务器版本： 10.1.37-MariaDB
 -- PHP 版本： 7.2.12
 
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-                       `id` int(11) NOT NULL,
-                       `username` varchar(50) COLLATE utf8_bin NOT NULL,
-                       `password` varchar(50) COLLATE utf8_bin NOT NULL,
-                       `gender` varchar(20) COLLATE utf8_bin NOT NULL,
-                       `email` varchar(100) COLLATE utf8_bin NOT NULL,
-                       `banned` tinyint(1) NOT NULL DEFAULT '0'
+  `id` int(11) NOT NULL,
+  `username` varchar(50) COLLATE utf8_bin NOT NULL,
+  `password` varchar(50) COLLATE utf8_bin NOT NULL,
+  `gender` varchar(20) COLLATE utf8_bin NOT NULL,
+  `email` varchar(100) COLLATE utf8_bin NOT NULL,
+  `banned` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -46,7 +46,8 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -56,7 +57,7 @@ ALTER TABLE `users`
 -- 使用表AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
