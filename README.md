@@ -1,4 +1,7 @@
 # LiMe
+LiMe is a communication app which allows you to send messages whenever and wherever you are, 24 hours a day!
+
+## Full name
 The Li Xin Messenger
 
 ## Version
@@ -6,9 +9,15 @@ The Li Xin Messenger
 - S_v 0.4
 
 ```
- _________________
-< Finally, v_0.3! >
- -----------------
+ _______________________
+/    Finally, v_0.4!    \
+|  _     _ __  __       |
+| | |   (_)  \/  | ___  |
+| | |   | | |\/| |/ _ \ |
+| | |___| | |  | |  __/ |
+| |_____|_|_|  |_|\___| |
+\                       /
+ -----------------------
         \   ^__^
          \  (oo)\_______
             (__)\ LiMe  )\/\
@@ -50,7 +59,10 @@ The Chat GUI of user @Test
 MySQL
 
 ## TODO
-- Enable user to reset password via a server Email
+- Enable user to reset password via a server-sent Email
+- Redirect LiMe to the new domain name
+- Gradle the project
+- Use hibernate or Mybatis as a persistence framework
 - The process bar for the file transmission
-- Anonymous group chat for all users
+- Open group chat for all users
 - A fancy website for LiMe
