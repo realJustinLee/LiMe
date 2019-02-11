@@ -46,9 +46,10 @@ public class LiMeSeed implements Serializable {
     public static final int RECEIVER_IP = 5;
     public static final int FRIENDS_UPDATE = 6;
     public static final int FILE = 7;
+    public static final int FORGOT_PASSWORD = 8;
 
-    public static final int STATUS_LOGIN_SUCCESS = 8;
-    public static final int STATUS_REGISTER_SUCCESS = 9;
+    public static final int STATUS_LOGIN_SUCCESS = 9;
+    public static final int STATUS_REGISTER_SUCCESS = 10;
 
 
     private int action;

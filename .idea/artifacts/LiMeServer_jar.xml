@@ -9,6 +9,8 @@
       </element>
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-8.0.15.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/protobuf-java-3.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/activation-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.mail-1.6.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

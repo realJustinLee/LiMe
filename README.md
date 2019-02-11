@@ -5,12 +5,12 @@ LiMe is a communication app which allows you to send messages whenever and where
 The Li Xin Messenger
 
 ## Version
-- C_v 0.4
-- S_v 0.4
+- C_v 0.5
+- S_v 0.5
 
 ```
  _______________________
-/    Finally, v_0.4!    \
+/    Finally, v_0.5!    \
 |  _     _ __  __       |
 | | |   (_)  \/  | ___  |
 | | |   | | |\/| |/ _ \ |
@@ -59,10 +59,18 @@ The Chat GUI of user @Test
 MySQL
 
 ## TODO
-- Enable user to reset password via a server-sent Email
-- Redirect LiMe to the new domain name
-- Gradle the project
-- Use hibernate or Mybatis as a persistence framework
-- The process bar for the file transmission
-- Open group chat for all users
-- A fancy website for LiMe
+- [ ] Gradle the project
+- [ ] Use HTML to render the email content
+- [ ] Use hibernate or Mybatis as a persistence framework
+- [ ] The process bar for the file transmission
+- [ ] Open group chat for all users
+- [ ] A fancy website for LiMe
+- [x] Enable user to reset password via a server-sent Email
+- [x] Redirect LiMe to the new domain name
+- [x] Email is should be a unique key (LiMeSeedRecoverPassword)
+- [x] The file transmission function
+- [x] Use database to validate and manage the user
+- [x] Blur Agreement Frame
+- [x] HTML parsing and rendering
+- [x] Version number increase
+

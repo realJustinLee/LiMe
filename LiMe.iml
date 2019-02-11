@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="mysql:mysql-connector-java:8.0.15" level="project" />
+    <orderEntry type="library" name="com.sun.mail:javax.mail:1.6.2" level="project" />
   </component>
 </module>

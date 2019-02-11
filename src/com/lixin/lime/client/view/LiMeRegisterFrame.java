@@ -83,14 +83,14 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(labelGender);
 
         toggleButtonGender = new JToggleButton("男");
-        toggleButtonGender.addActionListener(this);
         toggleButtonGender.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         toggleButtonGender.setBounds(119, 238, 242, 42);
+        toggleButtonGender.addActionListener(this);
         contentPane.add(toggleButtonGender);
 
         checkboxAgree = new JCheckBox("我同意");
-        checkboxAgree.addActionListener(this);
         checkboxAgree.setBounds(168, 346, 72, 23);
+        checkboxAgree.addActionListener(this);
         contentPane.add(checkboxAgree);
 
         JLabel labelEmail = new JLabel("Email");
@@ -118,16 +118,16 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(labelAgreement);
 
         btnRegister = new JButton("注册");
-        btnRegister.setActionCommand(ACTION_REGISTER_REGISTER);
         btnRegister.setEnabled(false);
         btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnRegister.setBounds(119, 378, 117, 36);
+        btnRegister.setActionCommand(ACTION_REGISTER_REGISTER);
         contentPane.add(btnRegister);
 
         btnCancel = new JButton("取消");
-        btnCancel.setActionCommand(ACTION_REGISTER_CANCEL);
         btnCancel.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnCancel.setBounds(245, 378, 117, 36);
+        btnCancel.setActionCommand(ACTION_REGISTER_CANCEL);
         contentPane.add(btnCancel);
 
         JLabel labelBrand = new JLabel(THE_BRAND);

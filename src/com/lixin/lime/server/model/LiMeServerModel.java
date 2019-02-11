@@ -5,7 +5,10 @@ import com.lixin.lime.protocol.entity.User;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.server.controller.LiMeServerFarmer;
 import com.lixin.lime.server.dao.MyDatabaseConnector;
+import com.lixin.lime.server.mailbox.LiMeServerMailBox;
+import com.lixin.lime.server.mailbox.MailAccountAliYun;
 
+import javax.mail.MessagingException;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,6 +35,7 @@ public class LiMeServerModel implements Runnable {
     private LiMeServerFarmer serverFarmer;
     private MyDatabaseConnector databaseConnector;
     private Connection connection;
+    private LiMeServerMailBox mailBox;
 
     private ExecutorService cachedThreadPool;
 
@@ -47,6 +51,9 @@ public class LiMeServerModel implements Runnable {
         // init sql
         databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
         connection = databaseConnector.getConnection();
+        mailBox = new LiMeServerMailBox(
+                new MailAccountAliYun(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
+        );
         // init socket
         try {
             ServerSocket serverSock = new ServerSocket(PORT);
@@ -81,10 +88,14 @@ public class LiMeServerModel implements Runnable {
     }
 
     public void ban(String username) {
+        // email user that he/she is banned
+        String subject = "Account Banned!";
+        String content = "Your account: " + username + " is permanently banned, due to violation of multiple agreements";
+        emailUser(username, subject, content);
         // Ban User to Database[MySql Server]
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE users SET banned = TRUE WHERE username = ?;");
+                    "UPDATE `users` SET `banned` = TRUE WHERE `username` = ?;");
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -102,7 +113,7 @@ public class LiMeServerModel implements Runnable {
         // Verify Login from Database[MySql Server]
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT password FROM users WHERE username = ? AND banned = FALSE;");
+                    "SELECT `password` FROM `users` WHERE `username` = ? AND `banned` = FALSE;");
             preparedStatement.setString(1, user.getUsername());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -120,7 +131,7 @@ public class LiMeServerModel implements Runnable {
         // Register User to Database[MySql Server]
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO users(username, password, gender, email) VALUES (?, ?, ?, ?);");
+                    "INSERT INTO `users`(`username`, `password`, `gender`, `email`) VALUES (?, ?, ?, ?);");
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getGender());
@@ -130,6 +141,47 @@ public class LiMeServerModel implements Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void resetPassword(String username, String password) {
+        // Update User's Password to Database[MySql Server]
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE `users` SET `password` = ? WHERE `username` = ?;");
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // 向客户发送包含新密码的 Email
+        String subject = "Password Reset!";
+        String content = "Your password is successfully reset to:\n" + password;
+        emailUser(username, subject, content);
+    }
+
+    private void emailUser(String username, String subject, String content) {
+        // Request email address from Database[MySql Server]
+        String email = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT `email` FROM `users` WHERE username = ? AND banned = FALSE;");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                email = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (email != null) {
+                // email user
+                mailBox.sendSimpleMail(email, subject, content);
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 
@@ -197,13 +249,6 @@ public class LiMeServerModel implements Runnable {
                             receiverStalk.getOos().flush();
                             // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
                             break;
-                        case FILE:
-                            // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
-                            LiMeSeedFile seedFile = (LiMeSeedFile) seed;
-                            LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
-                            limeStalk.getOos().writeObject(seedFile);
-                            limeStalk.getOos().flush();
-                            break;
                         case LOGIN:
                             // Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
@@ -248,6 +293,18 @@ public class LiMeServerModel implements Runnable {
                             // Return all online
                             HashSet<String> keySet = new HashSet<>(limeHub.keySet());
                             sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, keySet);
+                            break;
+                        case FILE:
+                            // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
+                            LiMeSeedFile seedFile = (LiMeSeedFile) seed;
+                            LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
+                            limeStalk.getOos().writeObject(seedFile);
+                            limeStalk.getOos().flush();
+                            break;
+                        case FORGOT_PASSWORD:
+                            LiMeSeedRequest liMeSeedRequest = (LiMeSeedRequest) seed;
+                            username = liMeSeedRequest.getSender();
+                            resetPassword(username, generatePassword());
                             break;
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));

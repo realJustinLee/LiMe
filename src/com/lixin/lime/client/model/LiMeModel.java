@@ -84,7 +84,6 @@ public class LiMeModel {
         sendSeed(new LiMeSeedMessage(sender, receiver, message, getLiMeTime()));
     }
 
-
     public void sendFile(String sender, String receiver, File file) throws LiMeException {
         // 通过服务器传文件
         sendSeed(new LiMeSeedFile(sender, receiver, file));
@@ -95,6 +94,10 @@ public class LiMeModel {
         //screenSeed(seedReturn, RECEIVER_IP);
         //LiMeSeedRespond seedRespond = (LiMeSeedRespond) seedReturn;
         // TODO: code here
+    }
+
+    public void sendRequestForgotPassword(String sender) throws LiMeException {
+        sendSeed(new LiMeSeedRequest(FORGOT_PASSWORD, sender, null));
     }
 
     private synchronized void sendSeed(LiMeSeed seed) throws LiMeException {
@@ -137,6 +140,12 @@ public class LiMeModel {
                 while ((seed = (LiMeSeed) ois.readObject()) != null) {
                     int action = seed.getAction();
                     switch (action) {
+                        case ERROR_ADMIN_BANNED:
+                            // 被封号
+                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_BANNED);
+                        case ERROR_ADMIN_KICKED:
+                            // 被踢
+                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
                         case MESSAGE:
                             farmer.newLiMeMessage(seed);
                             break;
@@ -146,12 +155,6 @@ public class LiMeModel {
                         case FILE:
                             farmer.newLiMeFile(seed);
                             break;
-                        case ERROR_ADMIN_KICKED:
-                            // 被踢
-                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
-                        case ERROR_ADMIN_BANNED:
-                            // 被封号
-                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_BANNED);
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
                             break;

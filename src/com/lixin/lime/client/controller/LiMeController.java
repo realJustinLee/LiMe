@@ -165,8 +165,13 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         registerFrame.setVisible(true);
     }
 
-    private void actionLoginFindPassword() {
-        limeEmailAdmin();
+    private void actionLoginForgotPassword() throws LiMeException {
+        username = loginFrame.getUsername();
+        if (username.isEmpty()) {
+            limeWarning("请输入用户名");
+        } else {
+            model.sendRequestForgotPassword(username);
+        }
     }
 
     private void actionRegisterRegister() throws LiMeException {
@@ -263,8 +268,8 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
                 case ACTION_LOGIN_REGISTER:
                     actionLoginRegister();
                     break;
-                case ACTION_LOGIN_FIND_PASSWORD:
-                    actionLoginFindPassword();
+                case ACTION_LOGIN_FORGOT_PASSWORD:
+                    actionLoginForgotPassword();
                     break;
                 case ACTION_REGISTER_REGISTER:
                     actionRegisterRegister();
@@ -309,7 +314,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         LiMeSeedRespond seedRespond = (LiMeSeedRespond) seed;
         HashMap<String, String> history = chatFrame.getHistory();
         HashSet<String> friendList = new HashSet<>(history.keySet());
-        HashSet<String> newFriendList = (HashSet<String>) seedRespond.getFriendList();
+        HashSet<String> newFriendList = seedRespond.getFriendList();
         // Add new friends to oldList
         for (String friend : newFriendList) {
             if (!friendList.contains(friend)) {

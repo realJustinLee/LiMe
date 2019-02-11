@@ -104,21 +104,21 @@ public class LiMeChatFrame extends JFrame {
 
         buttonLogout = new JButton("登出");
         buttonLogout.setForeground(Color.RED);
-        buttonLogout.setActionCommand(ACTION_CHAT_LOGOUT);
         buttonLogout.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonLogout.setBounds(1024, 33, 50, 29);
+        buttonLogout.setActionCommand(ACTION_CHAT_LOGOUT);
         contentPane.add(buttonLogout);
 
         buttonSendFile = new JButton("传文件");
-        buttonSendFile.setActionCommand(ACTION_CHAT_SEND_FILE);
         buttonSendFile.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendFile.setBounds(835, 663, 117, 29);
+        buttonSendFile.setActionCommand(ACTION_CHAT_SEND_FILE);
         contentPane.add(buttonSendFile);
 
         buttonSendMessage = new JButton("发送");
-        buttonSendMessage.setActionCommand(ACTION_CHAT_SEND_MESSAGE);
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
+        buttonSendMessage.setActionCommand(ACTION_CHAT_SEND_MESSAGE);
         contentPane.add(buttonSendMessage);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);

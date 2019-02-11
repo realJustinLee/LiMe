@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Calendar;
+import java.util.Random;
 
 /**
  * @author lixin
@@ -20,10 +21,10 @@ public class MyStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Lixin";
     public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.4";
+    public static final String THE_LIME_VERSION = "C_v 0.5";
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.4";
+    public static final String THE_SERVER_VERSION = "S_v 0.5";
 
     /**
      * The Actions
@@ -31,7 +32,7 @@ public class MyStaticFactory {
      */
     public static final String ACTION_LOGIN_LOGIN = "login";
     public static final String ACTION_LOGIN_REGISTER = "register";
-    public static final String ACTION_LOGIN_FIND_PASSWORD = "find_password";
+    public static final String ACTION_LOGIN_FORGOT_PASSWORD = "find_password";
     public static final String ACTION_REGISTER_REGISTER = "commit_register";
     public static final String ACTION_REGISTER_CANCEL = "cancel_register";
     public static final String ACTION_AGREEMENT_CONFIRM = "confirm_agreement";
@@ -74,17 +75,23 @@ public class MyStaticFactory {
      * <p>
      * 1. limeler.xyz
      * 2. limeler.top
+     * 3. lixin-computer.com
      * <p>
      * WANTED DOMAIN: lime.com | lime.online
      */
-    public static final String DOMAIN_NAME = "lixin-computer.com";
-    public static final String HOST_NAME = "lime";
+    public static final String DOMAIN_NAME = "limeler.top";
+    public static final String HOST_NAME = "www";
     public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
     public static final String HOST = "127.0.0.1";
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
+
+    // Deprecated next line, previous DOMAIN_NAME = 'lixin-computer.com'
+
     private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
+
+
     private static final String URL_LIME_HOMEPAGE = WEB_MOST;
     private static final String URL_LIME_AGREEMENT = WEB_MOST + "/Agreement";
 
@@ -93,12 +100,18 @@ public class MyStaticFactory {
 
     // SQL properties
 
-    public static final String SQL_HOST = "admin.lixin-computer.com";
+    public static final String SQL_HOST = "sql." + DOMAIN_NAME;
     public static final int SQL_PORT = 3306;
     public static final String SQL_DATABASE = "lime";
     public static final String SQL_USERNAME = "lixin";
     public static final String SQL_PASSWORD = "BASNDAFWAUSMC";
     public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
+
+    // Server Email properties
+
+    public static final String SERVER_EMAIL_USER = "no-reply";
+    public static final String SERVER_EMAIL_DOMAIN = "lixin-computer.com";
+    public static final String SERVER_EMAIL_PASSWORD = "Test1234";
 
     // The public methods
 
@@ -164,6 +177,15 @@ public class MyStaticFactory {
 
     public static void limeEmailStaff() {
         sendEmailFromLiMe(STAFF_EMAIL);
+    }
+
+    public static String generatePassword() {
+        int length = new Random().nextInt(11) + 20;
+        char[] buffer = new char[length];
+        for (int i = 0; i < length; i++) {
+            buffer[i] = (char) (new Random().nextInt(94) + 33);
+        }
+        return String.valueOf(buffer);
     }
 
     public static String encrypt(String password) {

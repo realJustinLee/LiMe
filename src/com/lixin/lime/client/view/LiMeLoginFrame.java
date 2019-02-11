@@ -69,9 +69,10 @@ public class LiMeLoginFrame extends JFrame {
 
         buttonRegister = new JButton("注册账号");
         buttonRegister.setForeground(new Color(7, 73, 217));
-        buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
         buttonRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonRegister.setBounds(373, 111, 80, 29);
+        buttonRegister.setBounds(363, 111, 100, 29);
+        buttonRegister.setBorderPainted(false);
+        buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
         contentPane.add(buttonRegister);
 
         JLabel labelPassword = new JLabel("密码");
@@ -88,15 +89,16 @@ public class LiMeLoginFrame extends JFrame {
 
         buttonFindPassword = new JButton("找回密码");
         buttonFindPassword.setForeground(new Color(7, 73, 217));
-        buttonFindPassword.setActionCommand(ACTION_LOGIN_FIND_PASSWORD);
-        buttonFindPassword.setBounds(373, 165, 80, 29);
+        buttonFindPassword.setBounds(363, 165, 100, 29);
+        buttonFindPassword.setBorderPainted(false);
+        buttonFindPassword.setActionCommand(ACTION_LOGIN_FORGOT_PASSWORD);
         contentPane.add(buttonFindPassword);
 
         buttonLogin = new JButton("Login Now!");
         buttonLogin.setForeground(new Color(153, 50, 204));
-        buttonLogin.setActionCommand(ACTION_LOGIN_LOGIN);
         buttonLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         buttonLogin.setBounds(119, 210, 242, 42);
+        buttonLogin.setActionCommand(ACTION_LOGIN_LOGIN);
         contentPane.add(buttonLogin);
 
         checkboxSavePassword = new JCheckBox("保存密码");
