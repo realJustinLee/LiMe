@@ -149,7 +149,7 @@ public class LiMeServerModel implements Runnable {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE `users` SET `password` = ? WHERE `username` = ?;");
-            preparedStatement.setString(1, password);
+            preparedStatement.setString(1, encrypt(password));
             preparedStatement.setString(2, username);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
