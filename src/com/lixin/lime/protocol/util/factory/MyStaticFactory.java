@@ -21,10 +21,11 @@ public class MyStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Lixin";
     public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.5.1";
+    public static final String THE_LIME_VERSION = "C_v 0.5.2";
+
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.5.1";
+    public static final String THE_SERVER_VERSION = "S_v 0.5.2";
 
     /**
      * The Actions
@@ -180,10 +181,16 @@ public class MyStaticFactory {
     }
 
     public static String generatePassword() {
-        int length = new Random().nextInt(11) + 20;
+        String codePool = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        int cpl = codePool.length();
+        int length = (new Random().nextInt(4) + 2) * 6 - 1;
         char[] buffer = new char[length];
         for (int i = 0; i < length; i++) {
-            buffer[i] = (char) (new Random().nextInt(94) + 33);
+            if ((i + 1) % 6 == 0) {
+                buffer[i] = '-';
+            } else {
+                buffer[i] = codePool.charAt(new Random().nextInt(cpl));
+            }
         }
         return String.valueOf(buffer);
     }

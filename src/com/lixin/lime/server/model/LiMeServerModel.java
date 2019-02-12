@@ -90,7 +90,7 @@ public class LiMeServerModel implements Runnable {
     public void ban(String username) {
         // email user that he/she is banned
         String subject = "Account Banned!";
-        String content = "Your account: " + username + " is permanently banned, due to violation of multiple agreements";
+        String content = "Your account: " + username + " is permanently banned, due to violation of multiple agreements!";
         emailUser(username, subject, content);
         // Ban User to Database[MySql Server]
         try {
@@ -130,13 +130,18 @@ public class LiMeServerModel implements Runnable {
     private boolean register(User user) {
         // Register User to Database[MySql Server]
         try {
+            String username = user.getUsername();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO `users`(`username`, `password`, `gender`, `email`) VALUES (?, ?, ?, ?);");
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, username);
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getGender());
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.executeUpdate();
+            String subject = "LiMe Register Success!";
+            String content = "Congratulations, " + username + "!\n" +
+                    "You are new a new LiMe user now!";
+            emailUser(username, subject, content);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -171,6 +171,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             limeWarning("请输入用户名");
         } else {
             model.sendRequestForgotPassword(username);
+            limeWarning("一封密码重置邮件已发送至您预留的邮箱，请查收");
         }
     }
 
