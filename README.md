@@ -27,8 +27,7 @@ The Li Xin Messenger
 
 ## Platform compatibility: 
 - macOS
-> If you would like to use it with windows, you should clone this repo and rebuild it with windows
-
+> If you would like to use it with windows, you should clone this repo and rebuild it with windows.
 
 ## The Server GUI
 ![](./ScreenShots/LiMeServer.png)
@@ -65,8 +64,18 @@ The Chat GUI of user @test
 ## Data persistence
 
 MySQL table structure
-
 ![](./ScreenShots/TableStructure.png)
+
+## Emails you might get from the server
+
+Registration Confirmation
+![](./ScreenShots/EmailCfmReg.png)
+
+Banned Notification
+![](./ScreenShots/EmailNtfBan.png)
+
+Password Reset
+![](./ScreenShots/EmailRstPwd.png)
 
 ## TODO
 - [ ] Gradle the project
@@ -83,4 +92,3 @@ MySQL table structure
 - [x] Blur Agreement Frame
 - [x] HTML parsing and rendering
 - [x] Version number increase
-
