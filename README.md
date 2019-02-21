@@ -10,7 +10,7 @@ The Li Xin Messenger
 
 ```
  _______________________
-/    Finally, v_0.6!    \
+/    Finally, v0.6.0!   \
 |  _     _ __  __       |
 | | |   (_)  \/  | ___  |
 | | |   | | |\/| |/ _ \ |
@@ -50,7 +50,7 @@ The User Agreement (HTML parsing)
 The Chat GUI of user @lixin, the friend list is on the left side of the panel
 ![](./ScreenShots/LiMeChatLixin.png)
 
-The Chat GUI of user @Test
+The Chat GUI of user @test
 
 ![](./ScreenShots/LiMeChatTest.png)
 
