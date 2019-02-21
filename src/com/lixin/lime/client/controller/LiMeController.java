@@ -19,6 +19,7 @@ import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static com.lixin.lime.protocol.seed.LiMeSeed.LIME_GROUP_CHAT;
 import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 
 /**
@@ -65,7 +66,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     private void initialize() {
         // 测试版本
         try {
-            model = new LiMeModel(HOST, PORT, this);
+            model = new LiMeModel(HOST, PORT, this, this);
             initLoginFrame();
             model.connectToServer();
         } catch (LiMeException e) {
@@ -93,6 +94,11 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         chatFrame.getButtonLogout().addActionListener(this);
         chatFrame.getButtonSendFile().addActionListener(this);
         chatFrame.getButtonSendMessage().addActionListener(this);
+
+        HashMap<String, String> history = chatFrame.getHistory();
+        history.put(LIME_GROUP_CHAT, "");
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
     }
 
     private void encryptAndWriteToFile(File file, String username, String password) {
@@ -324,6 +330,9 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         }
         // Remove ex-friends from oldList
         for (String friend : friendList) {
+            if (friend.equals(LIME_GROUP_CHAT)) {
+                continue;
+            }
             if (!newFriendList.contains(friend)) {
                 history.remove(friend);
             }
@@ -382,7 +391,17 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     }
 
     @Override
-    public void newGroupChat(String sender, String time, String message) {
-
+    public void newGroupChat(LiMeSeed seed) {
+        if (seed.getSender().equals(username)) {
+            return;
+        }
+        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
+        String message = seedMessage.getMessage();
+        String time = seedMessage.getTime();
+        HashMap<String, String> history = chatFrame.getHistory();
+        String msgLog = history.get(LIME_GROUP_CHAT) + "< " + seed.getSender() + " > | < " + time + " >\n" + message + "\n\n";
+        history.put(LIME_GROUP_CHAT, msgLog);
+        // Update UI from history
+        chatFrame.updateTextAreaHistory();
     }
 }

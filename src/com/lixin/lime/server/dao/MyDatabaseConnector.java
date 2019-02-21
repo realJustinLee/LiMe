@@ -13,7 +13,7 @@ public class MyDatabaseConnector {
     private Statement statement;
     private ResultSet resultSet;
 
-    public MyDatabaseConnector(String host, int port, String database, String username, String password) {
+    public MyDatabaseConnector(String host, int port, String database, String username, String password) throws SQLException {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?" + "User=" + username +
                 "&password=" + password + "&useUnicode=true&characterEncoding=UTF8&useSSL=true" +
                 "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -25,10 +25,6 @@ public class MyDatabaseConnector {
             }
         } catch (ClassNotFoundException e) {
             System.err.println("Database driver loading failure.");
-            e.printStackTrace();
-            System.exit(0);
-        } catch (SQLException e) {
-            System.err.println("Database connection failure.");
             e.printStackTrace();
             System.exit(0);
         }

@@ -4,6 +4,7 @@ import com.lixin.lime.protocol.datastructure.LiMeStalk;
 import com.lixin.lime.protocol.entity.User;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.server.controller.LiMeServerFarmer;
+import com.lixin.lime.server.controller.LiMeServerKnight;
 import com.lixin.lime.server.dao.MyDatabaseConnector;
 import com.lixin.lime.server.mailbox.LiMeServerMailBox;
 import com.lixin.lime.server.mailbox.MailAccountAliYun;
@@ -33,15 +34,16 @@ import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
 public class LiMeServerModel implements Runnable {
     private HashMap<String, LiMeStalk> limeHub;
     private LiMeServerFarmer serverFarmer;
-    private MyDatabaseConnector databaseConnector;
+    private LiMeServerKnight serverKnight;
     private Connection connection;
     private LiMeServerMailBox mailBox;
 
     private ExecutorService cachedThreadPool;
 
-    public LiMeServerModel(LiMeServerFarmer serverFarmer) {
+    public LiMeServerModel(LiMeServerFarmer serverFarmer, LiMeServerKnight serverKnight) {
         limeHub = new HashMap<>();
         this.serverFarmer = serverFarmer;
+        this.serverKnight = serverKnight;
 
         cachedThreadPool = Executors.newCachedThreadPool();
     }
@@ -49,13 +51,13 @@ public class LiMeServerModel implements Runnable {
     @Override
     public void run() {
         // init sql
-        databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
-        connection = databaseConnector.getConnection();
-        mailBox = new LiMeServerMailBox(
-                new MailAccountAliYun(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
-        );
-        // init socket
         try {
+            MyDatabaseConnector databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
+            connection = databaseConnector.getConnection();
+            mailBox = new LiMeServerMailBox(
+                    new MailAccountAliYun(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
+            );
+            // init socket
             ServerSocket serverSock = new ServerSocket(PORT);
             while (true) {
                 try {
@@ -70,6 +72,10 @@ public class LiMeServerModel implements Runnable {
                     ex.printStackTrace();
                 }
             }
+        } catch (SQLException e) {
+            System.err.println("Database connection failure.");
+            e.printStackTrace();
+            limeInternalError(this.getClass().getCanonicalName(), THE_SERVER_BRAND + "连不上数据库");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,9 +118,14 @@ public class LiMeServerModel implements Runnable {
     private boolean verify(User user) {
         // Verify Login from Database[MySql Server]
         try {
+            String username = user.getUsername();
+            // 不可与系统服务重名
+            if (username.equals(LIME_GROUP_CHAT)) {
+                return false;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT `password` FROM `users` WHERE `username` = ? AND `banned` = FALSE;");
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getString(1).equals(user.getPassword());
@@ -131,6 +142,10 @@ public class LiMeServerModel implements Runnable {
         // Register User to Database[MySql Server]
         try {
             String username = user.getUsername();
+            // 不可与系统服务重名
+            if (username.equals(LIME_GROUP_CHAT)) {
+                return false;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO `users`(`username`, `password`, `gender`, `email`) VALUES (?, ?, ?, ?);");
             preparedStatement.setString(1, username);
@@ -140,7 +155,7 @@ public class LiMeServerModel implements Runnable {
             preparedStatement.executeUpdate();
             String subject = "LiMe Register Success!";
             String content = "Congratulations, " + username + "!\n" +
-                    "You are new a new LiMe user now!";
+                    "You are a nobel LiMe user now!";
             emailUser(username, subject, content);
             return true;
         } catch (SQLException e) {
@@ -152,6 +167,10 @@ public class LiMeServerModel implements Runnable {
     private void resetPassword(String username, String password) {
         // Update User's Password to Database[MySql Server]
         try {
+            // 不可与系统服务重名
+            if (username.equals(LIME_GROUP_CHAT)) {
+                return;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE `users` SET `password` = ? WHERE `username` = ?;");
             preparedStatement.setString(1, encrypt(password));
@@ -249,9 +268,20 @@ public class LiMeServerModel implements Runnable {
                     switch (action) {
                         case MESSAGE:
                             LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-                            LiMeStalk receiverStalk = limeHub.get(seedMessage.getReceiver());
-                            receiverStalk.getOos().writeObject(seedMessage);
-                            receiverStalk.getOos().flush();
+                            String receiver = seedMessage.getReceiver();
+                            if (!receiver.equals(LIME_GROUP_CHAT)) {
+                                LiMeStalk receiverStalk = limeHub.get(receiver);
+                                receiverStalk.getOos().writeObject(seedMessage);
+                                receiverStalk.getOos().flush();
+                            } else {
+                                // 群发功能
+                                for (LiMeStalk stalk : limeHub.values()) {
+                                    stalk.getOos().writeObject(seedMessage);
+                                    stalk.getOos().flush();
+                                }
+                                // Log Group Chat History
+                                serverKnight.newChatHistory(seed);
+                            }
                             // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
                             break;
                         case LOGIN:
@@ -302,9 +332,16 @@ public class LiMeServerModel implements Runnable {
                         case FILE:
                             // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
                             LiMeSeedFile seedFile = (LiMeSeedFile) seed;
-                            LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
-                            limeStalk.getOos().writeObject(seedFile);
-                            limeStalk.getOos().flush();
+
+                            String fileReceiver = seedFile.getReceiver();
+                            if (!fileReceiver.equals(LIME_GROUP_CHAT)) {
+                                LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
+                                limeStalk.getOos().writeObject(seedFile);
+                                limeStalk.getOos().flush();
+                            } else {
+                                // TODO: 下个版本允许群发文件
+                                System.out.println("Group File Request");
+                            }
                             break;
                         case FORGOT_PASSWORD:
                             LiMeSeedRequest liMeSeedRequest = (LiMeSeedRequest) seed;

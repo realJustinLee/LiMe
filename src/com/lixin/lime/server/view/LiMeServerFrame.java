@@ -40,7 +40,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
     public LiMeServerFrame() {
         setResizable(false);
         setTitle(THE_SERVER_TITLE);
-        setBounds(300, 140, 1080, 720);
+        setBounds(200, 140, 1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -113,7 +113,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         labelLog.setHorizontalAlignment(SwingConstants.CENTER);
         labelLog.setForeground(new Color(154, 154, 154));
         labelLog.setFont(new Font("Harry P", Font.PLAIN, 99));
-        labelLog.setBounds(342, 6, 397, 100);
+        labelLog.setBounds(342, 6, 417, 100);
         contentPane.add(labelLog);
 
         textAreaLog = new JTextArea();
@@ -123,28 +123,26 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         textAreaLog.setEditable(false);
         JScrollPane scrollPaneLog = new JScrollPane(textAreaLog);
         scrollPaneLog.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPaneLog.setPreferredSize(new Dimension(832, 430));
-        scrollPaneLog.setMinimumSize(new Dimension(832, 150));
-        scrollPaneLog.setBounds(342, 119, 397, 506);
+        scrollPaneLog.setBounds(342, 119, 417, 506);
         contentPane.add(scrollPaneLog);
 
         buttonClearLog = new JButton("清空 Log");
         buttonClearLog.setEnabled(false);
         buttonClearLog.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonClearLog.setBounds(342, 635, 397, 29);
+        buttonClearLog.setBounds(342, 635, 417, 29);
         buttonClearLog.setActionCommand(SERVER_ACTION_CLEAR_LOG);
         contentPane.add(buttonClearLog);
 
         JSeparator separatorRight = new JSeparator();
         separatorRight.setOrientation(SwingConstants.VERTICAL);
-        separatorRight.setBounds(751, 6, 12, 658);
+        separatorRight.setBounds(771, 6, 12, 658);
         contentPane.add(separatorRight);
 
         labelHistory = new JLabel("Chat Log");
         labelHistory.setHorizontalAlignment(SwingConstants.CENTER);
         labelHistory.setForeground(new Color(154, 154, 154));
         labelHistory.setFont(new Font("Harry P", Font.PLAIN, 99));
-        labelHistory.setBounds(775, 6, 300, 100);
+        labelHistory.setBounds(795, 6, 480, 100);
         contentPane.add(labelHistory);
 
         textAreaHistory = new JTextArea();
@@ -153,21 +151,19 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         textAreaHistory.setEditable(false);
         JScrollPane scrollPaneGroup = new JScrollPane(textAreaHistory);
         scrollPaneGroup.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPaneGroup.setPreferredSize(new Dimension(832, 430));
-        scrollPaneGroup.setMinimumSize(new Dimension(832, 150));
-        scrollPaneGroup.setBounds(775, 119, 300, 505);
+        scrollPaneGroup.setBounds(795, 119, 480, 505);
         contentPane.add(scrollPaneGroup);
 
         buttonClearHistory = new JButton("清空群聊记录");
         buttonClearHistory.setEnabled(false);
         buttonClearHistory.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonClearHistory.setBounds(775, 635, 300, 29);
+        buttonClearHistory.setBounds(795, 635, 480, 29);
         buttonClearHistory.setActionCommand(SERVER_ACTION_CLEAR_HISTORY);
         contentPane.add(buttonClearHistory);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
         labelCopyright.setForeground(new Color(154, 154, 154));
-        labelCopyright.setBounds(392, 676, 296, 16);
+        labelCopyright.setBounds(492, 676, 296, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(

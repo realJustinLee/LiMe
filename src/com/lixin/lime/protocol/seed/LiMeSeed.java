@@ -51,6 +51,7 @@ public class LiMeSeed implements Serializable {
     public static final int STATUS_LOGIN_SUCCESS = 9;
     public static final int STATUS_REGISTER_SUCCESS = 10;
 
+    public static final String LIME_GROUP_CHAT = "[ LiMe Group Chat ]";
 
     private int action;
     private String sender;

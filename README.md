@@ -5,12 +5,12 @@ LiMe is a communication app which allows you to send messages whenever and where
 The Li Xin Messenger
 
 ## Version
-- C_v 0.5
-- S_v 0.5
+- C_v 0.6.0
+- S_v 0.6.0
 
 ```
  _______________________
-/    Finally, v_0.5!    \
+/    Finally, v_0.6!    \
 |  _     _ __  __       |
 | | |   (_)  \/  | ___  |
 | | |   | | |\/| |/ _ \ |
@@ -43,28 +43,38 @@ The Register GUI
 
 ![](./ScreenShots/LiMeRegister.png)
 
-The Chat GUI of user @Lixin, the friend list is on the left side of the panel
+The User Agreement (HTML parsing)
+
+![](./ScreenShots/LiMeAgreement.png)
+
+The Chat GUI of user @lixin, the friend list is on the left side of the panel
 ![](./ScreenShots/LiMeChatLixin.png)
 
 The Chat GUI of user @Test
 
 ![](./ScreenShots/LiMeChatTest.png)
 
-## The File Transmission
+### The Group Chat
 
-![](./ScreenShots/LiMeChatFile.png)
+![](./ScreenShots/LiMeChatTest.png)
 
-## Data persistence and user management
+### The File Transmission
 
-MySQL
+![](./ScreenShots/LiMeGroupChat.png)
+
+## Data persistence
+
+MySQL table structure
+
+![](./ScreenShots/TableStructure.png)
 
 ## TODO
 - [ ] Gradle the project
 - [ ] Use HTML to render the email content
 - [ ] Use hibernate or Mybatis as a persistence framework
 - [ ] The process bar for the file transmission
-- [ ] Open group chat for all users
 - [ ] A fancy website for LiMe
+- [X] Open group chat for all users
 - [x] Enable user to reset password via a server-sent Email
 - [x] Redirect LiMe to the new domain name
 - [x] Email is should be a unique key (LiMeSeedRecoverPassword)

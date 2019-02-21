@@ -1,6 +1,7 @@
 package com.lixin.lime.client.model;
 
 import com.lixin.lime.client.controller.LiMeFarmer;
+import com.lixin.lime.client.controller.LiMeKnight;
 import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
@@ -23,6 +24,7 @@ public class LiMeModel {
     private String host;
     private int port;
     private LiMeFarmer farmer;
+    private LiMeKnight knight;
 
     private Socket socket;
     private ObjectOutputStream oos;
@@ -38,10 +40,11 @@ public class LiMeModel {
     private ExecutorService cachedThreadPool;
     private LiMeExceptionFactory exceptionFactory;
 
-    public LiMeModel(String host, int port, LiMeFarmer farmer) {
+    public LiMeModel(String host, int port, LiMeFarmer farmer, LiMeKnight knight) {
         this.host = host;
         this.port = port;
         this.farmer = farmer;
+        this.knight = knight;
         cachedThreadPool = Executors.newCachedThreadPool();
         exceptionFactory = new LiMeExceptionFactory();
     }
@@ -147,7 +150,11 @@ public class LiMeModel {
                             // 被踢
                             throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
                         case MESSAGE:
-                            farmer.newLiMeMessage(seed);
+                            if (seed.getReceiver().equals(LIME_GROUP_CHAT)) {
+                                knight.newGroupChat(seed);
+                            } else {
+                                farmer.newLiMeMessage(seed);
+                            }
                             break;
                         case FRIENDS_UPDATE:
                             farmer.newFriendList(seed);

@@ -1,5 +1,6 @@
 package com.lixin.lime.server.controller;
 
+import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.server.view.LiMeServerFrame;
 import com.lixin.lime.server.model.LiMeServerModel;
 
@@ -35,7 +36,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
      */
     private void initialize() {
         initServerFrame();
-        serverModel = new LiMeServerModel(this);
+        serverModel = new LiMeServerModel(this, this);
         cachedThreadPool = Executors.newCachedThreadPool();
     }
 
@@ -112,8 +113,8 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     }
 
     @Override
-    public void newChatHistory(String sender, String time, String message) {
-        serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n");
+    public void newChatHistory(LiMeSeed seed) {
+        serverFrame.appendHistory("< " + seed.getSender() + " > | < " + seed.getTime() + " >\n" + seed.getMessage() + "\n\n");
     }
 }
 

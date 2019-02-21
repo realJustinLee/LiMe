@@ -20,12 +20,12 @@ public class MyStaticFactory {
     public static final String THE_TITLE = "Lixin Messenger";
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Lixin";
-    public static final String THE_COPYRIGHT = "™ and © 2015-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.5.2";
+    public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
+    public static final String THE_LIME_VERSION = "C_v 0.6.0";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.5.2";
+    public static final String THE_SERVER_VERSION = "S_v 0.6.0";
 
     /**
      * The Actions
