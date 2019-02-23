@@ -62,7 +62,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStart = new JButton("START");
         buttonStart.setForeground(new Color(73, 156, 84));
         buttonStart.setFont(new Font("Harry P", Font.PLAIN, 24));
-        buttonStart.setBounds(194, 13, 117, 36);
+        buttonStart.setBounds(206, 13, 117, 36);
         buttonStart.setActionCommand(SERVER_ACTION_START);
         buttonStart.addActionListener(this);
         contentPane.add(buttonStart);
@@ -71,7 +71,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setEnabled(false);
         buttonStop.setForeground(new Color(199, 84, 80));
         buttonStop.setFont(new Font("Harry P", Font.PLAIN, 24));
-        buttonStop.setBounds(194, 61, 117, 36);
+        buttonStop.setBounds(206, 61, 117, 36);
         buttonStop.setActionCommand(SERVER_ACTION_STOP);
         buttonStop.addActionListener(this);
         contentPane.add(buttonStop);
@@ -87,33 +87,33 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         JScrollPane scrollPaneLimes = new JScrollPane(listLimes);
         scrollPaneLimes.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneLimes.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPaneLimes.setBounds(6, 118, 300, 505);
+        scrollPaneLimes.setBounds(6, 118, 317, 500);
         contentPane.add(scrollPaneLimes);
 
         buttonKick = new JButton("踢人");
         buttonKick.setEnabled(false);
         buttonKick.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonKick.setBounds(6, 635, 145, 29);
+        buttonKick.setBounds(6, 635, 155, 29);
         buttonKick.setActionCommand(SERVER_ACTION_KICK);
         contentPane.add(buttonKick);
 
         buttonBan = new JButton("封号");
         buttonBan.setEnabled(false);
         buttonBan.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonBan.setBounds(161, 635, 145, 29);
+        buttonBan.setBounds(168, 635, 155, 29);
         buttonBan.setActionCommand(SERVER_ACTION_BAN);
         contentPane.add(buttonBan);
 
         JSeparator separatorLeft = new JSeparator();
         separatorLeft.setOrientation(SwingConstants.VERTICAL);
-        separatorLeft.setBounds(318, 6, 12, 658);
+        separatorLeft.setBounds(335, 6, 12, 658);
         contentPane.add(separatorLeft);
 
         labelLog = new JLabel("Server Log");
         labelLog.setHorizontalAlignment(SwingConstants.CENTER);
         labelLog.setForeground(new Color(154, 154, 154));
         labelLog.setFont(new Font("Harry P", Font.PLAIN, 99));
-        labelLog.setBounds(342, 6, 417, 100);
+        labelLog.setBounds(359, 6, 400, 100);
         contentPane.add(labelLog);
 
         textAreaLog = new JTextArea();
@@ -123,13 +123,13 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         textAreaLog.setEditable(false);
         JScrollPane scrollPaneLog = new JScrollPane(textAreaLog);
         scrollPaneLog.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPaneLog.setBounds(342, 119, 417, 506);
+        scrollPaneLog.setBounds(359, 120, 400, 500);
         contentPane.add(scrollPaneLog);
 
         buttonClearLog = new JButton("清空 Log");
         buttonClearLog.setEnabled(false);
         buttonClearLog.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonClearLog.setBounds(342, 635, 417, 29);
+        buttonClearLog.setBounds(359, 635, 400, 29);
         buttonClearLog.setActionCommand(SERVER_ACTION_CLEAR_LOG);
         contentPane.add(buttonClearLog);
 
@@ -162,8 +162,9 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         contentPane.add(buttonClearHistory);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setHorizontalAlignment(SwingConstants.CENTER);
         labelCopyright.setForeground(new Color(154, 154, 154));
-        labelCopyright.setBounds(492, 676, 296, 16);
+        labelCopyright.setBounds(0, 676, 1280, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(

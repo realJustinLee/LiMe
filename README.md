@@ -5,12 +5,12 @@ LiMe is a communication app which allows you to send messages whenever and where
 The Li Xin Messenger
 
 ## Version
-- C_v 0.6.1
-- S_v 0.6.1
+- C_v 0.6.2
+- S_v 0.6.2
 
 ```
  _______________________
-/    Finally, v0.6.1!   \
+/    Finally, v0.6.2!   \
 |  _     _ __  __       |
 | | |   (_)  \/  | ___  |
 | | |   | | |\/| |/ _ \ |
@@ -55,11 +55,11 @@ The Chat GUI of user @test
 
 ### The Group Chat
 
-![](./ScreenShots/LiMeChatTest.png)
+![](./ScreenShots/LiMeGroupChat.png)
 
 ### The File Transmission
 
-![](./ScreenShots/LiMeGroupChat.png)
+![](./ScreenShots/LiMeChatFile.png)
 
 ## Data persistence
 

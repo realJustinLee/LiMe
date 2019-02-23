@@ -45,17 +45,19 @@ public class LiMeLoginFrame extends JFrame {
                 showCopyright();
             }
         });
+        labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
         labelTitle.setForeground(new Color(153, 50, 204));
         labelTitle.setFont(new Font("Harry P", Font.BOLD, 50));
-        labelTitle.setBounds(119, 30, 242, 60);
+        labelTitle.setBounds(0, 30, 480, 60);
         contentPane.add(labelTitle);
 
         JLabel labelVersion = new JLabel(THE_LIME_VERSION);
         labelVersion.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        labelVersion.setBounds(350, 63, 61, 16);
+        labelVersion.setBounds(350, 65, 61, 16);
         contentPane.add(labelVersion);
 
         JLabel labelUsername = new JLabel("用户名");
+        labelUsername.setHorizontalAlignment(SwingConstants.RIGHT);
         labelUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         labelUsername.setBounds(53, 101, 54, 42);
         contentPane.add(labelUsername);
@@ -70,14 +72,15 @@ public class LiMeLoginFrame extends JFrame {
         buttonRegister = new JButton("注册账号");
         buttonRegister.setForeground(new Color(7, 73, 217));
         buttonRegister.setFont(new Font("PingFang SC", Font.PLAIN, 13));
-        buttonRegister.setBounds(363, 111, 100, 29);
+        buttonRegister.setBounds(350, 111, 100, 29);
         buttonRegister.setBorderPainted(false);
         buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
         contentPane.add(buttonRegister);
 
         JLabel labelPassword = new JLabel("密码");
+        labelPassword.setHorizontalAlignment(SwingConstants.RIGHT);
         labelPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        labelPassword.setBounds(71, 155, 36, 42);
+        labelPassword.setBounds(53, 155, 54, 42);
         contentPane.add(labelPassword);
 
         passwordField = new JPasswordField();
@@ -89,7 +92,7 @@ public class LiMeLoginFrame extends JFrame {
 
         buttonFindPassword = new JButton("找回密码");
         buttonFindPassword.setForeground(new Color(7, 73, 217));
-        buttonFindPassword.setBounds(363, 165, 100, 29);
+        buttonFindPassword.setBounds(350, 165, 100, 29);
         buttonFindPassword.setBorderPainted(false);
         buttonFindPassword.setActionCommand(ACTION_LOGIN_FORGOT_PASSWORD);
         contentPane.add(buttonFindPassword);
@@ -108,8 +111,9 @@ public class LiMeLoginFrame extends JFrame {
         contentPane.add(checkboxSavePassword);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setHorizontalAlignment(SwingConstants.CENTER);
         labelCopyright.setForeground(new Color(154, 154, 154));
-        labelCopyright.setBounds(92, 316, 296, 16);
+        labelCopyright.setBounds(0, 316, 480, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(

@@ -48,12 +48,14 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 showCopyright();
             }
         });
+        labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
         labelTitle.setForeground(new Color(153, 50, 204));
         labelTitle.setFont(new Font("Harry P", Font.BOLD, 50));
-        labelTitle.setBounds(119, 30, 242, 60);
+        labelTitle.setBounds(0, 30, 480, 60);
         contentPane.add(labelTitle);
 
         JLabel labelUsername = new JLabel("用户名");
+        labelUsername.setHorizontalAlignment(SwingConstants.RIGHT);
         labelUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         labelUsername.setBounds(53, 129, 54, 42);
         contentPane.add(labelUsername);
@@ -66,8 +68,9 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(textFieldUsername);
 
         JLabel labelPassword = new JLabel("密码");
+        labelPassword.setHorizontalAlignment(SwingConstants.RIGHT);
         labelPassword.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        labelPassword.setBounds(71, 183, 36, 42);
+        labelPassword.setBounds(53, 183, 54, 42);
         contentPane.add(labelPassword);
 
         passwordField = new JPasswordField();
@@ -78,8 +81,9 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(passwordField);
 
         JLabel labelGender = new JLabel("性别");
+        labelGender.setHorizontalAlignment(SwingConstants.RIGHT);
         labelGender.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        labelGender.setBounds(71, 237, 36, 42);
+        labelGender.setBounds(53, 237, 54, 42);
         contentPane.add(labelGender);
 
         toggleButtonGender = new JToggleButton("男");
@@ -94,8 +98,9 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         contentPane.add(checkboxAgree);
 
         JLabel labelEmail = new JLabel("Email");
+        labelEmail.setHorizontalAlignment(SwingConstants.RIGHT);
         labelEmail.setFont(new Font("PingFang SC", Font.PLAIN, 18));
-        labelEmail.setBounds(62, 291, 45, 42);
+        labelEmail.setBounds(53, 291, 54, 42);
         contentPane.add(labelEmail);
 
         textFieldEmail = new JTextField();
@@ -137,14 +142,16 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 showHomepage();
             }
         });
+        labelBrand.setHorizontalAlignment(SwingConstants.CENTER);
         labelBrand.setForeground(new Color(154, 154, 154));
         labelBrand.setFont(new Font("Harry P", Font.BOLD, 99));
-        labelBrand.setBounds(157, 444, 166, 100);
+        labelBrand.setBounds(0, 430, 480, 100);
         contentPane.add(labelBrand);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setHorizontalAlignment(SwingConstants.CENTER);
         labelCopyright.setForeground(new Color(154, 154, 154));
-        labelCopyright.setBounds(92, 556, 296, 16);
+        labelCopyright.setBounds(0, 556, 480, 16);
         contentPane.add(labelCopyright);
 
         setFocusTraversalPolicy(

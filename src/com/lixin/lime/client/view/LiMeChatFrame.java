@@ -45,17 +45,19 @@ public class LiMeChatFrame extends JFrame {
         contentPane.setLayout(null);
 
         JLabel labelTitle = new JLabel(THE_TITLE);
+        labelTitle.setHorizontalAlignment(SwingConstants.LEFT);
         labelTitle.setForeground(new Color(153, 50, 204));
         labelTitle.setFont(new Font("Harry P", Font.BOLD, 50));
         labelTitle.setBounds(6, 5, 242, 60);
         contentPane.add(labelTitle);
 
         JLabel labelUsername = new JLabel("用户名");
+        labelUsername.setHorizontalAlignment(SwingConstants.RIGHT);
         labelUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         labelUsername.setBounds(705, 24, 54, 42);
         contentPane.add(labelUsername);
 
-        JTextField textFieldUsername = new JTextField("@" + username);
+        JTextField textFieldUsername = new JTextField(" @" + username);
         textFieldUsername.setEnabled(false);
         textFieldUsername.setEditable(false);
         textFieldUsername.setFont(new Font("PingFang SC", Font.PLAIN, 18));
@@ -122,8 +124,9 @@ public class LiMeChatFrame extends JFrame {
         contentPane.add(buttonSendMessage);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
+        labelCopyright.setHorizontalAlignment(SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(154, 154, 154));
-        labelCopyright.setBounds(242, 676, 296, 16);
+        labelCopyright.setBounds(242, 676, 320, 16);
         contentPane.add(labelCopyright);
 
         // FIXME: 在 textArea 监听不到 Tab 键

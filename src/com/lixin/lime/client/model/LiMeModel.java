@@ -49,7 +49,7 @@ public class LiMeModel {
         exceptionFactory = new LiMeExceptionFactory();
     }
 
-    public void connectToServer() throws LiMeException {
+    public synchronized void connectToServer() throws LiMeException {
         try {
             socket = new Socket(host, port);
             oos = new ObjectOutputStream(socket.getOutputStream());
@@ -59,13 +59,13 @@ public class LiMeModel {
         }
     }
 
-    public boolean login(String username, String password) throws LiMeException {
+    public synchronized boolean login(String username, String password) throws LiMeException {
         screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, encrypt(password))), STATUS_LOGIN_SUCCESS);
         cachedThreadPool.execute(new SeedGrinder());
         return true;
     }
 
-    public boolean register(String username, String password, String gender, String email) throws LiMeException {
+    public synchronized boolean register(String username, String password, String gender, String email) throws LiMeException {
         screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, encrypt(password), gender, email)), STATUS_REGISTER_SUCCESS);
         return true;
     }
@@ -89,7 +89,7 @@ public class LiMeModel {
         sendSeed(new LiMeSeedMessage(sender, receiver, encryptedMessage, encryptedTime));
     }
 
-    public void sendFile(String sender, String receiver, File file) throws LiMeException {
+    public synchronized void sendFile(String sender, String receiver, File file) throws LiMeException {
         // 通过服务器传文件
         sendSeed(new LiMeSeedFile(sender, receiver, file));
 
@@ -101,7 +101,7 @@ public class LiMeModel {
         // TODO: code here
     }
 
-    public void sendRequestForgotPassword(String sender) throws LiMeException {
+    public synchronized void sendRequestForgotPassword(String sender) throws LiMeException {
         sendSeed(new LiMeSeedRequest(FORGOT_PASSWORD, sender, null));
     }
 
@@ -115,7 +115,7 @@ public class LiMeModel {
         }
     }
 
-    private LiMeSeed sendAndGetSeed(LiMeSeed seed) throws LiMeException {
+    private synchronized LiMeSeed sendAndGetSeed(LiMeSeed seed) throws LiMeException {
         try {
             oos.writeObject(seed);
             oos.flush();
@@ -126,7 +126,7 @@ public class LiMeModel {
         }
     }
 
-    private void screenSeed(LiMeSeed seed, int action) throws LiMeException {
+    private synchronized void screenSeed(LiMeSeed seed, int action) throws LiMeException {
         if (seed == null) {
             throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
         } else {
