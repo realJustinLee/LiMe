@@ -128,7 +128,7 @@ public class LiMeServerModel implements Runnable {
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString(1).equals(user.getPassword());
+                return resultSet.getString(1).equals(digest(user.getPassword()));
             } else {
                 return false;
             }
@@ -149,7 +149,7 @@ public class LiMeServerModel implements Runnable {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO `users`(`username`, `password`, `gender`, `email`) VALUES (?, ?, ?, ?);");
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(2, digest(user.getPassword()));
             preparedStatement.setString(3, user.getGender());
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.executeUpdate();
@@ -173,7 +173,7 @@ public class LiMeServerModel implements Runnable {
             }
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE `users` SET `password` = ? WHERE `username` = ?;");
-            preparedStatement.setString(1, encrypt(password));
+            preparedStatement.setString(1, digest(encrypt(password)));
             preparedStatement.setString(2, username);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -346,7 +346,7 @@ public class LiMeServerModel implements Runnable {
                         case FORGOT_PASSWORD:
                             LiMeSeedRequest liMeSeedRequest = (LiMeSeedRequest) seed;
                             username = liMeSeedRequest.getSender();
-                            resetPassword(username, generatePassword());
+                            resetPassword(username, generatePasswordAndKey());
                             break;
                         default:
                             limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));

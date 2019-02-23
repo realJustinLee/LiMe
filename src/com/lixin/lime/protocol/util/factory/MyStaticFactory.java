@@ -26,11 +26,11 @@ public class MyStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Lixin";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.6.0";
+    public static final String THE_LIME_VERSION = "C_v 0.6.1";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.6.0";
+    public static final String THE_SERVER_VERSION = "S_v 0.6.1";
 
     /**
      * The Actions
@@ -185,7 +185,7 @@ public class MyStaticFactory {
         sendEmailFromLiMe(STAFF_EMAIL);
     }
 
-    public static String generatePassword() {
+    public static String generatePasswordAndKey() {
         String codePool = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         int cpl = codePool.length();
         int length = (new Random().nextInt(4) + 2) * 6 - 1;
@@ -198,6 +198,17 @@ public class MyStaticFactory {
             }
         }
         return String.valueOf(buffer);
+    }
+
+    public static String digest(String content) {
+        try {
+            byte[] digestedBytes = MyMessageDigester.md5(content.getBytes(CHARSET));
+            Base64.Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(digestedBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public static String encrypt(String content) {

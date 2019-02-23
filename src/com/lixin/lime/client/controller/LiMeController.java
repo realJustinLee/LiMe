@@ -110,13 +110,18 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             FileWriter fileWriter = new FileWriter(file.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             boolean savePassword = loginFrame.savePassword();
-            String encryptedUsername = savePassword ? encrypt(username) : "";
-            String encryptedPassword = savePassword ? encrypt(password) : "";
-            bufferedWriter.write(savePassword ? "true" : "false");
-            bufferedWriter.write("\n");
-            bufferedWriter.write(encryptedUsername);
-            bufferedWriter.write("\n");
-            bufferedWriter.write(encryptedPassword);
+            if (savePassword) {
+                String randomKey = generatePasswordAndKey();
+                String encryptedKey = encrypt(randomKey);
+                String encryptedUsername = encrypt(username, randomKey);
+                String encryptedPassword = encrypt(password, randomKey);
+                bufferedWriter.write("true\n");
+                bufferedWriter.write(encryptedKey + "\n");
+                bufferedWriter.write(encryptedUsername + "\n");
+                bufferedWriter.write(encryptedPassword + "\n");
+            } else {
+                bufferedWriter.write("false\n");
+            }
             bufferedWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,13 +136,17 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             FileReader fileReader = new FileReader(file.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             boolean savePassword = "true".equals(bufferedReader.readLine());
-            String encryptedUsername = bufferedReader.readLine();
-            String encryptedPassword = bufferedReader.readLine();
-            username = encryptedUsername == null ? "" : decrypt(encryptedUsername);
-            password = encryptedPassword == null ? "" : decrypt(encryptedPassword);
+            if (savePassword) {
+                String encryptedKey = bufferedReader.readLine();
+                String encryptedUsername = bufferedReader.readLine();
+                String encryptedPassword = bufferedReader.readLine();
+                String randomKey = encryptedKey == null ? "" : decrypt(encryptedKey);
+                username = encryptedUsername == null ? "" : decrypt(encryptedUsername, randomKey);
+                password = encryptedPassword == null ? "" : decrypt(encryptedPassword, randomKey);
+                loginFrame.setUsername(username);
+                loginFrame.setPassword(password);
+            }
             loginFrame.savePassword(savePassword);
-            loginFrame.setUsername(username);
-            loginFrame.setPassword(password);
             bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -78,12 +78,13 @@ Password Reset
 ![](./ScreenShots/EmailRstPwd.png)
 
 ## TODO
-- [ ] Store the password on the server with MD5
 - [ ] Gradle the project
 - [ ] Use HTML to render the email content
 - [ ] Use hibernate or Mybatis as a persistence framework
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
+- [x] Store the password on the server with MD5
+- [x] Local password storage encrypted with AES using random key, random key stored with AES digested with MD5
 - [x] Transport the message with AES and keys digested with MD5
 - [X] Open group chat for all users
 - [x] Enable user to reset password via a server-sent Email
