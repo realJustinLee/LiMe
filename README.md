@@ -5,12 +5,12 @@ LiMe is a communication app which allows you to send messages whenever and where
 The Li Xin Messenger
 
 ## Version
-- C_v 0.6.0
-- S_v 0.6.0
+- C_v 0.6.1
+- S_v 0.6.1
 
 ```
  _______________________
-/    Finally, v0.6.0!   \
+/    Finally, v0.6.1!   \
 |  _     _ __  __       |
 | | |   (_)  \/  | ___  |
 | | |   | | |\/| |/ _ \ |
@@ -95,3 +95,12 @@ Password Reset
 - [x] Blur Agreement Frame
 - [x] HTML parsing and rendering
 - [x] Version number increase
+
+## Test Quote
+Fate Whispers To The Warrior,
+
+“You Cannot Withstand This Storm”
+
+And The Warrior Whispers Back,
+
+“I Am The Storm”
