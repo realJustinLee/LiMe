@@ -1,6 +1,7 @@
 package com.lixin.lime.server.controller;
 
 import com.lixin.lime.protocol.seed.LiMeSeed;
+import com.lixin.lime.protocol.seed.LiMeSeedMessage;
 import com.lixin.lime.server.view.LiMeServerFrame;
 import com.lixin.lime.server.model.LiMeServerModel;
 
@@ -114,7 +115,13 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
 
     @Override
     public void newChatHistory(LiMeSeed seed) {
-        serverFrame.appendHistory("< " + seed.getSender() + " > | < " + seed.getTime() + " >\n" + seed.getMessage() + "\n\n");
+        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
+        String sender = seedMessage.getSender();
+        String encryptedTime = seedMessage.getTime();
+        // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
+        String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
+        String time = decrypt(encryptedTime);
+        serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n\n");
     }
 }
 

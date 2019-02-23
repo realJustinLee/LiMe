@@ -1,11 +1,13 @@
 package com.lixin.lime.protocol.util.factory;
 
-import com.lixin.lime.protocol.util.crypto.AesCipher;
+import com.lixin.lime.protocol.util.crypto.MyAesCipher;
+import com.lixin.lime.protocol.util.crypto.MyMessageDigester;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -13,6 +15,9 @@ import java.util.Random;
  * @author lixin
  */
 public class MyStaticFactory {
+
+    public static final String CHARSET = "UTF-8";
+
     /**
      * The Strings
      * Name Format: THE_[Name]*
@@ -195,18 +200,44 @@ public class MyStaticFactory {
         return String.valueOf(buffer);
     }
 
-    public static String encrypt(String password) {
+    public static String encrypt(String content) {
         try {
-            return AesCipher.aesEncryptString(password, GOLDEN_KEY);
+            return MyAesCipher.aesEncryptString(content, GOLDEN_KEY);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
     }
 
-    public static String decrypt(String password) {
+    public static String encrypt(String content, String key) {
         try {
-            return AesCipher.aesDecryptString(password, GOLDEN_KEY);
+            byte[] contentBytes = content.getBytes(CHARSET);
+            byte[] digestedKeyBytes = MyMessageDigester.md5(key.getBytes(CHARSET));
+            byte[] encryptedBytes = MyAesCipher.aesEncryptBytes(contentBytes, digestedKeyBytes);
+            Base64.Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(encryptedBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String decrypt(String content) {
+        try {
+            return MyAesCipher.aesDecryptString(content, GOLDEN_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String decrypt(String content, String key) {
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] encryptedBytes = decoder.decode(content);
+            byte[] digestedKeyBytes = MyMessageDigester.md5(key.getBytes(CHARSET));
+            byte[] decryptedBytes = MyAesCipher.aesDecryptBytes(encryptedBytes, digestedKeyBytes);
+            return new String(decryptedBytes, CHARSET);
         } catch (Exception e) {
             e.printStackTrace();
             return "";

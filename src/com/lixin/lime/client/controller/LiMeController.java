@@ -304,11 +304,14 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     @Override
     public void newLiMeMessage(LiMeSeed seed) {
+
         LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
         // The sender here is the sender of the Message == the receiver in the ChatFrame
         String sender = seedMessage.getSender();
-        String message = seedMessage.getMessage();
-        String time = seedMessage.getTime();
+        String encryptedTime = seedMessage.getTime();
+        // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), receiver);
+        String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), username), sender), encryptedTime);
+        String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
         String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
         history.put(sender, msgLog);
@@ -392,14 +395,17 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     @Override
     public void newGroupChat(LiMeSeed seed) {
-        if (seed.getSender().equals(username)) {
+        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
+        if (seedMessage.getSender().equals(username)) {
             return;
         }
-        LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-        String message = seedMessage.getMessage();
-        String time = seedMessage.getTime();
+        String sender = seedMessage.getSender();
+        String encryptedTime = seedMessage.getTime();
+        // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
+        String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
+        String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(LIME_GROUP_CHAT) + "< " + seed.getSender() + " > | < " + time + " >\n" + message + "\n\n";
+        String msgLog = history.get(LIME_GROUP_CHAT) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
         history.put(LIME_GROUP_CHAT, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();

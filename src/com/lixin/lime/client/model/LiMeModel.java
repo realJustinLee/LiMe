@@ -84,7 +84,9 @@ public class LiMeModel {
     }
 
     public synchronized void sendMessage(String sender, String receiver, String message) throws LiMeException {
-        sendSeed(new LiMeSeedMessage(sender, receiver, message, getLiMeTime()));
+        String encryptedTime = encrypt(getLiMeTime());
+        String encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), receiver);
+        sendSeed(new LiMeSeedMessage(sender, receiver, encryptedMessage, encryptedTime));
     }
 
     public void sendFile(String sender, String receiver, File file) throws LiMeException {
