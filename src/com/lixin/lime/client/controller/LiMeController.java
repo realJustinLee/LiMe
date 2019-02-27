@@ -313,12 +313,12 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     @Override
     public void newLiMeMessage(LiMeSeed seed) {
-
         LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-        // The sender here is the sender of the Message == the receiver in the ChatFrame
         String sender = seedMessage.getSender();
+        // The sender here is the sender of the Message == the receiver in the ChatFrame
         String encryptedTime = seedMessage.getTime();
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), receiver);
+        // TODO: username != key 时抛出LiMeException，catch 后写入 Log
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), username), sender), encryptedTime);
         String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
@@ -405,12 +405,13 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     @Override
     public void newGroupChat(LiMeSeed seed) {
         LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
-        if (seedMessage.getSender().equals(username)) {
+        String sender = seedMessage.getSender();
+        if (sender.equals(username)) {
             return;
         }
-        String sender = seedMessage.getSender();
         String encryptedTime = seedMessage.getTime();
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
+        // TODO: username != key 时抛出LiMeException，catch 后写入 Log
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
         String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();

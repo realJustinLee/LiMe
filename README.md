@@ -29,6 +29,9 @@ The Li Xin Messenger
 - macOS
 > If you would like to use it with windows, you should clone this repo and rebuild it with windows.
 
+## Protocol
+为了使LiMe更好地工作，我们设定了一个应用层协议
+
 ## The Server GUI
 ![](./ScreenShots/LiMeServer.png)
 

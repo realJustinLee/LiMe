@@ -319,8 +319,9 @@ public class LiMeServerModel implements Runnable {
                         case RECEIVER_IP:
                             // Respond receiver_ip
                             LiMeSeedRequest seedRequest = (LiMeSeedRequest) seed;
-                            String receiverIp = limeHub.get(seedRequest.getReceiver()).getSocket().getInetAddress().getHostAddress();
-                            sendSeedRespond(FRIENDS_UPDATE, null, seedRequest.getSender(), receiverIp, null);
+                            String theReceiver = seedRequest.getReceiver();
+                            String receiverIp = limeHub.get(theReceiver).getSocket().getInetAddress().getHostAddress();
+                            sendSeedRespond(RECEIVER_IP, seedRequest.getSender(), theReceiver, receiverIp, null);
                             break;
                         case FRIENDS_UPDATE:
                             // TODO: (V2.0)Return the User's friends
