@@ -1,6 +1,13 @@
 # LiMe
 LiMe is a communication app which allows you to send messages whenever and wherever you are, 24 hours a day!
 
+## Code Guide Lines
+This repository follows the guideline of the Alibaba coding guidelines.
+
+For more information, please refer to the *Alibaba Java Coding Guidelines*:
+- Chinese Version: *[阿里巴巴Java开发手册](https://github.com/alibaba/p3c/blob/master/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E8%AF%A6%E5%B0%BD%E7%89%88%EF%BC%89.pdf)*
+- English Version: *[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)*
+
 ## Full name
 The Li Xin Messenger
 
@@ -37,7 +44,7 @@ The Li Xin Messenger
 
 ## Client
 
-The Login GUI, also the welcome page
+The Login GUI and the welcome page as well.
 
 ![](./ScreenShots/LiMeLogin.png)
 
@@ -87,14 +94,14 @@ Password Reset
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
 - [x] Store the password on the server with MD5
-- [x] Local password storage encrypted with AES using random key, random key stored with AES digested with MD5
+- [x] Local password storage encrypted with AES using a random key, the random key stored with AES digested with MD5
 - [x] Transport the message with AES and keys digested with MD5
 - [X] Open group chat for all users
-- [x] Enable user to reset password via a server-sent Email
+- [x] Enable user to reset the password via a server-sent Email
 - [x] Redirect LiMe to the new domain name
-- [x] Email is should be a unique key (LiMeSeedRecoverPassword)
+- [x] Email should be a unique key (LiMeSeedRecoverPassword)
 - [x] The file transmission function
-- [x] Use database to validate and manage the user
+- [x] Use the database to validate and manage the user
 - [x] Blur Agreement Frame
 - [x] HTML parsing and rendering
 - [x] Version number increase
@@ -102,7 +109,7 @@ Password Reset
 ## Test Quote
 Fate Whispers To The Warrior,
 
-“You Cannot Withstand This Storm”
+“You Cannot Withstand This Storm.”
 
 And The Warrior Whispers Back,
 
