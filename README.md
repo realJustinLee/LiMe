@@ -1,5 +1,19 @@
 # LiMe
-LiMe is a communication app which allows you to send messages whenever and wherever you are, 24 hours a day!
+LiMe is a communication application implemented in Java that allows you to keep in touch and exchange files with friends anytime, anywhere.
+You can also quickly deploy a custom LiMe server for private communication.
+
+## Full name
+The Li Xin Messenger
+
+## Tech reviews
+LiMe is developed in the MVC design pattern. 
+We use Swing to implement the UI layer. 
+The persistence layer is implemented with JDBC. 
+As for the database, we chose MySQL. 
+The model layer is strictly following JavaBean specification requirements. 
+Fully comply with the code specification in the Alibaba Java Development Manual, 
+each layer achieves high cohesion and low coupling, 
+which significantly improves the scalability of the program and is easy to maintain.
 
 ## Code Guide Lines
 This repository follows the guideline of the Alibaba coding guidelines.
@@ -8,12 +22,9 @@ For more information, please refer to the *Alibaba Java Coding Guidelines*:
 - Chinese Version: *[阿里巴巴Java开发手册](https://github.com/alibaba/p3c/blob/master/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E8%AF%A6%E5%B0%BD%E7%89%88%EF%BC%89.pdf)*
 - English Version: *[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)*
 
-## Full name
-The Li Xin Messenger
-
 ## Version
-- C_v 0.6.2
-- S_v 0.6.2
+- C_v 0.6.3
+- S_v 0.6.3
 
 ```
  _______________________
@@ -88,6 +99,7 @@ Password Reset
 ![](./ScreenShots/EmailRstPwd.png)
 
 ## TODO
+- [ ] Rebuild The Protocol with Restful API (json)
 - [ ] Gradle the project
 - [ ] Use HTML to render the email content
 - [ ] Use hibernate or Mybatis as a persistence framework

@@ -35,7 +35,8 @@ public class LiMeExceptionFactory {
             case ERROR_LOGIN_PASSWORD:
                 return new LiMeException("用户名或密码错误", "请输入正确的用户名和密码");
             case ERROR_CONNECTION:
-                return new LiMeException("连接错误", THE_BRAND + " 找不到服务器，请检查网络连接");
+                return new LiMeException("连接错误", THE_BRAND + " 找不到服务器，请检查网络连接\n" +
+                        "正在使用的服务器地址为 <" + WEB_MOST + "> 如需自建服务器请参阅官网文档");
             case ERROR_UNKNOWN:
                 return new LiMeException("未知错误", THE_BRAND + " 发生了一个未知错误");
             default:

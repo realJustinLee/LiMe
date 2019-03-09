@@ -96,7 +96,7 @@ public class LiMeServerModel implements Runnable {
     public void ban(String username) {
         // email user that he/she is banned
         String subject = "Account Banned!";
-        String content = "Your account: " + username + " is permanently banned, due to violation of multiple agreements!";
+        String content = "Your account: " + username + " is permanently banned, due to the violation of multiple agreements!";
         emailUser(username, subject, content);
         // Ban User to Database[MySql Server]
         try {
@@ -155,7 +155,7 @@ public class LiMeServerModel implements Runnable {
             preparedStatement.executeUpdate();
             String subject = "LiMe Register Success!";
             String content = "Congratulations, " + username + "!\n" +
-                    "You are a nobel LiMe user now!";
+                    "You are a Nobel LiMe user now!";
             emailUser(username, subject, content);
             return true;
         } catch (SQLException e) {
