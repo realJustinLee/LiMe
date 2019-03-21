@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Great-Li-Xin/LiMe.svg?branch=master)](https://travis-ci.org/Great-Li-Xin/LiMe)
+
 # LiMe
 LiMe is a communication application implemented in Java that allows you to keep in touch and exchange files with friends anytime, anywhere.
 You can also quickly deploy a custom LiMe server for private communication.
@@ -99,6 +101,7 @@ Password Reset
 ![](./ScreenShots/EmailRstPwd.png)
 
 ## TODO
+- [ ] Adapt Travis CI ATS
 - [ ] Rebuild The Protocol with Restful API (json)
 - [ ] Gradle the project
 - [ ] Use HTML to render the email content
