@@ -17,6 +17,17 @@ Fully comply with the code specification in the Alibaba Java Development Manual,
 each layer achieves high cohesion and low coupling, 
 which significantly improves the scalability of the program and is easy to maintain.
 
+## Requirements
+- JRE 12.0.1
+> Sorry. This project is compiled with Oracle JDK.
+```
+java version "12.0.1" 2019-04-16
+Java(TM) SE Runtime Environment (build 12.0.1+12)
+Java HotSpot(TM) 64-Bit Server VM (build 12.0.1+12, mixed mode, sharing)
+```
+> If you would like to adapt this project to business use.  
+> Please rebuild this project with Non-Oracle JDK or `OpenJDK`, Thanks.
+
 ## Code Guide Lines
 This repository follows the guideline of the Alibaba coding guidelines.
 
