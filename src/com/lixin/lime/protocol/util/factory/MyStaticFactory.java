@@ -26,11 +26,11 @@ public class MyStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Li Xin";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.6.3";
+    public static final String THE_LIME_VERSION = "C_v 0.6.4";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.6.3";
+    public static final String THE_SERVER_VERSION = "S_v 0.6.4";
 
     /**
      * The Actions
@@ -86,13 +86,16 @@ public class MyStaticFactory {
      * <p>
      * WANTED DOMAIN: lime.com | lime.online
      */
-    public static final String DOMAIN_NAME = "limeler.top";
+
+    // Ex-DOMAIN_NAME : "limeler.top"
+
+    public static final String DOMAIN_NAME = "lixin-computer.com";
     public static final String HOST_NAME = "www";
     public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
-    // public static final String HOST = "127.0.0.1";
+    public static final String HOST = "127.0.0.1";
 
-    public static final String HOST = WEB_MOST;
+    // public static final String HOST = WEB_MOST;
 
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
@@ -113,15 +116,15 @@ public class MyStaticFactory {
     public static final String SQL_HOST = "sql." + DOMAIN_NAME;
     public static final int SQL_PORT = 3306;
     public static final String SQL_DATABASE = "lime";
-    public static final String SQL_USERNAME = "lixin";
-    public static final String SQL_PASSWORD = "BASNDAFWAUSMC";
+    public static final String SQL_USERNAME = "lime";
+    public static final String SQL_PASSWORD = "lime";
     public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     // Server Email properties
 
-    public static final String SERVER_EMAIL_USER = "no-reply";
-    public static final String SERVER_EMAIL_DOMAIN = "lixin-computer.com";
-    public static final String SERVER_EMAIL_PASSWORD = "Test1234";
+    public static final String SERVER_EMAIL_USER = "lixin.messenger";
+    public static final String SERVER_EMAIL_DOMAIN = "gmail.com";
+    public static final String SERVER_EMAIL_PASSWORD = "qnxnjgewxatvxzya";
 
     // The public methods
 

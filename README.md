@@ -1,32 +1,32 @@
+# LiMe
+
 [![Build Status](https://travis-ci.org/Great-Li-Xin/LiMe.svg?branch=master)](https://travis-ci.org/Great-Li-Xin/LiMe)
 
-# LiMe
+## The Li Xin Messenger
+
 LiMe is a communication application implemented in Java that allows you to keep in touch and exchange files with friends anytime, anywhere.
 You can also quickly deploy a custom LiMe server for private communication.
 
-## Full name
-The Li Xin Messenger
-
-## Tech reviews
-LiMe is developed in the MVC design pattern. 
-We use Swing to implement the UI layer. 
-The persistence layer is implemented with JDBC. 
-As for the database, we chose MySQL. 
-The model layer is strictly following JavaBean specification requirements. 
-Fully comply with the code specification in the Alibaba Java Development Manual, 
-each layer achieves high cohesion and low coupling, 
-which significantly improves the scalability of the program and is easy to maintain.
+## Tech Reviews
+- LiMe is developed in the MVC design pattern. 
+- We use Swing to implement the UI layer. 
+- The persistence layer is implemented with JDBC. 
+- As for the database, we chose MySQL. 
+- The model layer is strictly following JavaBean specification requirements. 
+- Fully comply with the code specification in the Alibaba Java Development Manual, 
+- Each layer achieves high cohesion and low coupling, which significantly leverages the scalability and the maintainability of this project.
 
 ## Requirements
 - JRE 12.0.1
-> Sorry. This project is compiled with Oracle JDK.
-```
-java version "12.0.1" 2019-04-16
-Java(TM) SE Runtime Environment (build 12.0.1+12)
-Java HotSpot(TM) 64-Bit Server VM (build 12.0.1+12, mixed mode, sharing)
-```
-> If you would like to adapt this project to business use.  
-> Please rebuild this project with Non-Oracle JDK or `OpenJDK`, Thanks.
+  > Sorry. This project is compiled with Oracle JDK.
+
+  ```
+  java version "12.0.1" 2019-04-16
+  Java(TM) SE Runtime Environment (build 12.0.1+12)
+  Java HotSpot(TM) 64-Bit Server VM (build 12.0.1+12, mixed mode, sharing)
+  ```
+  > If you would like to adapt this project to business use.  
+  > Please rebuild this project with Non-Oracle JDK or `OpenJDK`, Thanks.
 
 ## Code Guide Lines
 This repository follows the guideline of the Alibaba coding guidelines.
@@ -36,80 +36,80 @@ For more information, please refer to the *Alibaba Java Coding Guidelines*:
 - English Version: *[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)*
 
 ## Version
-- C_v 0.6.3
-- S_v 0.6.3
+- C_v 0.6.4
+- S_v 0.6.4
 
-```
- _______________________
-/    Finally, v0.6.2!   \
-|  _     _ __  __       |
-| | |   (_)  \/  | ___  |
-| | |   | | |\/| |/ _ \ |
-| | |___| | |  | |  __/ |
-| |_____|_|_|  |_|\___| |
-\                       /
- -----------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\ LiMe  )\/\
-                ||----w |
-                ||     ||
-```
+  ```
+   _______________________
+  /    Finally, v0.6.4!   \
+  |  _     _ __  __       |
+  | | |   (_)  \/  | ___  |
+  | | |   | | |\/| |/ _ \ |
+  | | |___| | |  | |  __/ |
+  | |_____|_|_|  |_|\___| |
+  \                       /
+   -----------------------
+          \   ^__^
+           \  (oo)\_______
+              (__)\ LiMe  )\/\
+                  ||----w |
+                  ||     ||
+  ```
 
 ## Platform compatibility: 
 - macOS
-> If you would like to use it with windows, you should clone this repo and rebuild it with windows.
+  > If you would like to use it with windows, you should clone this repo and rebuild it with windows.
 
 ## Protocol
-为了使LiMe更好地工作，我们设定了一个应用层协议
+To enable a more efficient and secure LiMe, we set up an application layer protocal.  
 
 ## The Server GUI
-![](./ScreenShots/LiMeServer.png)
+![](static/img/LiMeServer.png)
 
 ## Client
 
 The Login GUI and the welcome page as well.
 
-![](./ScreenShots/LiMeLogin.png)
+![](static/img/LiMeLogin.png)
 
 The Register GUI
 
-![](./ScreenShots/LiMeRegister.png)
+![](static/img/LiMeRegister.png)
 
 The User Agreement (HTML parsing)
 
-![](./ScreenShots/LiMeAgreement.png)
+![](static/img/LiMeAgreement.png)
 
 The Chat GUI of user @lixin, the friend list is on the left side of the panel
-![](./ScreenShots/LiMeChatLixin.png)
+![](static/img/LiMeChatLixin.png)
 
 The Chat GUI of user @test
 
-![](./ScreenShots/LiMeChatTest.png)
+![](static/img/LiMeChatTest.png)
 
 ### The Group Chat
 
-![](./ScreenShots/LiMeGroupChat.png)
+![](static/img/LiMeGroupChat.png)
 
 ### The File Transmission
 
-![](./ScreenShots/LiMeChatFile.png)
+![](static/img/LiMeChatFile.png)
 
 ## Data persistence
 
 MySQL table structure
-![](./ScreenShots/TableStructure.png)
+![](static/img/TableStructure.png)
 
 ## Emails you might get from the server
 
 Registration Confirmation
-![](./ScreenShots/EmailCfmReg.png)
+![](static/img/EmailCfmReg.png)
 
 Banned Notification
-![](./ScreenShots/EmailNtfBan.png)
+![](static/img/EmailNtfBan.png)
 
 Password Reset
-![](./ScreenShots/EmailRstPwd.png)
+![](static/img/EmailRstPwd.png)
 
 ## TODO
 - [ ] Adapt Travis CI ATS
@@ -119,10 +119,11 @@ Password Reset
 - [ ] Use hibernate or Mybatis as a persistence framework
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
+- [x] Merge all the services out of ~~P.R.China~~ to provide a global-based service.
 - [x] Store the password on the server with MD5
 - [x] Local password storage encrypted with AES using a random key, the random key stored with AES digested with MD5
 - [x] Transport the message with AES and keys digested with MD5
-- [X] Open group chat for all users
+- [x] Open group chat for all users
 - [x] Enable user to reset the password via a server-sent Email
 - [x] Redirect LiMe to the new domain name
 - [x] Email should be a unique key (LiMeSeedRecoverPassword)
@@ -133,13 +134,13 @@ Password Reset
 - [x] Version number increase
 
 ## Test Quote
+```
 Fate Whispers To The Warrior,
-
 “You Cannot Withstand This Storm.”
 
 And The Warrior Whispers Back,
-
 “I Am The Storm”
+```
 
 # Made with ❤ by [Li Xin](https://github.com/Great-Li-Xin)!
 ™ and © 1997-2019 Li Xin. All Rights Reserved. [License Agreement](./LICENSE)

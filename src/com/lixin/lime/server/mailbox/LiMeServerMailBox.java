@@ -19,6 +19,7 @@ public class LiMeServerMailBox {
         properties.put("mail.smtp.host", mailAccount.getMailHost());
         properties.put("mail.smtp.port", mailAccount.getPort());
         properties.put("mail.smtp.auth", mailAccount.isAuth());
+        properties.put("mail.smtp.starttls.enable",mailAccount.isStartTls());
         session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
                     @Override

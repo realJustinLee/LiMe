@@ -7,7 +7,7 @@ import com.lixin.lime.server.controller.LiMeServerFarmer;
 import com.lixin.lime.server.controller.LiMeServerKnight;
 import com.lixin.lime.server.dao.MyDatabaseConnector;
 import com.lixin.lime.server.mailbox.LiMeServerMailBox;
-import com.lixin.lime.server.mailbox.MailAccountAliYun;
+import com.lixin.lime.server.mailbox.MailAccountGmail;
 
 import javax.mail.MessagingException;
 import java.io.EOFException;
@@ -55,7 +55,7 @@ public class LiMeServerModel implements Runnable {
             MyDatabaseConnector databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
             connection = databaseConnector.getConnection();
             mailBox = new LiMeServerMailBox(
-                    new MailAccountAliYun(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
+                    new MailAccountGmail(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
             );
             // init socket
             ServerSocket serverSock = new ServerSocket(PORT);
