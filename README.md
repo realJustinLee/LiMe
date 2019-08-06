@@ -1,7 +1,5 @@
 # LiMe
 
-[![Build Status](https://travis-ci.org/Great-Li-Xin/LiMe.svg?branch=master)](https://travis-ci.org/Great-Li-Xin/LiMe)
-
 ## The Li Xin Messenger
 
 LiMe is a communication application implemented in Java that allows you to keep in touch and exchange files with friends anytime, anywhere.
