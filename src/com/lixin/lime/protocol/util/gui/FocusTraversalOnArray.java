@@ -1,4 +1,3 @@
-
 package com.lixin.lime.protocol.util.gui;
 
 import java.awt.Component;

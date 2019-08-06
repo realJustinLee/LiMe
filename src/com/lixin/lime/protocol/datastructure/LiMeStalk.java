@@ -40,9 +40,13 @@ public class LiMeStalk {
 
     @Override
     public boolean equals(Object obj) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         LiMeStalk stalk = (LiMeStalk) obj;
         return username.equals(stalk.username);
     }
+
 
     @Override
     public int hashCode() {

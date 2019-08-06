@@ -81,10 +81,10 @@ public class LiMeChatFrame extends JFrame {
         scrollPaneFriends.setBounds(6, 78, 200, 614);
         contentPane.add(scrollPaneFriends);
 
-        JSeparator separatorV = new JSeparator();
-        separatorV.setOrientation(SwingConstants.VERTICAL);
-        separatorV.setBounds(218, 78, 12, 614);
-        contentPane.add(separatorV);
+        JSeparator separatorVertical = new JSeparator();
+        separatorVertical.setOrientation(SwingConstants.VERTICAL);
+        separatorVertical.setBounds(218, 78, 12, 614);
+        contentPane.add(separatorVertical);
 
         textAreaHistory = new JTextArea();
         textAreaHistory.setEditable(false);

@@ -67,8 +67,8 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 break;
             case SERVER_ACTION_STOP:
                 // TODO: STOP Server
-                // cachedThreadPool.shutdownNow();
-                // System.exit(0);
+                //  cachedThreadPool.shutdownNow();
+                System.exit(0);
                 break;
             case SERVER_ACTION_KICK:
                 serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);

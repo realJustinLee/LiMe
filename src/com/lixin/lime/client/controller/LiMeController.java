@@ -415,7 +415,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
         String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
-        String msgLog = history.get(LIME_GROUP_CHAT) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
+        String msgLog = history.get(LIME_GROUP_CHAT) + "< " + sender + " > || < " + time + " >\n" + message + "\n\n";
         history.put(LIME_GROUP_CHAT, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();
