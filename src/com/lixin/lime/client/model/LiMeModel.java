@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.lixin.lime.protocol.seed.LiMeSeed.*;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author lixin

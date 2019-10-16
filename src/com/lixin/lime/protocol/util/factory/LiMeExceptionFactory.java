@@ -3,7 +3,8 @@ package com.lixin.lime.protocol.util.factory;
 import com.lixin.lime.protocol.exception.LiMeException;
 
 import static com.lixin.lime.protocol.seed.LiMeSeed.*;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
+
 
 /**
  * @author lixin

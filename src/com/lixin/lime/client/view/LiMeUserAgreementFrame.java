@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.ACTION_AGREEMENT_CONFIRM;
 
 /**
  * @author lixin

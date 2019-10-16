@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
 
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author lixin

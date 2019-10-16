@@ -2,8 +2,8 @@ package com.lixin.lime.server.controller;
 
 import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.seed.LiMeSeedMessage;
-import com.lixin.lime.server.view.LiMeServerFrame;
 import com.lixin.lime.server.model.LiMeServerModel;
+import com.lixin.lime.server.view.LiMeServerFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.lixin.lime.protocol.seed.LiMeSeed.*;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author lixin

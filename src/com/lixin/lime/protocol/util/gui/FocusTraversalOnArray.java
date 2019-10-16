@@ -1,8 +1,7 @@
 package com.lixin.lime.protocol.util.gui;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
+import java.awt.*;
+
 
 /*******************************************************************************
  * Copyright (c) 2011 Google, Inc.

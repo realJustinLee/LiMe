@@ -15,17 +15,17 @@ You can also quickly deploy a custom LiMe server for private communication.
 - Each layer achieves high cohesion and low coupling, which significantly leverages the scalability and the maintainability of this project.
 
 ## Requirements
-- JRE 12.0.2
-  > Sorry. This project is compiled with Oracle JDK.
+- JRE 13
+  > This project is compiled with AdoptOpenJDK.
 
   ```
-  java 12.0.2 2019-07-16
-  Java(TM) SE Runtime Environment (build 12.0.2+10)
-  Java HotSpot(TM) 64-Bit Server VM (build 12.0.2+10, mixed mode, sharing)
+  openjdk 13 2019-09-17
+  OpenJDK Runtime Environment AdoptOpenJDK (build 13+33)
+  OpenJDK 64-Bit Server VM AdoptOpenJDK (build 13+33, mixed mode, sharing)
   ```
   > If you would like to adapt this project to business use.  
-  > Please rebuild this project with Non-Oracle JDK or `OpenJDK`, Thanks.
-
+  > Please use this project with Non-Oracle JDK or `OpenJDK`, Thanks.
+ 
 ## Code Guide Lines
 This repository follows the guideline of the _**Alibaba Java Coding Guidelines**_.
 
@@ -34,12 +34,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.5
-- S_v 0.6.5
+- C_v 0.6.6
+- S_v 0.6.6
 
   ```
    _______________________
-  /    Finally, v0.6.5!   \
+  /    Finally, v0.6.6!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -118,6 +118,7 @@ To enable a more efficient and secure LiMe, we set up an application layer proto
 - [ ] Use `Hibernate` or `Mybatis` as a persistence framework
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
+- [x] Migrate to Non-Oracle JDK or `OpenJDK`
 - [x] Merge all the services out of _**~~P.R.China~~**_ to provide a global-based service.
 - [x] Store the password on the server with MD5
 - [x] Local password storage encrypted with AES using a random key, the random key stored with AES digested with MD5

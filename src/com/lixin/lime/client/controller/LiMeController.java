@@ -1,6 +1,5 @@
 package com.lixin.lime.client.controller;
 
-
 import com.lixin.lime.client.model.LiMeModel;
 import com.lixin.lime.client.view.LiMeChatFrame;
 import com.lixin.lime.client.view.LiMeLoginFrame;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.lixin.lime.protocol.seed.LiMeSeed.LIME_GROUP_CHAT;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author lixin

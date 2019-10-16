@@ -5,7 +5,7 @@ import com.lixin.lime.protocol.entity.User;
 import com.lixin.lime.protocol.seed.*;
 import com.lixin.lime.server.controller.LiMeServerFarmer;
 import com.lixin.lime.server.controller.LiMeServerKnight;
-import com.lixin.lime.server.dao.MyDatabaseConnector;
+import com.lixin.lime.server.dao.LiMeDatabaseConnector;
 import com.lixin.lime.server.mailbox.LiMeServerMailBox;
 import com.lixin.lime.server.mailbox.MailAccountGmail;
 
@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.lixin.lime.protocol.seed.LiMeSeed.*;
-import static com.lixin.lime.protocol.util.factory.MyStaticFactory.*;
+import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author lixin
@@ -52,7 +52,7 @@ public class LiMeServerModel implements Runnable {
     public void run() {
         // init sql
         try {
-            MyDatabaseConnector databaseConnector = new MyDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
+            LiMeDatabaseConnector databaseConnector = new LiMeDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
             connection = databaseConnector.getConnection();
             mailBox = new LiMeServerMailBox(
                     new MailAccountGmail(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
