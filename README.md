@@ -17,14 +17,13 @@ You can also quickly deploy a custom LiMe server for private communication.
 ## Requirements
 - JRE 13
   > This project is compiled with AdoptOpenJDK.
-
-  ```
-  openjdk 13 2019-09-17
-  OpenJDK Runtime Environment AdoptOpenJDK (build 13+33)
-  OpenJDK 64-Bit Server VM AdoptOpenJDK (build 13+33, mixed mode, sharing)
-  ```
+  > ```
+  > openjdk 13.0.1 2019-10-15
+  > OpenJDK Runtime Environment AdoptOpenJDK (build 13.0.1+9)
+  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 13.0.1+9, mixed mode, sharing)
+  > ```
   > If you would like to adapt this project to business use.  
-  > Please use this project with Non-Oracle JDK or `OpenJDK`, Thanks.
+  > Please use this project with `AdoptOpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
  
 ## Code Guide Lines
 This repository follows the guideline of the _**Alibaba Java Coding Guidelines**_.
@@ -34,12 +33,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.6
-- S_v 0.6.6
+- C_v 0.6.7
+- S_v 0.6.7
 
   ```
    _______________________
-  /    Finally, v0.6.6!   \
+  /    Finally, v0.6.7!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -111,13 +110,14 @@ To enable a more efficient and secure LiMe, we set up an application layer proto
 
 ## TODO
 - [ ] Pure cli version of LiMe Server to enable deployment on linux headless server.
-- [ ] Adapt Travis CI ATS
+- [ ] Adapt Travis CI
 - [ ] Rebuild The Protocol with Restful API (json)
 - [ ] Gradle the project
 - [ ] Use HTML to render the email content
 - [ ] Use `Hibernate` or `Mybatis` as a persistence framework
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
+- [x] Fix the server thread pool malfunction issue
 - [x] Migrate to Non-Oracle JDK or `OpenJDK`
 - [x] Merge all the services out of _**~~P.R.China~~**_ to provide a global-based service.
 - [x] Store the password on the server with MD5
