@@ -14,8 +14,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,9 +35,10 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  */
 public class LiMeServerModel implements Runnable {
     private HashMap<String, LiMeStalk> limeHub;
+    private ServerSocket serverSocket;
+    private Connection connection;
     private LiMeServerFarmer serverFarmer;
     private LiMeServerKnight serverKnight;
-    private Connection connection;
     private LiMeServerMailBox mailBox;
 
     private ExecutorService cachedThreadPool;
@@ -49,7 +52,7 @@ public class LiMeServerModel implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         // init sql
         try {
             LiMeDatabaseConnector databaseConnector = new LiMeDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
@@ -58,19 +61,27 @@ public class LiMeServerModel implements Runnable {
                     new MailAccountGmail(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
             );
             // init socket
-            ServerSocket serverSock = new ServerSocket(PORT);
-            while (true) {
-                try {
-                    Socket socketLime = serverSock.accept();
-                    cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
-                    System.out.println("Got a connection");
-                    serverFarmer.enablePrivileges(true);
-                    // TODO: Log connection count to UI
-                    //  HAVE to Build UI in advance
+            serverSocket = new ServerSocket(PORT);
+            System.out.println("ServerSocket initialized @ " + PORT);
+            while (!serverSocket.isClosed()) {
+                Socket socketLime = serverSocket.accept();
+                cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
+                System.out.println("Got a connection");
+                serverFarmer.enablePrivileges(true);
+                // TODO: Log connection count to UI
+                //  HAVE to Build UI in advance
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            }
+        } catch (BindException e) {
+            e.printStackTrace();
+            limeInternalError(this.getClass().getCanonicalName(), "端口 " + PORT + " 已被占用");
+        } catch (SocketException e) {
+            if (serverSocket.isClosed()) {
+                System.out.println("ServerSocket closed @ " + PORT);
+                limeInfo("ServerSocket 已关闭");
+            } else {
+                e.printStackTrace();
+                limeInternalError(this.getClass().getCanonicalName(), e.getMessage());
             }
         } catch (SQLException e) {
             System.err.println("Database connection failure.");
@@ -79,6 +90,10 @@ public class LiMeServerModel implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
     public void sendSeedStatus(String username, int status) {
@@ -93,20 +108,16 @@ public class LiMeServerModel implements Runnable {
         }
     }
 
-    public void ban(String username) {
+    public void ban(String username) throws SQLException {
         // email user that he/she is banned
         String subject = "Account Banned!";
         String content = "Your account: " + username + " is permanently banned, due to the violation of multiple agreements!";
         emailUser(username, subject, content);
         // Ban User to Database[MySql Server]
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE `users` SET `banned` = TRUE WHERE `username` = ?;");
-            preparedStatement.setString(1, username);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE `users` SET `banned` = TRUE WHERE `username` = ?;");
+        preparedStatement.setString(1, username);
+        preparedStatement.executeUpdate();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -196,15 +207,11 @@ public class LiMeServerModel implements Runnable {
             if (resultSet.next()) {
                 email = resultSet.getString(1);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             if (email != null) {
                 // email user
                 mailBox.sendSimpleMail(email, subject, content);
             }
-        } catch (MessagingException e) {
+        } catch (SQLException | MessagingException e) {
             e.printStackTrace();
         }
     }

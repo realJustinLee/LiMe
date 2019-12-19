@@ -80,16 +80,12 @@ public class LiMeStaticFactory {
      * <p>
      * HOST domain to choose
      * <p>
-     * 1. limeler.xyz
-     * 2. limeler.top
-     * 3. lixin-computer.com
+     * 1. juadm.com
      * <p>
      * WANTED DOMAIN: lime.com | lime.online
      */
 
-    // Ex-DOMAIN_NAME : "limeler.top"
-
-    public static final String DOMAIN_NAME = "lixin-computer.com";
+    public static final String DOMAIN_NAME = "juadm.com";
     public static final String HOST_NAME = "www";
     public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
@@ -99,8 +95,6 @@ public class LiMeStaticFactory {
 
 
     private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
-
-    // Deprecated next line, previous DOMAIN_NAME = 'lixin-computer.com'
 
     private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
 

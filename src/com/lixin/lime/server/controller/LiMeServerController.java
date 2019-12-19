@@ -7,6 +7,9 @@ import com.lixin.lime.server.view.LiMeServerFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,7 +41,6 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     private void initialize() {
         initServerFrame();
         serverModel = new LiMeServerModel(this, this);
-        cachedThreadPool = Executors.newCachedThreadPool();
     }
 
     private void initServerFrame() {
@@ -60,37 +62,46 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     public void actionPerformed(ActionEvent e) {
         String user = serverFrame.getHighlightedLime();
         String time = getLiMeTime();
-        switch (e.getActionCommand()) {
-            case SERVER_ACTION_START:
-                // START Server
-                cachedThreadPool.execute(serverModel);
-                break;
-            case SERVER_ACTION_STOP:
-                // TODO: STOP Server
-                //  cachedThreadPool.shutdownNow();
-                System.exit(0);
-                break;
-            case SERVER_ACTION_KICK:
-                serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);
-                // log UI
-                serverFrame.appendLog("[" + time + "]\n< " + user + " > is KICKED.\n");
-                break;
-            case SERVER_ACTION_BAN:
-                serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
-                // Ban User in database
-                serverModel.ban(user);
-                // log UI
-                serverFrame.appendLog("[" + time + "]\n< " + user + " > is BANNED.\n");
-                break;
-            case SERVER_ACTION_CLEAR_LOG:
-                serverFrame.clearLog();
-                break;
-            case SERVER_ACTION_CLEAR_HISTORY:
-                serverFrame.clearHistory();
-                break;
-            default:
-                limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
-                break;
+        try {
+            switch (e.getActionCommand()) {
+                case SERVER_ACTION_START:
+                    // START Server
+                    cachedThreadPool = Executors.newCachedThreadPool();
+                    cachedThreadPool.execute(serverModel);
+                    break;
+                case SERVER_ACTION_STOP:
+                    // STOP Server
+                    ServerSocket serverSocket = serverModel.getServerSocket();
+                    if (serverSocket != null && !serverSocket.isClosed()) {
+                        serverSocket.close();
+                    }
+                    cachedThreadPool.shutdownNow();
+                    break;
+                case SERVER_ACTION_KICK:
+                    serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);
+                    // log UI
+                    serverFrame.appendLog("[" + time + "]\n< " + user + " > is KICKED.\n");
+                    break;
+                case SERVER_ACTION_BAN:
+                    serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
+                    // Ban User in database
+                    serverModel.ban(user);
+                    // log UI
+                    serverFrame.appendLog("[" + time + "]\n< " + user + " > is BANNED.\n");
+                    break;
+                case SERVER_ACTION_CLEAR_LOG:
+                    serverFrame.clearLog();
+                    break;
+                case SERVER_ACTION_CLEAR_HISTORY:
+                    serverFrame.clearHistory();
+                    break;
+                default:
+                    limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
+                    break;
+            }
+        } catch (IOException | SQLException ex) {
+            ex.printStackTrace();
+            limeInternalError(this.getClass().getCanonicalName(), ex.getMessage());
         }
     }
 

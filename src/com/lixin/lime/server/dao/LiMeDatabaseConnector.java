@@ -21,10 +21,10 @@ public class LiMeDatabaseConnector {
             Class.forName(SQL_DRIVER_NAME);
             connection = DriverManager.getConnection(url);
             if (!connection.isClosed()) {
-                System.out.println("Database connection Succeeded.");
+                System.out.println("Database connection Succeeded");
             }
         } catch (ClassNotFoundException e) {
-            System.err.println("Database driver loading failure.");
+            System.err.println("Database driver loading failure");
             e.printStackTrace();
             System.exit(0);
         }
