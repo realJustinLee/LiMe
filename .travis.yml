@@ -1,6 +1,5 @@
 # TODO: Fix the ci-testing
-
 language: java
 jdk:
-  - oraclejdk13
+  - oraclejdk11
 os: osx

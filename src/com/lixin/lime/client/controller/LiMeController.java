@@ -217,21 +217,13 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         registerFrame.dispose();
     }
 
-    private synchronized void actionChatLogout() {
-        try {
-            // logout() throws LiMeException
-            model.logout(username);
-            chatFrame.dispose();
-            initLoginFrame();
-            loginFrame.setVisible(true);
-            limeInfo("已成功登出 " + THE_BRAND);
-
-            // FIXME: 发布版本删除此句子
-            System.exit(0);
-        } catch (LiMeException ex) {
-            handleLiMeException(ex);
-            System.exit(0);
-        }
+    private synchronized void actionChatLogout() throws IOException, LiMeException {
+        // logout() throws LiMeException
+        model.logout(username);
+        chatFrame.dispose();
+        initLoginFrame();
+        loginFrame.setVisible(true);
+        limeInfo("已成功登出 " + THE_BRAND);
     }
 
     private void actionChatSendMessage() throws LiMeException {
@@ -307,6 +299,9 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             }
         } catch (LiMeException ex) {
             handleLiMeException(ex);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.exit(0);
         }
     }
 
