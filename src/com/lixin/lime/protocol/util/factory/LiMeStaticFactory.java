@@ -26,11 +26,11 @@ public class LiMeStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Li Xin";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.6.8";
+    public static final String THE_LIME_VERSION = "C_v 0.6.9";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.6.8";
+    public static final String THE_SERVER_VERSION = "S_v 0.6.9";
 
     /**
      * The Actions
@@ -108,7 +108,7 @@ public class LiMeStaticFactory {
     // SQL properties
 
     public static final String SQL_HOST = "sql." + DOMAIN_NAME;
-    public static final int SQL_PORT = 3306;
+    public static final int SQL_PORT = 1984;
     public static final String SQL_DATABASE = "lime";
     public static final String SQL_USERNAME = "lime";
     public static final String SQL_PASSWORD = "lime";

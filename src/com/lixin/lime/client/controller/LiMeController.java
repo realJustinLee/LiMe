@@ -217,7 +217,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         registerFrame.dispose();
     }
 
-    private synchronized void actionChatLogout() throws IOException, LiMeException {
+    private synchronized void actionChatLogout() throws LiMeException {
         // logout() throws LiMeException
         model.logout(username);
         chatFrame.dispose();
@@ -299,9 +299,6 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             }
         } catch (LiMeException ex) {
             handleLiMeException(ex);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.exit(0);
         }
     }
 
@@ -351,8 +348,6 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     @Override
     public synchronized void newLiMeFile(LiMeSeed seed) {
-        // the ignored boolean
-        boolean res;
         // recv and store the file
         LiMeSeedFile seedFile = (LiMeSeedFile) seed;
         File fileRecv = seedFile.getFile();
@@ -363,14 +358,14 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         File folder = chooser.getSelectedFile();
         //文件夹路径不存在
         if (!folder.exists() && !folder.isDirectory()) {
-            res = folder.mkdirs();
+            boolean res = folder.mkdirs();
         }
         try {
             // 如果文件不存在就创建
             File fileDest = new File(folder.getAbsolutePath() + "/" + fileRecv.getName());
             System.out.println(fileDest.getAbsolutePath());
             if (!fileDest.exists()) {
-                res = fileDest.createNewFile();
+                boolean res = fileDest.createNewFile();
             }
             // 写入文件
             FileChannel inputChannel = new FileInputStream(fileRecv).getChannel();

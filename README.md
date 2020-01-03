@@ -33,12 +33,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.8
-- S_v 0.6.8
+- C_v 0.6.9
+- S_v 0.6.9
 
   ```
    _______________________
-  /    Finally, v0.6.8!   \
+  /    Finally, v0.6.9!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -117,6 +117,7 @@ To enable a more efficient and secure LiMe, we set up an application layer proto
 - [ ] Use `Hibernate` or `Mybatis` as a persistence framework
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
+- [ ] Improve concurrence
 - [x] Fix the server thread pool malfunction issue
 - [x] Migrate to Non-Oracle JDK or `OpenJDK`
 - [x] Merge all the services out of _**~~P.R.China~~**_ to provide a global-based service.
