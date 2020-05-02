@@ -15,12 +15,12 @@ You can also quickly deploy a custom LiMe server for private communication.
 - Each layer achieves high cohesion and low coupling, which significantly leverages the scalability and the maintainability of this project.
 
 ## Requirements
-- JRE 13
+- JRE 14
   > This project is compiled with AdoptOpenJDK.
   > ```
-  > openjdk 13.0.1 2019-10-15
-  > OpenJDK Runtime Environment AdoptOpenJDK (build 13.0.1+9)
-  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 13.0.1+9, mixed mode, sharing)
+  > openjdk 14.0.1 2020-04-14
+  > OpenJDK Runtime Environment AdoptOpenJDK (build 14.0.1+7)
+  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 14.0.1+7, mixed mode, sharing)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `AdoptOpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
@@ -33,12 +33,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.9
-- S_v 0.6.9
+- C_v 0.6.10
+- S_v 0.6.10
 
   ```
    _______________________
-  /    Finally, v0.6.9!   \
+  /    Finally, v0.6.10!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -48,7 +48,7 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
    -----------------------
           \   ^__^
            \  (oo)\_______
-              (__)\ LiMe  )\/\
+              (__)\ LiMoo )\/\
                   ||----w |
                   ||     ||
   ```
