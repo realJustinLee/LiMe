@@ -1,2 +1,2 @@
-Manifest-Version: 0.6.10
+Manifest-Version: 0.6.11
 Main-Class: com.lixin.lime.LiMeServer

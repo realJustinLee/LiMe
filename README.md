@@ -15,17 +15,17 @@ You can also quickly deploy a custom LiMe server for private communication.
 - Each layer achieves high cohesion and low coupling, which significantly leverages the scalability and the maintainability of this project.
 
 ## Requirements
-- JRE 14
+- JRE 15
   > This project is compiled with AdoptOpenJDK.
   > ```
-  > openjdk 14.0.1 2020-04-14
-  > OpenJDK Runtime Environment AdoptOpenJDK (build 14.0.1+7)
-  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 14.0.1+7, mixed mode, sharing)
+  > openjdk 15 2020-09-15
+  > OpenJDK Runtime Environment AdoptOpenJDK (build 15+36)
+  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 15+36, mixed mode, sharing)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `AdoptOpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
  
-## Code Guide Lines
+## Code Guidelines
 This repository follows the guideline of the _**Alibaba Java Coding Guidelines**_.
 
 For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
@@ -33,12 +33,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.10
-- S_v 0.6.10
+- C_v 0.6.11
+- S_v 0.6.11
 
   ```
    _______________________
-  /    Finally, v0.6.10!   \
+  /    Finally, v0.6.11!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |

@@ -269,33 +269,15 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         try {
             String actionCommand = e.getActionCommand();
             switch (actionCommand) {
-                case ACTION_LOGIN_LOGIN:
-                    actionLoginLogin();
-                    break;
-                case ACTION_LOGIN_REGISTER:
-                    actionLoginRegister();
-                    break;
-                case ACTION_LOGIN_FORGOT_PASSWORD:
-                    actionLoginForgotPassword();
-                    break;
-                case ACTION_REGISTER_REGISTER:
-                    actionRegisterRegister();
-                    break;
-                case ACTION_REGISTER_CANCEL:
-                    actionRegisterCancel();
-                    break;
-                case ACTION_CHAT_LOGOUT:
-                    actionChatLogout();
-                    break;
-                case ACTION_CHAT_SEND_MESSAGE:
-                    actionChatSendMessage();
-                    break;
-                case ACTION_CHAT_SEND_FILE:
-                    actionChatSendFile();
-                    break;
-                default:
-                    limeInternalError(this.getClass().getCanonicalName(), actionCommand);
-                    break;
+                case ACTION_LOGIN_LOGIN -> actionLoginLogin();
+                case ACTION_LOGIN_REGISTER -> actionLoginRegister();
+                case ACTION_LOGIN_FORGOT_PASSWORD -> actionLoginForgotPassword();
+                case ACTION_REGISTER_REGISTER -> actionRegisterRegister();
+                case ACTION_REGISTER_CANCEL -> actionRegisterCancel();
+                case ACTION_CHAT_LOGOUT -> actionChatLogout();
+                case ACTION_CHAT_SEND_MESSAGE -> actionChatSendMessage();
+                case ACTION_CHAT_SEND_FILE -> actionChatSendFile();
+                default -> limeInternalError(this.getClass().getCanonicalName(), actionCommand);
             }
         } catch (LiMeException ex) {
             handleLiMeException(ex);
@@ -356,7 +338,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.showDialog(new JLabel(), "选择文件夹");
         File folder = chooser.getSelectedFile();
-        //文件夹路径不存在
+        // 文件夹路径不存在
         if (!folder.exists() && !folder.isDirectory()) {
             boolean res = folder.mkdirs();
         }
@@ -400,7 +382,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         }
         String encryptedTime = seedMessage.getTime();
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
-        // TODO: username != key 时抛出LiMeException，catch 后写入 Log
+        // TODO: username != key 时抛出 LiMeException，catch 后写入 Log
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
         String time = decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();

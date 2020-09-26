@@ -64,40 +64,33 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
         String time = getLiMeTime();
         try {
             switch (e.getActionCommand()) {
-                case SERVER_ACTION_START:
+                case SERVER_ACTION_START -> {
                     // START Server
                     cachedThreadPool = Executors.newCachedThreadPool();
                     cachedThreadPool.execute(serverModel);
-                    break;
-                case SERVER_ACTION_STOP:
+                }
+                case SERVER_ACTION_STOP -> {
                     // STOP Server
                     ServerSocket serverSocket = serverModel.getServerSocket();
                     if (serverSocket != null && !serverSocket.isClosed()) {
                         serverSocket.close();
                     }
                     cachedThreadPool.shutdownNow();
-                    break;
-                case SERVER_ACTION_KICK:
+                }
+                case SERVER_ACTION_KICK -> {
+                    // Kick User out
                     serverModel.sendSeedStatus(user, ERROR_ADMIN_KICKED);
-                    // log UI
                     serverFrame.appendLog("[" + time + "]\n< " + user + " > is KICKED.\n");
-                    break;
-                case SERVER_ACTION_BAN:
-                    serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
+                }
+                case SERVER_ACTION_BAN -> {
                     // Ban User in database
+                    serverModel.sendSeedStatus(user, ERROR_ADMIN_BANNED);
                     serverModel.ban(user);
-                    // log UI
                     serverFrame.appendLog("[" + time + "]\n< " + user + " > is BANNED.\n");
-                    break;
-                case SERVER_ACTION_CLEAR_LOG:
-                    serverFrame.clearLog();
-                    break;
-                case SERVER_ACTION_CLEAR_HISTORY:
-                    serverFrame.clearHistory();
-                    break;
-                default:
-                    limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
-                    break;
+                }
+                case SERVER_ACTION_CLEAR_LOG -> serverFrame.clearLog();
+                case SERVER_ACTION_CLEAR_HISTORY -> serverFrame.clearHistory();
+                default -> limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
             }
         } catch (IOException | SQLException ex) {
             ex.printStackTrace();
