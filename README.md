@@ -143,5 +143,5 @@ And The Warrior Whispers Back,
 “I Am The Storm”
 ```
 
-# Made with ❤ by [Li Xin](https://github.com/Great-Li-Xin)!
+# Made with ❤ by [Li Xin](https://github.com/realJustinLee)!
 ™ and © 1997-2019 Li Xin. All Rights Reserved. [License Agreement](./LICENSE)
