@@ -1,6 +1,6 @@
 # LiMe
 
-## The Li Xin Messenger
+## The Li Xin (Justin Lee) Messenger
 
 LiMe is a communication application implemented in Java that allows you to keep in touch and exchange files with friends anytime, anywhere.
 You can also quickly deploy a custom LiMe server for private communication.
@@ -15,12 +15,12 @@ You can also quickly deploy a custom LiMe server for private communication.
 - Each layer achieves high cohesion and low coupling, which significantly leverages the scalability and the maintainability of this project.
 
 ## Requirements
-- JRE 15
+- JRE 16
   > This project is compiled with AdoptOpenJDK.
   > ```
-  > openjdk 15 2020-09-15
-  > OpenJDK Runtime Environment AdoptOpenJDK (build 15+36)
-  > OpenJDK 64-Bit Server VM AdoptOpenJDK (build 15+36, mixed mode, sharing)
+  > openjdk 16.0.1 2021-04-20
+  > OpenJDK Runtime Environment AdoptOpenJDK-16.0.1+9 (build 16.0.1+9)
+  > OpenJDK 64-Bit Server VM AdoptOpenJDK-16.0.1+9 (build 16.0.1+9, mixed mode, sharing)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `AdoptOpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
@@ -38,7 +38,7 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
   ```
    _______________________
-  /    Finally, v0.6.11!   \
+  /    Finally, v0.6.11!  \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -143,5 +143,5 @@ And The Warrior Whispers Back,
 “I Am The Storm”
 ```
 
-# Made with ❤ by [Li Xin](https://github.com/realJustinLee)!
-™ and © 1997-2019 Li Xin. All Rights Reserved. [License Agreement](./LICENSE)
+# Made with ❤ by [Justin Lee](https://github.com/realJustinLee)!
+™ and © 1997-2021 Justin Lee. All Rights Reserved. [License Agreement](./LICENSE)
