@@ -1,2 +1,0 @@
-Manifest-Version: 0.6.11
-Main-Class: com.lixin.lime.LiMeServer
