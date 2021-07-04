@@ -33,12 +33,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
-- C_v 0.6.11
-- S_v 0.6.11
+- C_v 0.6.12
+- S_v 0.6.12
 
   ```
    _______________________
-  /    Finally, v0.6.11!  \
+  /    Finally, v0.6.12!  \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
