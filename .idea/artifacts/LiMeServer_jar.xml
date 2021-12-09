@@ -2,12 +2,12 @@
   <artifact type="jar" name="LiMeServer:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/LiMeServer_jar</output-path>
     <root id="archive" name="LiMeServer.jar">
-      <element id="module-output" name="LiMe" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/src/com/lixin/lime/server/META-INF/MANIFEST.MF" />
       </element>
       <element id="library" level="project" name="com.sun.mail:javax.mail:Latest" />
       <element id="library" level="project" name="mysql:mysql-connector-java:Latest" />
+      <element id="module-output" name="LiMe" />
     </root>
   </artifact>
 </component>
