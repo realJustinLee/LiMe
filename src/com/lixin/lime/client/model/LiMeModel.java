@@ -19,10 +19,10 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author lixin
  */
 public class LiMeModel {
-    private String host;
-    private int port;
-    private LiMeFarmer farmer;
-    private LiMeKnight knight;
+    private final String host;
+    private final int port;
+    private final LiMeFarmer farmer;
+    private final LiMeKnight knight;
 
     private Socket socket;
     private ObjectOutputStream oos;
@@ -65,16 +65,14 @@ public class LiMeModel {
         }
     }
 
-    public synchronized boolean login(String username, String password) throws LiMeException {
+    public synchronized void login(String username, String password) throws LiMeException {
         screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, encrypt(password))), STATUS_LOGIN_SUCCESS);
         cachedThreadPool = Executors.newCachedThreadPool();
         cachedThreadPool.execute(new SeedGrinder());
-        return true;
     }
 
-    public synchronized boolean register(String username, String password, String gender, String email) throws LiMeException {
+    public synchronized void register(String username, String password, String gender, String email) throws LiMeException {
         screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, encrypt(password), gender, email)), STATUS_REGISTER_SUCCESS);
-        return true;
     }
 
     public synchronized void logout(String username) throws LiMeException {

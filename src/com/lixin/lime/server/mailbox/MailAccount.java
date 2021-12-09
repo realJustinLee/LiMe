@@ -4,12 +4,12 @@ package com.lixin.lime.server.mailbox;
  * @author lixin
  */
 public class MailAccount {
-    private String sendAddress;
-    private String password;
-    private String mailHost;
-    private int port;
-    private boolean auth;
-    private boolean startTls;
+    private final String sendAddress;
+    private final String password;
+    private final String mailHost;
+    private final int port;
+    private final boolean auth;
+    private final boolean startTls;
 
     public MailAccount(String user, String host, String password, int port, boolean auth, boolean startTls) {
         sendAddress = user + "@" + host;

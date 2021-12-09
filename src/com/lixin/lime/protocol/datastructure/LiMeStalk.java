@@ -9,18 +9,8 @@ import java.net.Socket;
  *
  * @author lixin
  */
-public class LiMeStalk {
-    private String username;
-    private Socket socket;
-    private ObjectInputStream ois;
-    private ObjectOutputStream oos;
-
-    public LiMeStalk(String username, Socket socket, ObjectInputStream ois, ObjectOutputStream oos) {
-        this.username = username;
-        this.socket = socket;
-        this.ois = ois;
-        this.oos = oos;
-    }
+public record LiMeStalk(String username, Socket socket, ObjectInputStream ois,
+                        ObjectOutputStream oos) {
 
     public String getUsername() {
         return username;

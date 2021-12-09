@@ -19,19 +19,19 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
 
     private LiMeUserAgreementFrame userAgreementFrame;
 
-    private JPanel contentPane;
-    private JTextField textFieldUsername;
-    private JPasswordField passwordField;
-    private JTextField textFieldEmail;
-    private JToggleButton toggleButtonGender;
-    private JCheckBox checkboxAgree;
-    private JButton btnRegister;
-    private JButton btnCancel;
+    private final JPanel contentPane;
+    private final JTextField textFieldUsername;
+    private final JPasswordField passwordField;
+    private final JTextField textFieldEmail;
+    private final JToggleButton toggleButtonGender;
+    private final JCheckBox checkboxAgree;
+    private final JButton btnRegister;
+    private final JButton btnCancel;
 
     /**
      * Create the frame.
      */
-    public LiMeRegisterFrame() {
+    public LiMeRegisterFrame(ActionListener controller) {
         setResizable(false);
         setTitle("注册 " + THE_BRAND);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -127,12 +127,14 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
         btnRegister.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnRegister.setBounds(119, 378, 117, 36);
         btnRegister.setActionCommand(ACTION_REGISTER_REGISTER);
+        btnRegister.addActionListener(controller);
         contentPane.add(btnRegister);
 
         btnCancel = new JButton("取消");
         btnCancel.setFont(new Font("PingFang SC", Font.PLAIN, 18));
         btnCancel.setBounds(245, 378, 117, 36);
         btnCancel.setActionCommand(ACTION_REGISTER_CANCEL);
+        btnCancel.addActionListener(controller);
         contentPane.add(btnCancel);
 
         JLabel labelBrand = new JLabel(THE_BRAND);
@@ -185,11 +187,7 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 toggleButtonGender.setText("男");
             }
         } else if (source == checkboxAgree) {
-            if (checkboxAgree.isSelected()) {
-                btnRegister.setEnabled(true);
-            } else {
-                btnRegister.setEnabled(false);
-            }
+            btnRegister.setEnabled(checkboxAgree.isSelected());
         } else {
             if (e.getActionCommand().equals(ACTION_AGREEMENT_CONFIRM)) {
                 checkboxAgree.setSelected(true);
@@ -199,14 +197,6 @@ public class LiMeRegisterFrame extends JFrame implements ActionListener {
                 limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
             }
         }
-    }
-
-    public JButton getBtnRegister() {
-        return btnRegister;
-    }
-
-    public JButton getBtnCancel() {
-        return btnCancel;
     }
 
     public String getUsername() {

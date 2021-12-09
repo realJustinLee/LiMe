@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public class LiMeFileTransferFrame extends JFrame {
 
-    private JPanel contentPane;
+    private final JPanel contentPane;
 
     /**
      * Launch the application.

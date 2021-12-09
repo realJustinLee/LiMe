@@ -6,7 +6,7 @@ import java.io.File;
  * @author lixin
  */
 public class LiMeSeedFile extends LiMeSeed {
-    private File file;
+    private final File file;
 
     public LiMeSeedFile(String sender, String receiver, File file) {
         super(FILE, sender, receiver, null, null);

@@ -66,18 +66,8 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         }
     }
 
-    private void initRegisterFrame() {
-        registerFrame = new LiMeRegisterFrame();
-        registerFrame.getBtnRegister().addActionListener(this);
-        registerFrame.getBtnCancel().addActionListener(this);
-    }
-
     private void initChatFrame() {
-        chatFrame = new LiMeChatFrame(username);
-        chatFrame.getButtonLogout().addActionListener(this);
-        chatFrame.getButtonSendFile().addActionListener(this);
-        chatFrame.getButtonSendMessage().addActionListener(this);
-
+        chatFrame = new LiMeChatFrame(username, this);
         HashMap<String, String> history = chatFrame.getHistory();
         history.put(LIME_GROUP_CHAT, "");
         // Update UI from history
@@ -86,10 +76,8 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     private void encryptAndWriteToFile() throws LiMeException {
         try {
-            if (!clientConfigFile.exists()) {
-                if (!clientConfigFile.createNewFile()) {
-                    throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
-                }
+            if (!clientConfigFile.exists() && !clientConfigFile.createNewFile()) {
+                throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
             }
             FileWriter fileWriter = new FileWriter(clientConfigFile.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -149,17 +137,16 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             savePassword = loginFrame.savePassword();
             // login() throws LiMeException
             initChatFrame();
-            if (model.login(username, password)) {
-                // 登录信息正确才写入文件
-                encryptAndWriteToFile();
-                loginFrame.dispose();
-                chatFrame.setVisible(true);
-            }
+            model.login(username, password);
+            // 登录信息正确才写入文件
+            encryptAndWriteToFile();
+            loginFrame.dispose();
+            chatFrame.setVisible(true);
         }
     }
 
     private void actionLoginRegister() {
-        initRegisterFrame();
+        registerFrame = new LiMeRegisterFrame(this);
         registerFrame.setVisible(true);
     }
 
@@ -187,13 +174,12 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             limeWarning("Email不得为空");
         } else {
             // register() throws LiMeException
-            if (model.register(username, password, gender, email)) {
-                limeInfo("注册成功，即将转向登录界面");
-                registerFrame.dispose();
-                loginFrame.setUsername(username);
-                loginFrame.setPassword(password);
-                loginFrame.setVisible(true);
-            }
+            model.register(username, password, gender, email);
+            limeInfo("注册成功，即将转向登录界面");
+            registerFrame.dispose();
+            loginFrame.setUsername(username);
+            loginFrame.setPassword(password);
+            loginFrame.setVisible(true);
         }
     }
 

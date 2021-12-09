@@ -9,8 +9,8 @@ import java.awt.event.FocusListener;
  * @author lixin
  */
 public class LiMeTextFieldHintListener implements FocusListener {
-    private String hintText;
-    private JTextField textField;
+    private final String hintText;
+    private final JTextField textField;
 
     public LiMeTextFieldHintListener(JTextField textField, String hint) {
         this.textField = textField;

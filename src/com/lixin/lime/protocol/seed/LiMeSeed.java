@@ -55,11 +55,11 @@ public class LiMeSeed implements Serializable {
 
     public static final String LIME_GROUP_CHAT = "[ LiMe Group Chat ]";
 
-    private int action;
-    private String sender;
-    private String receiver;
-    private String message;
-    private String time;
+    private final int action;
+    private final String sender;
+    private final String receiver;
+    private final String message;
+    private final String time;
 
     public LiMeSeed(int action, String sender, String receiver, String message, String time) {
         this.action = action;

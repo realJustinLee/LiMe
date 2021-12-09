@@ -48,10 +48,8 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
 
     private void encryptAndWriteToFile() throws LiMeException {
         try {
-            if (!serverConfigFile.exists()) {
-                if (!serverConfigFile.createNewFile()) {
-                    throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
-                }
+            if (!serverConfigFile.exists() && !serverConfigFile.createNewFile()) {
+                throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
             }
             FileWriter fileWriter = new FileWriter(serverConfigFile.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);

@@ -18,13 +18,13 @@ public class LiMeLoginFrame extends JFrame {
     /**
      * UI elements
      */
-    private JPanel contentPane;
-    private JTextField textFieldUsername;
-    private JButton buttonRegister;
-    private JPasswordField passwordField;
-    private JButton buttonRestorePassword;
-    private JButton buttonLogin;
-    private JCheckBox checkboxSavePassword;
+    private final JPanel contentPane;
+    private final JTextField textFieldUsername;
+    private final JButton buttonRegister;
+    private final JPasswordField passwordField;
+    private final JButton buttonRestorePassword;
+    private final JButton buttonLogin;
+    private final JCheckBox checkboxSavePassword;
 
     /**
      * Create the frame.

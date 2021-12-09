@@ -9,9 +9,8 @@ import java.util.Properties;
  * @author lixin
  */
 public class LiMeServerMailBox {
-    private String from;
-
-    private Session session;
+    private final String from;
+    private final Session session;
 
     public LiMeServerMailBox(MailAccount mailAccount) {
         from = mailAccount.getSendAddress();

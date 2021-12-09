@@ -5,6 +5,7 @@ import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
@@ -19,22 +20,22 @@ public class LiMeChatFrame extends JFrame {
     /**
      * HashMap[String receiver, String text]
      */
-    private HashMap<String, String> history;
+    private final HashMap<String, String> history;
 
-    private JPanel contentPane;
-    private JButton buttonLogout;
+    private final JPanel contentPane;
+    private final JButton buttonLogout;
 
-    private JList<String> listFriends;
-    private JTextArea textAreaHistory;
-    private JTextArea textAreaMessage;
+    private final JList<String> listFriends;
+    private final JTextArea textAreaHistory;
+    private final JTextArea textAreaMessage;
 
-    private JButton buttonSendFile;
-    private JButton buttonSendMessage;
+    private final JButton buttonSendFile;
+    private final JButton buttonSendMessage;
 
     /**
      * Create the frame.
      */
-    public LiMeChatFrame(String username) {
+    public LiMeChatFrame(String username, ActionListener controller) {
         setTitle(THE_BRAND + " @" + username);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,18 +111,21 @@ public class LiMeChatFrame extends JFrame {
         buttonLogout.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonLogout.setBounds(1024, 33, 50, 29);
         buttonLogout.setActionCommand(ACTION_CHAT_LOGOUT);
+        buttonLogout.addActionListener(controller);
         contentPane.add(buttonLogout);
 
         buttonSendFile = new JButton("传文件");
         buttonSendFile.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendFile.setBounds(835, 663, 117, 29);
         buttonSendFile.setActionCommand(ACTION_CHAT_SEND_FILE);
+        buttonSendFile.addActionListener(controller);
         contentPane.add(buttonSendFile);
 
         buttonSendMessage = new JButton("发送");
         buttonSendMessage.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonSendMessage.setBounds(957, 663, 117, 29);
         buttonSendMessage.setActionCommand(ACTION_CHAT_SEND_MESSAGE);
+        buttonSendMessage.addActionListener(controller);
         contentPane.add(buttonSendMessage);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
@@ -146,20 +150,8 @@ public class LiMeChatFrame extends JFrame {
         // TODO: Read History From File
     }
 
-    public JButton getButtonLogout() {
-        return buttonLogout;
-    }
-
     public JTextArea getTextAreaMessage() {
         return textAreaMessage;
-    }
-
-    public JButton getButtonSendFile() {
-        return buttonSendFile;
-    }
-
-    public JButton getButtonSendMessage() {
-        return buttonSendMessage;
     }
 
     public String getReceiver() {

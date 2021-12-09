@@ -8,7 +8,7 @@ import java.util.HashSet;
  * @author lixin
  */
 public class LiMeSeedRespond extends LiMeSeed {
-    private HashSet<String> friendList;
+    private final HashSet<String> friendList;
 
     /**
      * @param type     信息类型

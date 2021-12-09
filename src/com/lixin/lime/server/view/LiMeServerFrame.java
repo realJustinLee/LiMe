@@ -20,22 +20,22 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
 
     private String highlightedLime;
 
-    private JPanel contentPane;
-    private JLabel labelBrand;
-    private JButton buttonStart;
-    private JButton buttonStop;
+    private final JPanel contentPane;
+    private final JLabel labelBrand;
+    private final JButton buttonStart;
+    private final JButton buttonStop;
 
-    private JList<String> listLimes;
-    private JButton buttonKick;
-    private JButton buttonBan;
+    private final JList<String> listLimes;
+    private final JButton buttonKick;
+    private final JButton buttonBan;
 
-    private JLabel labelLog;
-    private JTextArea textAreaLog;
-    private JButton buttonClearLog;
+    private final JLabel labelLog;
+    private final JTextArea textAreaLog;
+    private final JButton buttonClearLog;
 
-    private JLabel labelHistory;
-    private JTextArea textAreaHistory;
-    private JButton buttonClearHistory;
+    private final JLabel labelHistory;
+    private final JTextArea textAreaHistory;
+    private final JButton buttonClearHistory;
 
     public LiMeServerFrame(ActionListener controller) {
         setResizable(false);

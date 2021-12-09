@@ -18,9 +18,9 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.ACTION_AGRE
  */
 class LiMeUserAgreementFrame extends JFrame {
 
-    private JPanel contentPane;
+    private final JPanel contentPane;
     private JEditorPane htmlPane;
-    private JButton buttonAgree;
+    private final JButton buttonAgree;
 
     /**
      * Create the frame.

@@ -34,15 +34,15 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author lixin
  */
 public class LiMeServerModel implements Runnable {
-    private int port;
-    private HashMap<String, LiMeStalk> limeHub;
+    private final int port;
+    private final HashMap<String, LiMeStalk> limeHub;
     private ServerSocket serverSocket;
     private Connection connection;
-    private LiMeServerFarmer serverFarmer;
-    private LiMeServerKnight serverKnight;
+    private final LiMeServerFarmer serverFarmer;
+    private final LiMeServerKnight serverKnight;
     private LiMeServerMailBox mailBox;
 
-    private ExecutorService cachedThreadPool;
+    private final ExecutorService cachedThreadPool;
 
     public LiMeServerModel(int port, LiMeServerFarmer serverFarmer, LiMeServerKnight serverKnight) {
         this.port = port;
