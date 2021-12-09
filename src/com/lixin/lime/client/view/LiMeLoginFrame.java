@@ -5,6 +5,7 @@ import com.lixin.lime.protocol.util.gui.FocusTraversalOnArray;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -21,14 +22,14 @@ public class LiMeLoginFrame extends JFrame {
     private JTextField textFieldUsername;
     private JButton buttonRegister;
     private JPasswordField passwordField;
-    private JButton buttonFindPassword;
+    private JButton buttonRestorePassword;
     private JButton buttonLogin;
     private JCheckBox checkboxSavePassword;
 
     /**
      * Create the frame.
      */
-    public LiMeLoginFrame() {
+    public LiMeLoginFrame(ActionListener controller) {
         setResizable(false);
         setTitle(THE_BRAND);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,6 +76,7 @@ public class LiMeLoginFrame extends JFrame {
         buttonRegister.setBounds(350, 111, 100, 29);
         buttonRegister.setBorderPainted(false);
         buttonRegister.setActionCommand(ACTION_LOGIN_REGISTER);
+        buttonRegister.addActionListener(controller);
         contentPane.add(buttonRegister);
 
         JLabel labelPassword = new JLabel("密码");
@@ -90,18 +92,20 @@ public class LiMeLoginFrame extends JFrame {
         passwordField.setBounds(119, 156, 242, 42);
         contentPane.add(passwordField);
 
-        buttonFindPassword = new JButton("找回密码");
-        buttonFindPassword.setForeground(new Color(7, 73, 217));
-        buttonFindPassword.setBounds(350, 165, 100, 29);
-        buttonFindPassword.setBorderPainted(false);
-        buttonFindPassword.setActionCommand(ACTION_LOGIN_FORGOT_PASSWORD);
-        contentPane.add(buttonFindPassword);
+        buttonRestorePassword = new JButton("找回密码");
+        buttonRestorePassword.setForeground(new Color(7, 73, 217));
+        buttonRestorePassword.setBounds(350, 165, 100, 29);
+        buttonRestorePassword.setBorderPainted(false);
+        buttonRestorePassword.setActionCommand(ACTION_LOGIN_FORGOT_PASSWORD);
+        buttonRestorePassword.addActionListener(controller);
+        contentPane.add(buttonRestorePassword);
 
         buttonLogin = new JButton("Login Now!");
         buttonLogin.setForeground(new Color(153, 50, 204));
         buttonLogin.setFont(new Font("Harry P", Font.PLAIN, 32));
         buttonLogin.setBounds(119, 210, 242, 42);
         buttonLogin.setActionCommand(ACTION_LOGIN_LOGIN);
+        buttonLogin.addActionListener(controller);
         contentPane.add(buttonLogin);
 
         checkboxSavePassword = new JCheckBox("保存密码");
@@ -127,16 +131,11 @@ public class LiMeLoginFrame extends JFrame {
         );
     }
 
-    public JButton getButtonRegister() {
-        return buttonRegister;
-    }
-
-    public JButton getButtonFindPassword() {
-        return buttonFindPassword;
-    }
-
-    public JButton getButtonLogin() {
-        return buttonLogin;
+    public LiMeLoginFrame(ActionListener listener, String username, String password, boolean savePassword) {
+        this(listener);
+        setUsername(username);
+        setPassword(password);
+        savePassword(savePassword);
     }
 
     public void setUsername(String username) {

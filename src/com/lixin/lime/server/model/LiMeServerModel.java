@@ -34,6 +34,7 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author lixin
  */
 public class LiMeServerModel implements Runnable {
+    private int port;
     private HashMap<String, LiMeStalk> limeHub;
     private ServerSocket serverSocket;
     private Connection connection;
@@ -43,7 +44,8 @@ public class LiMeServerModel implements Runnable {
 
     private ExecutorService cachedThreadPool;
 
-    public LiMeServerModel(LiMeServerFarmer serverFarmer, LiMeServerKnight serverKnight) {
+    public LiMeServerModel(int port, LiMeServerFarmer serverFarmer, LiMeServerKnight serverKnight) {
+        this.port = port;
         limeHub = new HashMap<>();
         this.serverFarmer = serverFarmer;
         this.serverKnight = serverKnight;
@@ -61,8 +63,8 @@ public class LiMeServerModel implements Runnable {
                     new MailAccountGmail(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
             );
             // init socket
-            serverSocket = new ServerSocket(PORT);
-            System.out.println("ServerSocket initialized @ " + PORT);
+            serverSocket = new ServerSocket(port);
+            System.out.println("ServerSocket initialized @ " + port);
             while (!serverSocket.isClosed()) {
                 Socket socketLime = serverSocket.accept();
                 cachedThreadPool.execute(new ServerSeedGrinder(socketLime));
@@ -74,10 +76,10 @@ public class LiMeServerModel implements Runnable {
             }
         } catch (BindException e) {
             e.printStackTrace();
-            limeInternalError(this.getClass().getCanonicalName(), "端口 " + PORT + " 已被占用");
+            limeInternalError(this.getClass().getCanonicalName(), "端口 " + port + " 已被占用");
         } catch (SocketException e) {
             if (serverSocket.isClosed()) {
-                System.out.println("ServerSocket closed @ " + PORT);
+                System.out.println("ServerSocket closed @ " + port);
                 limeInfo("ServerSocket 已关闭");
             } else {
                 e.printStackTrace();
@@ -273,7 +275,7 @@ public class LiMeServerModel implements Runnable {
                 while ((seed = (LiMeSeed) ois.readObject()) != null) {
                     int action = seed.getAction();
                     switch (action) {
-                        case MESSAGE:
+                        case MESSAGE -> {
                             LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
                             String receiver = seedMessage.getReceiver();
                             if (!receiver.equals(LIME_GROUP_CHAT)) {
@@ -289,9 +291,9 @@ public class LiMeServerModel implements Runnable {
                                 // Log Group Chat History
                                 serverKnight.newChatHistory(seed);
                             }
-                            // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
-                            break;
-                        case LOGIN:
+                        }
+                        // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
+                        case LOGIN -> {
                             // Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
                             username = seedLogin.getUsername();
@@ -311,36 +313,33 @@ public class LiMeServerModel implements Runnable {
                             } else {
                                 sendSeedStatus(ERROR_LOGIN_PASSWORD);
                             }
-                            break;
-                        case LOGOUT:
-                            removeLime(username, false);
-                            break;
-                        case REGISTER:
+                        }
+                        case LOGOUT -> removeLime(username, false);
+                        case REGISTER -> {
                             LiMeSeedRegister seedRegister = (LiMeSeedRegister) seed;
                             if (register(new User(seedRegister.getUsername(), seedRegister.getPassword(), seedRegister.getGender(), seedRegister.getEmail()))) {
                                 sendSeedStatus(STATUS_REGISTER_SUCCESS);
                             } else {
                                 sendSeedStatus(ERROR_REGISTER_CONFLICT);
                             }
-                            break;
-                        case RECEIVER_IP:
+                        }
+                        case RECEIVER_IP -> {
                             // Respond receiver_ip
                             LiMeSeedRequest seedRequest = (LiMeSeedRequest) seed;
                             String theReceiver = seedRequest.getReceiver();
                             String receiverIp = limeHub.get(theReceiver).getSocket().getInetAddress().getHostAddress();
                             sendSeedRespond(RECEIVER_IP, seedRequest.getSender(), theReceiver, receiverIp, null);
-                            break;
-                        case FRIENDS_UPDATE:
+                        }
+                        case FRIENDS_UPDATE -> {
                             // TODO: (V2.0)Return the User's friends
                             LiMeSeedRequest request = (LiMeSeedRequest) seed;
                             // Return all online
                             HashSet<String> keySet = new HashSet<>(limeHub.keySet());
                             sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, keySet);
-                            break;
-                        case FILE:
+                        }
+                        case FILE -> {
                             // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
                             LiMeSeedFile seedFile = (LiMeSeedFile) seed;
-
                             String fileReceiver = seedFile.getReceiver();
                             if (!fileReceiver.equals(LIME_GROUP_CHAT)) {
                                 LiMeStalk limeStalk = limeHub.get(seedFile.getReceiver());
@@ -350,15 +349,13 @@ public class LiMeServerModel implements Runnable {
                                 // TODO: 下个版本允许群发文件
                                 System.out.println("Group File Request");
                             }
-                            break;
-                        case FORGOT_PASSWORD:
+                        }
+                        case FORGOT_PASSWORD -> {
                             LiMeSeedRequest liMeSeedRequest = (LiMeSeedRequest) seed;
                             username = liMeSeedRequest.getSender();
                             resetPassword(username, generatePasswordAndKey());
-                            break;
-                        default:
-                            limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
-                            break;
+                        }
+                        default -> limeInternalError(this.getClass().getCanonicalName(), String.valueOf(action));
                     }
                 }
             } catch (EOFException e) {

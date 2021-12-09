@@ -37,7 +37,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
     private JTextArea textAreaHistory;
     private JButton buttonClearHistory;
 
-    public LiMeServerFrame() {
+    public LiMeServerFrame(ActionListener controller) {
         setResizable(false);
         setTitle(THE_SERVER_TITLE);
         setBounds(200, 140, 1280, 720);
@@ -64,6 +64,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStart.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStart.setBounds(206, 13, 117, 36);
         buttonStart.setActionCommand(SERVER_ACTION_START);
+        buttonStart.addActionListener(controller);
         buttonStart.addActionListener(this);
         contentPane.add(buttonStart);
 
@@ -73,6 +74,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonStop.setFont(new Font("Harry P", Font.PLAIN, 24));
         buttonStop.setBounds(206, 61, 117, 36);
         buttonStop.setActionCommand(SERVER_ACTION_STOP);
+        buttonStop.addActionListener(controller);
         buttonStop.addActionListener(this);
         contentPane.add(buttonStop);
 
@@ -95,6 +97,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonKick.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonKick.setBounds(6, 635, 155, 29);
         buttonKick.setActionCommand(SERVER_ACTION_KICK);
+        buttonKick.addActionListener(controller);
         contentPane.add(buttonKick);
 
         buttonBan = new JButton("封号");
@@ -102,6 +105,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonBan.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonBan.setBounds(168, 635, 155, 29);
         buttonBan.setActionCommand(SERVER_ACTION_BAN);
+        buttonBan.addActionListener(controller);
         contentPane.add(buttonBan);
 
         JSeparator separatorLeft = new JSeparator();
@@ -131,6 +135,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonClearLog.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonClearLog.setBounds(359, 635, 400, 29);
         buttonClearLog.setActionCommand(SERVER_ACTION_CLEAR_LOG);
+        buttonClearLog.addActionListener(controller);
         contentPane.add(buttonClearLog);
 
         JSeparator separatorRight = new JSeparator();
@@ -159,6 +164,7 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         buttonClearHistory.setFont(new Font("PingFang SC", Font.PLAIN, 13));
         buttonClearHistory.setBounds(795, 635, 480, 29);
         buttonClearHistory.setActionCommand(SERVER_ACTION_CLEAR_HISTORY);
+        buttonClearHistory.addActionListener(controller);
         contentPane.add(buttonClearHistory);
 
         JLabel labelCopyright = new JLabel(THE_COPYRIGHT);
@@ -193,30 +199,6 @@ public class LiMeServerFrame extends JFrame implements ActionListener {
         } else {
             limeInternalError(this.getClass().getCanonicalName(), e.getSource().toString());
         }
-    }
-
-    public JButton getButtonStart() {
-        return buttonStart;
-    }
-
-    public JButton getButtonStop() {
-        return buttonStop;
-    }
-
-    public JButton getButtonKick() {
-        return buttonKick;
-    }
-
-    public JButton getButtonBan() {
-        return buttonBan;
-    }
-
-    public JButton getButtonClearLog() {
-        return buttonClearLog;
-    }
-
-    public JButton getButtonClearHistory() {
-        return buttonClearHistory;
     }
 
     private void enableComponents(boolean bool) {

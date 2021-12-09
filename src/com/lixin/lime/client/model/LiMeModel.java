@@ -36,14 +36,12 @@ public class LiMeModel {
      * 如果线程超过 60 秒还未被使用，就会被中止并从缓存中移除。因此，线程池在长时间空闲后不会消耗任何资源
      */
     private ExecutorService cachedThreadPool;
-    private LiMeExceptionFactory exceptionFactory;
 
     public LiMeModel(String host, int port, LiMeFarmer farmer, LiMeKnight knight) {
         this.host = host;
         this.port = port;
         this.farmer = farmer;
         this.knight = knight;
-        exceptionFactory = new LiMeExceptionFactory();
     }
 
     public synchronized void connectToServer() throws LiMeException {
@@ -52,7 +50,7 @@ public class LiMeModel {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
         } catch (Exception e) {
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION);
         }
     }
 
@@ -63,7 +61,7 @@ public class LiMeModel {
             socket.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION);
         }
     }
 
@@ -122,7 +120,7 @@ public class LiMeModel {
             oos.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION);
         }
     }
 
@@ -133,17 +131,17 @@ public class LiMeModel {
             return (LiMeSeed) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION);
         }
     }
 
     private synchronized void screenSeed(LiMeSeed seed, int action) throws LiMeException {
         if (seed == null) {
-            throw exceptionFactory.newLiMeException(ERROR_CONNECTION);
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION);
         } else {
             int seedAction = seed.getAction();
             if (seedAction != action) {
-                throw exceptionFactory.newLiMeException(seedAction);
+                throw LiMeExceptionFactory.newLiMeException(seedAction);
             }
         }
     }
@@ -158,10 +156,10 @@ public class LiMeModel {
                     switch (action) {
                         case ERROR_ADMIN_BANNED:
                             // 被封号
-                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_BANNED);
+                            throw LiMeExceptionFactory.newLiMeException(ERROR_ADMIN_BANNED);
                         case ERROR_ADMIN_KICKED:
                             // 被踢
-                            throw exceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
+                            throw LiMeExceptionFactory.newLiMeException(ERROR_ADMIN_KICKED);
                         case MESSAGE:
                             if (seed.getReceiver().equals(LIME_GROUP_CHAT)) {
                                 knight.newGroupChat(seed);
@@ -186,10 +184,10 @@ public class LiMeModel {
                 farmer.handleLiMeException(e);
                 System.exit(0);
             } catch (EOFException e) {
-                farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_CONNECTION));
+                farmer.handleLiMeException(LiMeExceptionFactory.newLiMeException(ERROR_CONNECTION));
                 System.exit(0);
             } catch (Exception e) {
-                farmer.handleLiMeException(exceptionFactory.newLiMeException(ERROR_UNKNOWN));
+                farmer.handleLiMeException(LiMeExceptionFactory.newLiMeException(ERROR_UNKNOWN));
                 e.printStackTrace();
                 System.exit(0);
             }

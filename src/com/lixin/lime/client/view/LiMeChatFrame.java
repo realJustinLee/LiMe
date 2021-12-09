@@ -94,6 +94,7 @@ public class LiMeChatFrame extends JFrame {
         scrollPaneHistory.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneHistory.setPreferredSize(new Dimension(832, 430));
         scrollPaneHistory.setMinimumSize(new Dimension(832, 150));
+
         textAreaMessage = new JTextArea();
         textAreaMessage.setLineWrap(true);
         textAreaMessage.setFont(new Font("PingFang SC", Font.PLAIN, 16));

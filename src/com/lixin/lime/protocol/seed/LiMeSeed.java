@@ -14,6 +14,7 @@ public class LiMeSeed implements Serializable {
      * ERROR_ADMIN_BANNED       被封号
      * ERROR_ADMIN_KICKED       被踢
      * <p> Error from inside</p>
+     * ERROR_CONFIG_FILE        设置文件无法读写
      * ERROR_REGISTER_CONFLICT  注册信息冲突
      * ERROR_LOGIN_CONFLICT     重复登录
      * ERROR_LOGIN_PASSWORD     用户名或密码错误
@@ -30,9 +31,10 @@ public class LiMeSeed implements Serializable {
      * STATUS_LOGIN_SUCCESS     登录成功
      * STATUS_REGISTER_SUCCESS  注册成功
      */
-    public static final int ERROR_ADMIN_BANNED = -6;
-    public static final int ERROR_ADMIN_KICKED = -5;
+    public static final int ERROR_ADMIN_BANNED = -7;
+    public static final int ERROR_ADMIN_KICKED = -6;
 
+    public static final int ERROR_CONFIG_FILE = -5;
     public static final int ERROR_REGISTER_CONFLICT = -4;
     public static final int ERROR_LOGIN_CONFLICT = -3;
     public static final int ERROR_LOGIN_PASSWORD = -2;

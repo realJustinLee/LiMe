@@ -1,13 +1,15 @@
 package com.lixin.lime.server.controller;
 
+import com.lixin.lime.protocol.exception.LiMeException;
 import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.seed.LiMeSeedMessage;
+import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 import com.lixin.lime.server.model.LiMeServerModel;
 import com.lixin.lime.server.view.LiMeServerFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -22,6 +24,9 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  */
 public class LiMeServerController implements Runnable, ActionListener, LiMeServerFarmer, LiMeServerKnight {
 
+    private final File serverConfigFile = new File(SERVER_CONFIG_FILE_PATH);
+
+    private int port;
     private LiMeServerFrame serverFrame;
     private LiMeServerModel serverModel;
 
@@ -32,25 +37,42 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
      * Create the application.
      */
     public LiMeServerController() {
-        initialize();
+        try {
+            decryptAndReadFromFile();
+            serverFrame = new LiMeServerFrame(this);
+            serverModel = new LiMeServerModel(port, this, this);
+        } catch (LiMeException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
-        initServerFrame();
-        serverModel = new LiMeServerModel(this, this);
+    private void encryptAndWriteToFile() throws LiMeException {
+        try {
+            if (!serverConfigFile.exists()) {
+                if (!serverConfigFile.createNewFile()) {
+                    throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
+                }
+            }
+            FileWriter fileWriter = new FileWriter(serverConfigFile.getName(), false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(port + "\n");
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
+        }
     }
 
-    private void initServerFrame() {
-        serverFrame = new LiMeServerFrame();
-        serverFrame.getButtonStart().addActionListener(this);
-        serverFrame.getButtonStop().addActionListener(this);
-        serverFrame.getButtonKick().addActionListener(this);
-        serverFrame.getButtonBan().addActionListener(this);
-        serverFrame.getButtonClearLog().addActionListener(this);
-        serverFrame.getButtonClearHistory().addActionListener(this);
+    private void decryptAndReadFromFile() throws LiMeException {
+        try {
+            FileReader fileReader = new FileReader(serverConfigFile.getName());
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            port = Integer.parseInt(bufferedReader.readLine());
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            port = DEFAULT_PORT;
+        } catch (IOException e) {
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
+        }
     }
 
     @Override
@@ -76,6 +98,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                         serverSocket.close();
                     }
                     cachedThreadPool.shutdownNow();
+                    encryptAndWriteToFile();
                 }
                 case SERVER_ACTION_KICK -> {
                     // Kick User out
@@ -92,7 +115,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
                 case SERVER_ACTION_CLEAR_HISTORY -> serverFrame.clearHistory();
                 default -> limeInternalError(this.getClass().getCanonicalName(), e.getActionCommand());
             }
-        } catch (IOException | SQLException ex) {
+        } catch (IOException | SQLException | LiMeException ex) {
             ex.printStackTrace();
             limeInternalError(this.getClass().getCanonicalName(), ex.getMessage());
         }

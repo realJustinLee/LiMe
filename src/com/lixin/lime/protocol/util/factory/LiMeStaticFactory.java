@@ -26,11 +26,11 @@ public class LiMeStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Justin Lee";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 0.6.12";
+    public static final String THE_LIME_VERSION = "C_v 0.7.0";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 0.6.12";
+    public static final String THE_SERVER_VERSION = "S_v 0.7.0";
 
     /**
      * The Actions
@@ -63,7 +63,8 @@ public class LiMeStaticFactory {
      */
     private static final String GOLDEN_KEY = "FuckYouMicrosoft";
 
-    public static final String PASSWORD_FILE_PATH = "soil.lime";
+    public static final String CLIENT_CONFIG_FILE_PATH = "client.lime";
+    public static final String SERVER_CONFIG_FILE_PATH = "server.lime";
 
     /**
      * communication information
@@ -73,7 +74,7 @@ public class LiMeStaticFactory {
      * 5463 = T9 keyboard - LiMe
      * 54946 = T9 keyboard - LiXin
      */
-    public static final int PORT = 5463;
+    public static final int DEFAULT_PORT = 5463;
 
     /**
      * communication information
@@ -89,7 +90,7 @@ public class LiMeStaticFactory {
     public static final String HOST_NAME = "www";
     public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
 
-    public static final String HOST = "127.0.0.1";
+    public static final String LOCALHOST = "127.0.0.1";
 
     // public static final String HOST = WEB_MOST;
 

@@ -9,6 +9,7 @@ import com.lixin.lime.protocol.seed.LiMeSeed;
 import com.lixin.lime.protocol.seed.LiMeSeedFile;
 import com.lixin.lime.protocol.seed.LiMeSeedMessage;
 import com.lixin.lime.protocol.seed.LiMeSeedRespond;
+import com.lixin.lime.protocol.util.factory.LiMeExceptionFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static com.lixin.lime.protocol.seed.LiMeSeed.ERROR_CONFIG_FILE;
 import static com.lixin.lime.protocol.seed.LiMeSeed.LIME_GROUP_CHAT;
 import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
@@ -25,20 +27,17 @@ import static com.lixin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author lixin
  */
 public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiMeKnight {
-    /**
-     * The password file
-     */
-    private final File passwordFile = new File(PASSWORD_FILE_PATH);
+    private final File clientConfigFile = new File(CLIENT_CONFIG_FILE_PATH);
 
     /**
      * The variables
      */
+    private String host;
+    private int port;
     private String username;
     private String receiver;
-    /**
-     * TODO: password 改成 char[] 来提升安全性
-     */
     private String password;
+    private boolean savePassword;
 
     /**
      * The Views(Frames)
@@ -56,30 +55,15 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
      * Create the application.
      */
     public LiMeController() {
-        initialize();
-    }
-
-    /**
-     * Initialize the LiMeLoginFrame.
-     */
-    private void initialize() {
-        // 测试版本
         try {
-            model = new LiMeModel(HOST, PORT, this, this);
-            initLoginFrame();
+            decryptAndReadFromFile();
+            model = new LiMeModel(host, port, this, this);
             model.connectToServer();
+            loginFrame = new LiMeLoginFrame(this, username, password, savePassword);
         } catch (LiMeException e) {
             handleLiMeException(e);
             System.exit(0);
         }
-    }
-
-    private void initLoginFrame() {
-        loginFrame = new LiMeLoginFrame();
-        loginFrame.getButtonLogin().addActionListener(this);
-        loginFrame.getButtonRegister().addActionListener(this);
-        loginFrame.getButtonFindPassword().addActionListener(this);
-        decryptAndReadFromFile(passwordFile);
     }
 
     private void initRegisterFrame() {
@@ -100,41 +84,40 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         chatFrame.updateTextAreaHistory();
     }
 
-    private void encryptAndWriteToFile(File file, String username, String password) {
+    private void encryptAndWriteToFile() throws LiMeException {
         try {
-            if (!file.exists()) {
-                Boolean res = file.createNewFile();
+            if (!clientConfigFile.exists()) {
+                if (!clientConfigFile.createNewFile()) {
+                    throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
+                }
             }
-            //true = append file
-            FileWriter fileWriter = new FileWriter(file.getName(), false);
+            FileWriter fileWriter = new FileWriter(clientConfigFile.getName(), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            boolean savePassword = loginFrame.savePassword();
+            bufferedWriter.write(host + "\n");
+            bufferedWriter.write(port + "\n");
+            bufferedWriter.write(savePassword + "\n");
             if (savePassword) {
                 String randomKey = generatePasswordAndKey();
                 String encryptedKey = encrypt(randomKey);
                 String encryptedUsername = encrypt(username, randomKey);
                 String encryptedPassword = encrypt(password, randomKey);
-                bufferedWriter.write("true\n");
                 bufferedWriter.write(encryptedKey + "\n");
                 bufferedWriter.write(encryptedUsername + "\n");
                 bufferedWriter.write(encryptedPassword + "\n");
-            } else {
-                bufferedWriter.write("false\n");
             }
             bufferedWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
     }
 
-    private void decryptAndReadFromFile(File file) {
+    private void decryptAndReadFromFile() throws LiMeException {
         try {
-            if (!file.exists()) {
-                return;
-            }
-            FileReader fileReader = new FileReader(file.getName());
+            FileReader fileReader = new FileReader(clientConfigFile.getName());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            boolean savePassword = "true".equals(bufferedReader.readLine());
+            host = bufferedReader.readLine();
+            port = Integer.parseInt(bufferedReader.readLine());
+            savePassword = Boolean.parseBoolean(bufferedReader.readLine());
             if (savePassword) {
                 String encryptedKey = bufferedReader.readLine();
                 String encryptedUsername = bufferedReader.readLine();
@@ -142,13 +125,13 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
                 String randomKey = encryptedKey == null ? "" : decrypt(encryptedKey);
                 username = encryptedUsername == null ? "" : decrypt(encryptedUsername, randomKey);
                 password = encryptedPassword == null ? "" : decrypt(encryptedPassword, randomKey);
-                loginFrame.setUsername(username);
-                loginFrame.setPassword(password);
             }
-            loginFrame.savePassword(savePassword);
             bufferedReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            host = LOCALHOST;
+            port = DEFAULT_PORT;
+        } catch (IOException e) {
+            throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
     }
 
@@ -156,18 +139,19 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     private synchronized void actionLoginLogin() throws LiMeException {
         // 用户名、密码有无校验
-        username = loginFrame.getUsername();
-        password = loginFrame.getPassword();
-        if (username.isEmpty()) {
+        if (loginFrame.getUsername().isEmpty()) {
             limeWarning("请输入用户名");
-        } else if (password.isEmpty()) {
+        } else if (loginFrame.getPassword().isEmpty()) {
             limeWarning("请输入密码");
         } else {
+            username = loginFrame.getUsername();
+            password = loginFrame.getPassword();
+            savePassword = loginFrame.savePassword();
             // login() throws LiMeException
             initChatFrame();
             if (model.login(username, password)) {
                 // 登录信息正确才写入文件
-                encryptAndWriteToFile(passwordFile, username, password);
+                encryptAndWriteToFile();
                 loginFrame.dispose();
                 chatFrame.setVisible(true);
             }
@@ -221,7 +205,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         // logout() throws LiMeException
         model.logout(username);
         chatFrame.dispose();
-        initLoginFrame();
+        loginFrame = new LiMeLoginFrame(this, username, password, savePassword);
         loginFrame.setVisible(true);
         limeInfo("已成功登出 " + THE_BRAND);
     }

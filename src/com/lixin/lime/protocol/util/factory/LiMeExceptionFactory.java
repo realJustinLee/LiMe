@@ -17,18 +17,21 @@ public class LiMeExceptionFactory {
      *                  ERROR_ADMIN_BANNED       被封号
      *                  ERROR_ADMIN_KICKED       被踢
      *                  <p> Error from inside</p>
+     *                  ERROR_CONFIG_FILE      设置文件无法读写
      *                  ERROR_REGISTER_CONFLICT  注册信息冲突
      *                  ERROR_LOGIN_CONFLICT     重复登录
      *                  ERROR_LOGIN_PASSWORD     用户名或密码错误
      *                  ERROR_CONNECTION         连接错误
      *                  ERROR_UNKNOWN            未知错误
      */
-    public LiMeException newLiMeException(int errorCode) {
+    public static LiMeException newLiMeException(int errorCode) {
         switch (errorCode) {
             case ERROR_ADMIN_BANNED:
                 return new LiMeException("账号被被封禁", "您因违反 " + THE_BRAND + " 用户协议，账号已被永久封禁");
             case ERROR_ADMIN_KICKED:
                 return new LiMeException("账号被踢", "您已被 " + THE_BRAND + " 管理员从服务器中移除");
+            case ERROR_CONFIG_FILE:
+                return new LiMeException("无法创建或修改设置文件", "无法在当前目录创建或修改 " + CLIENT_CONFIG_FILE_PATH);
             case ERROR_REGISTER_CONFLICT:
                 return new LiMeException("注册信息冲突", "您的用户名或者邮箱已被用于注册 " + THE_BRAND);
             case ERROR_LOGIN_CONFLICT:
@@ -41,7 +44,7 @@ public class LiMeExceptionFactory {
             case ERROR_UNKNOWN:
                 return new LiMeException("未知错误", THE_BRAND + " 发生了一个未知错误");
             default:
-                limeInternalError(this.getClass().getCanonicalName(), String.valueOf(errorCode));
+                limeInternalError(LiMeExceptionFactory.class.getCanonicalName(), String.valueOf(errorCode));
                 return new LiMeException("未知错误", THE_BRAND + " 发生了一个未知错误");
         }
     }

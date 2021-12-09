@@ -2,7 +2,7 @@
   <library name="mysql:mysql-connector-java:Latest" type="repository">
     <properties maven-id="mysql:mysql-connector-java:LATEST" />
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-8.0.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-8.0.27.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/protobuf-java-3.11.4.jar!/" />
     </CLASSES>
     <JAVADOC />
