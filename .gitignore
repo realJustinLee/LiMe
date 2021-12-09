@@ -38,3 +38,4 @@ out/
 hs_err_pid*
 
 *.lime
+.DS_Store

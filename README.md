@@ -40,12 +40,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
 ## Version
 
-- C_v 0.7.0
-- S_v 0.7.0
+- C_v 0.7.1
+- S_v 0.7.1
 
   ```
    _______________________
-  /    Finally, v0.7.0!  \
+  /    Finally, v0.7.1!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |

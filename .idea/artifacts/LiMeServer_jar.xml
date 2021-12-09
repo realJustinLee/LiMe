@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/LiMeServer_jar</output-path>
     <root id="archive" name="LiMeServer.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/com/lixin/lime/server/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/com/justin/lime/server/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="LiMe" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/activation-1.1.jar" path-in-jar="/" />
