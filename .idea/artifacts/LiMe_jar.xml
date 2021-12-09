@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="LiMe:jar">
+  <artifact type="jar" build-on-make="true" name="LiMe:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/LiMe_jar</output-path>
     <root id="archive" name="LiMe.jar">
       <element id="module-output" name="LiMe" />
