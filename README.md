@@ -18,12 +18,12 @@ anytime, anywhere. You can also quickly deploy a custom LiMe server for private 
 
 ## Requirements
 
-- JRE 17
+- JDK 18
   > This project is compiled with Temurin.
   > ```
-  > openjdk 17 2021-09-14
-  > OpenJDK Runtime Environment Temurin-17+35 (build 17+35)
-  > OpenJDK 64-Bit Server VM Temurin-17+35 (build 17+35, mixed mode, sharing)
+  > openjdk 18 2022-03-22
+  > OpenJDK Runtime Environment Temurin-18+36 (build 18+36)
+  > OpenJDK 64-Bit Server VM Temurin-18+36 (build 18+36, mixed mode)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `Temurin`, `AdoptOpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
@@ -164,4 +164,4 @@ And The Warrior Whispers Back,
 
 # Made with ❤ by [Justin Lee](https://github.com/realJustinLee)!
 
-™ and © 1997-2021 Justin Lee. All Rights Reserved. [License Agreement](./LICENSE)
+™ and © 1997-2022 Justin Lee. All Rights Reserved. [License Agreement](./LICENSE)
