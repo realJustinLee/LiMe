@@ -13,6 +13,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,8 +24,7 @@ import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author Justin Lee
  */
 public class LiMeServerController implements Runnable, ActionListener, LiMeServerFarmer, LiMeServerKnight {
-
-    private final File serverConfigFile = new File(SERVER_CONFIG_FILE_PATH);
+    private Properties properties;
 
     private int port;
     private LiMeServerFrame serverFrame;
@@ -38,6 +38,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
      */
     public LiMeServerController() {
         try {
+            properties = new Properties();
             decryptAndReadFromFile();
             serverFrame = new LiMeServerFrame(this);
             serverModel = new LiMeServerModel(port, this, this);
@@ -48,13 +49,8 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
 
     private void encryptAndWriteToFile() throws LiMeException {
         try {
-            if (!serverConfigFile.exists() && !serverConfigFile.createNewFile()) {
-                throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
-            }
-            FileWriter fileWriter = new FileWriter(serverConfigFile.getName(), false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(port + "\n");
-            bufferedWriter.close();
+            FileWriter writer = new FileWriter(SERVER_CONFIG_FILE_PATH);
+            properties.store(writer, PROP_SERVER_COMMENT);
         } catch (IOException e) {
             throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
@@ -62,10 +58,10 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
 
     private void decryptAndReadFromFile() throws LiMeException {
         try {
-            FileReader fileReader = new FileReader(serverConfigFile.getName());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            port = Integer.parseInt(bufferedReader.readLine());
-            bufferedReader.close();
+            FileReader reader = new FileReader(SERVER_CONFIG_FILE_PATH);
+            properties.load(reader);
+            port = Integer.parseInt(properties.getProperty(PROP_NAME_SERVER_PORT, String.valueOf(DEFAULT_PORT)));
+
         } catch (FileNotFoundException e) {
             port = DEFAULT_PORT;
         } catch (IOException e) {

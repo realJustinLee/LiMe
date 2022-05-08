@@ -63,8 +63,8 @@ public class LiMeStaticFactory {
      */
     private static final String GOLDEN_KEY = "FuckYouMicrosoft";
 
-    public static final String CLIENT_CONFIG_FILE_PATH = "client.lime";
-    public static final String SERVER_CONFIG_FILE_PATH = "server.lime";
+    public static final String CLIENT_CONFIG_FILE_PATH = "client.properties";
+    public static final String SERVER_CONFIG_FILE_PATH = "server.properties";
 
     /**
      * communication information
@@ -75,6 +75,32 @@ public class LiMeStaticFactory {
      * 54946 = T9 keyboard - LiXin
      */
     public static final int DEFAULT_PORT = 5463;
+    public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
+
+    /**
+     * client property names
+     */
+
+    public static final String PROP_LIME_COMMENT = "LiMe Config file";
+    public static final String PROP_NAME_LIME_HOST = "lime.host";
+    public static final String PROP_NAME_LIME_PORT = "lime.port";
+    public static final String PROP_NAME_LIME_ENCRYPTED_KEY = "lime.encrypted.key";
+    public static final String PROP_NAME_LIME_ENCRYPTED_USERNAME = "lime.encrypted.username";
+    public static final String PROP_NAME_LIME_ENCRYPTED_PASSWORD = "lime.encrypted.password";
+
+    /**
+     * server property names
+     */
+
+    public static final String PROP_SERVER_COMMENT = "LiMe Server Config file";
+    public static final String PROP_NAME_SERVER_PORT = "server.port";
+
+    public static final String PROP_NAME_SERVER_DB_HOST = "server.db.host";
+    public static final String PROP_NAME_SERVER_DB_PORT = "server.db.port";
+    public static final String PROP_NAME_SERVER_DB_DB = "server.db.db";
+    public static final String PROP_NAME_SERVER_DB_USERNAME = "server.db.username";
+    public static final String PROP_NAME_SERVER_DB_PASSWORD = "server.db.password";
+
 
     /**
      * communication information
@@ -113,7 +139,6 @@ public class LiMeStaticFactory {
     public static final String SQL_DATABASE = "lime";
     public static final String SQL_USERNAME = "lime";
     public static final String SQL_PASSWORD = "lime";
-    public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     // Server Email properties
 

@@ -18,6 +18,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Properties;
 
 import static com.justin.lime.protocol.seed.LiMeSeed.ERROR_CONFIG_FILE;
 import static com.justin.lime.protocol.seed.LiMeSeed.LIME_GROUP_CHAT;
@@ -27,7 +28,7 @@ import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
  * @author Justin Lee
  */
 public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiMeKnight {
-    private final File clientConfigFile = new File(CLIENT_CONFIG_FILE_PATH);
+    private Properties properties;
 
     /**
      * The variables
@@ -56,6 +57,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
      */
     public LiMeController() {
         try {
+            properties = new Properties();
             decryptAndReadFromFile();
             model = new LiMeModel(host, port, this, this);
             model.connectToServer();
@@ -76,24 +78,17 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     private void encryptAndWriteToFile() throws LiMeException {
         try {
-            if (!clientConfigFile.exists() && !clientConfigFile.createNewFile()) {
-                throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
-            }
-            FileWriter fileWriter = new FileWriter(clientConfigFile.getName(), false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(host + "\n");
-            bufferedWriter.write(port + "\n");
-            bufferedWriter.write(savePassword + "\n");
             if (savePassword) {
                 String randomKey = generatePasswordAndKey();
                 String encryptedKey = encrypt(randomKey);
                 String encryptedUsername = encrypt(username, randomKey);
                 String encryptedPassword = encrypt(password, randomKey);
-                bufferedWriter.write(encryptedKey + "\n");
-                bufferedWriter.write(encryptedUsername + "\n");
-                bufferedWriter.write(encryptedPassword + "\n");
+                properties.setProperty(PROP_NAME_LIME_ENCRYPTED_KEY, encryptedKey);
+                properties.setProperty(PROP_NAME_LIME_ENCRYPTED_USERNAME, encryptedUsername);
+                properties.setProperty(PROP_NAME_LIME_ENCRYPTED_PASSWORD, encryptedPassword);
             }
-            bufferedWriter.close();
+            FileWriter writer = new FileWriter(CLIENT_CONFIG_FILE_PATH);
+            properties.store(writer, PROP_LIME_COMMENT);
         } catch (IOException e) {
             throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
@@ -101,20 +96,19 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     private void decryptAndReadFromFile() throws LiMeException {
         try {
-            FileReader fileReader = new FileReader(clientConfigFile.getName());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            host = bufferedReader.readLine();
-            port = Integer.parseInt(bufferedReader.readLine());
-            savePassword = Boolean.parseBoolean(bufferedReader.readLine());
+            FileReader reader = new FileReader(CLIENT_CONFIG_FILE_PATH);
+            properties.load(reader);
+            host = properties.getProperty(PROP_NAME_LIME_HOST, LOCALHOST);
+            port = Integer.parseInt(properties.getProperty(PROP_NAME_LIME_PORT, String.valueOf(DEFAULT_PORT)));
+            String encryptedKey = properties.getProperty(PROP_NAME_LIME_ENCRYPTED_KEY);
+            String encryptedUsername = properties.getProperty(PROP_NAME_LIME_ENCRYPTED_USERNAME);
+            String encryptedPassword = properties.getProperty(PROP_NAME_LIME_ENCRYPTED_PASSWORD);
+            savePassword = encryptedKey != null;
             if (savePassword) {
-                String encryptedKey = bufferedReader.readLine();
-                String encryptedUsername = bufferedReader.readLine();
-                String encryptedPassword = bufferedReader.readLine();
-                String randomKey = encryptedKey == null ? "" : decrypt(encryptedKey);
+                String randomKey = decrypt(encryptedKey);
                 username = encryptedUsername == null ? "" : decrypt(encryptedUsername, randomKey);
                 password = encryptedPassword == null ? "" : decrypt(encryptedPassword, randomKey);
             }
-            bufferedReader.close();
         } catch (FileNotFoundException e) {
             host = LOCALHOST;
             port = DEFAULT_PORT;
