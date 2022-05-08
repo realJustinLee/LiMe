@@ -35,6 +35,14 @@ import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
  */
 public class LiMeServerModel implements Runnable {
     private final int port;
+    private final String db_host;
+    private final int db_port;
+    private final String db_db;
+    private final String db_username;
+    private final String db_password;
+    private final String email_user;
+    private final String email_domain;
+    private final String email_password;
     private final HashMap<String, LiMeStalk> limeHub;
     private ServerSocket serverSocket;
     private Connection connection;
@@ -44,12 +52,30 @@ public class LiMeServerModel implements Runnable {
 
     private final ExecutorService cachedThreadPool;
 
-    public LiMeServerModel(int port, LiMeServerFarmer serverFarmer, LiMeServerKnight serverKnight) {
+    public LiMeServerModel(int port,
+                           String db_host,
+                           int db_port,
+                           String db_db,
+                           String db_username,
+                           String db_password,
+                           String email_user,
+                           String email_domain,
+                           String email_password,
+                           LiMeServerFarmer serverFarmer,
+                           LiMeServerKnight serverKnight) {
         this.port = port;
-        limeHub = new HashMap<>();
+        this.db_host = db_host;
+        this.db_port = db_port;
+        this.db_db = db_db;
+        this.db_username = db_username;
+        this.db_password = db_password;
+        this.email_user = email_user;
+        this.email_domain = email_domain;
+        this.email_password = email_password;
         this.serverFarmer = serverFarmer;
         this.serverKnight = serverKnight;
 
+        limeHub = new HashMap<>();
         cachedThreadPool = Executors.newCachedThreadPool();
     }
 
@@ -57,10 +83,10 @@ public class LiMeServerModel implements Runnable {
     public synchronized void run() {
         // init sql
         try {
-            LiMeDatabaseConnector databaseConnector = new LiMeDatabaseConnector(SQL_HOST, SQL_PORT, SQL_DATABASE, SQL_USERNAME, SQL_PASSWORD);
+            LiMeDatabaseConnector databaseConnector = new LiMeDatabaseConnector(db_host, db_port, db_db, db_username, db_password);
             connection = databaseConnector.getConnection();
             mailBox = new LiMeServerMailBox(
-                    new MailAccountGmail(SERVER_EMAIL_USER, SERVER_EMAIL_DOMAIN, SERVER_EMAIL_PASSWORD)
+                    new MailAccountGmail(email_user, email_domain, email_password)
             );
             // init socket
             serverSocket = new ServerSocket(port);
@@ -76,11 +102,11 @@ public class LiMeServerModel implements Runnable {
             }
         } catch (BindException e) {
             e.printStackTrace();
-            limeInternalError(this.getClass().getCanonicalName(), "端口 " + port + " 已被占用");
+            limeInternalError(this.getClass().getCanonicalName(), "Port " + port + " is occupied");
         } catch (SocketException e) {
             if (serverSocket.isClosed()) {
                 System.out.println("ServerSocket closed @ " + port);
-                limeInfo("ServerSocket 已关闭");
+                limeInfo("ServerSocket closed");
             } else {
                 e.printStackTrace();
                 limeInternalError(this.getClass().getCanonicalName(), e.getMessage());
@@ -88,7 +114,7 @@ public class LiMeServerModel implements Runnable {
         } catch (SQLException e) {
             System.err.println("Database connection failure.");
             e.printStackTrace();
-            limeInternalError(this.getClass().getCanonicalName(), THE_SERVER_BRAND + "连不上数据库");
+            limeInternalError(this.getClass().getCanonicalName(), THE_SERVER_BRAND + " unable to connect to database.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -219,7 +245,7 @@ public class LiMeServerModel implements Runnable {
     }
 
     private void broadcastFriendList() throws IOException {
-        // TODO: 下个版本发准确的朋友列表
+        // TODO: A more accurate friend list in the next version.
         HashSet<String> keySet = new HashSet<>(limeHub.keySet());
         for (LiMeStalk stalk : limeHub.values()) {
             ObjectOutputStream oos = stalk.getOos();
@@ -283,7 +309,7 @@ public class LiMeServerModel implements Runnable {
                                 receiverStalk.getOos().writeObject(seedMessage);
                                 receiverStalk.getOos().flush();
                             } else {
-                                // 群发功能
+                                // Group Messaging
                                 for (LiMeStalk stalk : limeHub.values()) {
                                     stalk.getOos().writeObject(seedMessage);
                                     stalk.getOos().flush();
@@ -292,7 +318,8 @@ public class LiMeServerModel implements Runnable {
                                 serverKnight.newChatHistory(seed);
                             }
                         }
-                        // 如果发生了 Exception 就表示用户掉线，则把用户从HashMap中踢掉
+                        // If there's an Exception occurred, that means the user is offline.
+                        // Then we should remove that user from HashMap.
                         case LOGIN -> {
                             // Login
                             LiMeSeedLogin seedLogin = (LiMeSeedLogin) seed;
@@ -338,7 +365,8 @@ public class LiMeServerModel implements Runnable {
                             sendSeedRespond(FRIENDS_UPDATE, null, request.getSender(), null, keySet);
                         }
                         case FILE -> {
-                            // TODO: 这个版本直接转发，下个版本让两个用户建立独立链接
+                            // TODO: The current version of the server forwards messages from an user to another,
+                            //  and we should let the clients establish independent socket connections in the next version.
                             LiMeSeedFile seedFile = (LiMeSeedFile) seed;
                             String fileReceiver = seedFile.getReceiver();
                             if (!fileReceiver.equals(LIME_GROUP_CHAT)) {
@@ -346,7 +374,7 @@ public class LiMeServerModel implements Runnable {
                                 limeStalk.getOos().writeObject(seedFile);
                                 limeStalk.getOos().flush();
                             } else {
-                                // TODO: 下个版本允许群发文件
+                                // TODO: Allow group filing in the next version
                                 System.out.println("Group File Request");
                             }
                         }

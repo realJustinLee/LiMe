@@ -31,7 +31,9 @@ public class LiMeExceptionFactory {
             case ERROR_ADMIN_KICKED:
                 return new LiMeException("账号被踢", "您已被 " + THE_BRAND + " 管理员从服务器中移除");
             case ERROR_CONFIG_FILE:
-                return new LiMeException("无法创建或修改设置文件", "无法在当前目录创建或修改 " + CLIENT_CONFIG_FILE_PATH);
+                return new LiMeException("无法创建或修改设置文件", "无法创建或修改设置文件");
+            case ERROR_UPDATE_CONFIG:
+                return new LiMeException("Config File Not Initiated", "Please amend the config file");
             case ERROR_REGISTER_CONFLICT:
                 return new LiMeException("注册信息冲突", "您的用户名或者邮箱已被用于注册 " + THE_BRAND);
             case ERROR_LOGIN_CONFLICT:
@@ -40,7 +42,7 @@ public class LiMeExceptionFactory {
                 return new LiMeException("用户名或密码错误", "请输入正确的用户名和密码");
             case ERROR_CONNECTION:
                 return new LiMeException("连接错误", THE_BRAND + " 找不到服务器，请检查网络连接\n" +
-                        "正在使用的服务器地址为 <" + WEB_MOST + "> 如需自建服务器请参阅官网文档");
+                        "正在使用的服务器地址为 <" + URL_LIME_HOMEPAGE + "> 如需自建服务器请参阅官网文档");
             case ERROR_UNKNOWN:
                 return new LiMeException("未知错误", THE_BRAND + " 发生了一个未知错误");
             default:

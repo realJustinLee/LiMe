@@ -31,10 +31,11 @@ public class LiMeSeed implements Serializable {
      * STATUS_LOGIN_SUCCESS     登录成功
      * STATUS_REGISTER_SUCCESS  注册成功
      */
-    public static final int ERROR_ADMIN_BANNED = -7;
-    public static final int ERROR_ADMIN_KICKED = -6;
+    public static final int ERROR_ADMIN_BANNED = -8;
+    public static final int ERROR_ADMIN_KICKED = -7;
 
-    public static final int ERROR_CONFIG_FILE = -5;
+    public static final int ERROR_CONFIG_FILE = -6;
+    public static final int ERROR_UPDATE_CONFIG = -5;
     public static final int ERROR_REGISTER_CONFLICT = -4;
     public static final int ERROR_LOGIN_CONFLICT = -3;
     public static final int ERROR_LOGIN_PASSWORD = -2;

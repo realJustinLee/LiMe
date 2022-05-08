@@ -34,18 +34,16 @@ This repository follows the guideline of the _**Alibaba Java Coding Guidelines**
 
 For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
-- Chinese
-  Version: _**[阿里巴巴Java开发手册](https://github.com/alibaba/p3c/blob/master/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E8%AF%A6%E5%B0%BD%E7%89%88%EF%BC%89.pdf)**_
 - English Version: _**[Alibaba Java Coding Guidelines](https://alibaba.github.io/Alibaba-Java-Coding-Guidelines)**_
 
 ## Version
 
-- C_v 0.7.1
-- S_v 0.7.1
+- C_v 1.0.0
+- S_v 1.0.0
 
   ```
    _______________________
-  /    Finally, v0.7.1!   \
+  /    Finally, v1.0.0!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -59,6 +57,38 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
                   ||----w |
                   ||     ||
   ```
+
+## Configuring
+
+### Client Configuring
+
+Fill `client.properties` like this:
+
+```properties
+#LiMe Config file
+lime.host=<HOST_NAME>
+lime.port=<PORT>
+```
+
+### Server Configuring
+
+Fill `server.properties` like this:
+
+```properties
+#LiMe Server Config file
+server.db.db=<DB_NAME>
+server.db.host=<DB_HOST_NAME>
+server.db.password=<DB_PASSWORD>
+server.db.port=<DB_PORT>
+server.db.username=<DB_USERNAME>
+#Only Supports Gmail Currently, you could try others.
+server.email.domain=gmail.com
+server.email.password=<EMAIL_PASSWORD>
+server.email.user=<EMAIL_USERNAME>
+server.port=<PORT>
+```
+
+### `lime.port` should be the same as `server.port`
 
 ## Platform compatibility:
 
@@ -134,6 +164,7 @@ To enable a more efficient and secure LiMe, we set up an application layer proto
 - [ ] The process bar for the file transmission
 - [ ] A fancy website for LiMe
 - [ ] Improve concurrence
+- [x] Store all sensitive info in config files
 - [x] Enable custom host and port
 - [x] Migrate to `Temurin`
 - [x] Migrate to Non-Oracle JDK or `OpenJDK`
