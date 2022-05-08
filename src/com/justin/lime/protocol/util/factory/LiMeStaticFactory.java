@@ -74,7 +74,9 @@ public class LiMeStaticFactory {
      * 5463 = T9 keyboard - LiMe
      * 54946 = T9 keyboard - LiXin
      */
+    public static final String LOCALHOST = "127.0.0.1";
     public static final int DEFAULT_PORT = 5463;
+    public static final int DEFAULT_DB_PORT = 1984;
     public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     /**
@@ -101,6 +103,10 @@ public class LiMeStaticFactory {
     public static final String PROP_NAME_SERVER_DB_USERNAME = "server.db.username";
     public static final String PROP_NAME_SERVER_DB_PASSWORD = "server.db.password";
 
+    public static final String PROP_NAME_SERVER_EMAIL_USER = "server.email.user";
+    public static final String PROP_NAME_SERVER_EMAIL_DOMAIN = "server.email.domain";
+    public static final String PROP_NAME_SERVER_EMAIL_PASSWORD = "server.email.password";
+
 
     /**
      * communication information
@@ -112,39 +118,13 @@ public class LiMeStaticFactory {
      * WANTED DOMAIN: lime.com | lime.online
      */
 
-    public static final String DOMAIN_NAME = "juadm.com";
-    public static final String HOST_NAME = "www";
-    public static final String WEB_MOST = HOST_NAME + "." + DOMAIN_NAME;
+    private static final String ADMIN_EMAIL = "";
+    private static final String STAFF_EMAIL = "";
 
-    public static final String LOCALHOST = "127.0.0.1";
-
-    // public static final String HOST = WEB_MOST;
-
-
-    private static final String ADMIN_EMAIL = "JustinDellAdam@live.com";
-
-    private static final String STAFF_EMAIL = "lixin@" + DOMAIN_NAME;
-
-
-    private static final String URL_LIME_HOMEPAGE = WEB_MOST;
-    private static final String URL_LIME_AGREEMENT = WEB_MOST + "/Agreement";
+    public static final String URL_LIME_HOMEPAGE = "https://github.com/realJustinLee/LiMe";
+    private static final String URL_LIME_AGREEMENT = URL_LIME_HOMEPAGE + "/blob/master/LICENSE";
 
     public static final String URL_LIME_AGREEMENT_OFFLINE = "/index.html";
-
-
-    // SQL properties
-
-    public static final String SQL_HOST = "sql." + DOMAIN_NAME;
-    public static final int SQL_PORT = 1984;
-    public static final String SQL_DATABASE = "lime";
-    public static final String SQL_USERNAME = "lime";
-    public static final String SQL_PASSWORD = "lime";
-
-    // Server Email properties
-
-    public static final String SERVER_EMAIL_USER = "lixin.messenger";
-    public static final String SERVER_EMAIL_DOMAIN = "gmail.com";
-    public static final String SERVER_EMAIL_PASSWORD = "qnxnjgewxatvxzya";
 
     // The public methods
 

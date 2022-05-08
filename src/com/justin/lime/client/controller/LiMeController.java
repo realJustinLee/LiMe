@@ -58,7 +58,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     public LiMeController() {
         try {
             properties = new Properties();
-            decryptAndReadFromFile();
+            decryptAndReadFromConfigFile();
             model = new LiMeModel(host, port, this, this);
             model.connectToServer();
             loginFrame = new LiMeLoginFrame(this, username, password, savePassword);
@@ -76,7 +76,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         chatFrame.updateTextAreaHistory();
     }
 
-    private void encryptAndWriteToFile() throws LiMeException {
+    private void encryptAndWriteToConfigFile() throws LiMeException {
         try {
             if (savePassword) {
                 String randomKey = generatePasswordAndKey();
@@ -94,7 +94,15 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         }
     }
 
-    private void decryptAndReadFromFile() throws LiMeException {
+    private void initConfigFile() throws LiMeException {
+        host = LOCALHOST;
+        port = DEFAULT_PORT;
+        properties.setProperty(PROP_NAME_LIME_HOST, host);
+        properties.setProperty(PROP_NAME_LIME_PORT, String.valueOf(port));
+        encryptAndWriteToConfigFile();
+    }
+
+    private void decryptAndReadFromConfigFile() throws LiMeException {
         try {
             FileReader reader = new FileReader(CLIENT_CONFIG_FILE_PATH);
             properties.load(reader);
@@ -110,8 +118,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
                 password = encryptedPassword == null ? "" : decrypt(encryptedPassword, randomKey);
             }
         } catch (FileNotFoundException e) {
-            host = LOCALHOST;
-            port = DEFAULT_PORT;
+            initConfigFile();
         } catch (IOException e) {
             throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
@@ -133,7 +140,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             initChatFrame();
             model.login(username, password);
             // 登录信息正确才写入文件
-            encryptAndWriteToFile();
+            encryptAndWriteToConfigFile();
             loginFrame.dispose();
             chatFrame.setVisible(true);
         }
