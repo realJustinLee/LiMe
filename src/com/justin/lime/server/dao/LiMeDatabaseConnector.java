@@ -2,7 +2,7 @@ package com.justin.lime.server.dao;
 
 import java.sql.*;
 
-import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.SQL_DRIVER_NAME;
+import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.DEFAULT_SQL_DRIVER_NAME;
 
 /**
  * @author Justin Lee
@@ -18,7 +18,7 @@ public class LiMeDatabaseConnector {
                 "&password=" + password + "&useUnicode=true&characterEncoding=UTF8&useSSL=true" +
                 "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         try {
-            Class.forName(SQL_DRIVER_NAME);
+            Class.forName(DEFAULT_SQL_DRIVER_NAME);
             connection = DriverManager.getConnection(url);
             if (!connection.isClosed()) {
                 System.out.println("Database connection Succeeded");

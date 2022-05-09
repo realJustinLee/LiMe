@@ -1,15 +1,10 @@
 package com.justin.lime.protocol.util.factory;
 
-import com.justin.lime.protocol.util.crypto.LiMeAesCipher;
-import com.justin.lime.protocol.util.crypto.LiMeMessageDigester;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Base64;
 import java.util.Calendar;
-import java.util.Random;
 
 /**
  * @author Justin Lee
@@ -26,11 +21,11 @@ public class LiMeStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Justin Lee";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 1.0.0";
+    public static final String THE_LIME_VERSION = "C_v 1.0.1";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 1.0.0";
+    public static final String THE_SERVER_VERSION = "S_v 1.0.1";
 
     /**
      * The Actions
@@ -57,12 +52,6 @@ public class LiMeStaticFactory {
     public static final String SERVER_ACTION_CLEAR_LOG = "server_clear_log";
     public static final String SERVER_ACTION_CLEAR_HISTORY = "server_clear_history";
 
-    /**
-     * GOLDEN_KEY : Ab-16-Byte-String
-     * The Golden Key should be strictly controlled
-     */
-    private static final String GOLDEN_KEY = "FuckYouMicrosoft";
-
     public static final String CLIENT_CONFIG_FILE_PATH = "client.properties";
     public static final String SERVER_CONFIG_FILE_PATH = "server.properties";
 
@@ -77,13 +66,15 @@ public class LiMeStaticFactory {
     public static final String LOCALHOST = "127.0.0.1";
     public static final int DEFAULT_PORT = 5463;
     public static final int DEFAULT_DB_PORT = 1984;
-    public static final String SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
+    public static final String DEFAULT_CIPHER_KEY = "SampleKeySampleKey";
+    public static final String DEFAULT_SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     /**
      * client property names
      */
 
     public static final String PROP_LIME_COMMENT = "LiMe Config file";
+    public static final String PROP_NAME_LIME_CIPHER_KEY = "lime.cipher.key";
     public static final String PROP_NAME_LIME_HOST = "lime.host";
     public static final String PROP_NAME_LIME_PORT = "lime.port";
     public static final String PROP_NAME_LIME_ENCRYPTED_KEY = "lime.encrypted.key";
@@ -95,6 +86,7 @@ public class LiMeStaticFactory {
      */
 
     public static final String PROP_SERVER_COMMENT = "LiMe Server Config file";
+    public static final String PROP_NAME_SERVER_CIPHER_KEY = "server.cipher.key";
     public static final String PROP_NAME_SERVER_PORT = "server.port";
 
     public static final String PROP_NAME_SERVER_DB_HOST = "server.db.host";
@@ -192,83 +184,12 @@ public class LiMeStaticFactory {
         sendEmailFromLiMe(STAFF_EMAIL);
     }
 
-    public static String generatePasswordAndKey() {
-        String codePool = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        int cpl = codePool.length();
-        int length = (new Random().nextInt(4) + 2) * 6 - 1;
-        char[] buffer = new char[length];
-        for (int i = 0; i < length; i++) {
-            if ((i + 1) % 6 == 0) {
-                buffer[i] = '-';
-            } else {
-                buffer[i] = codePool.charAt(new Random().nextInt(cpl));
-            }
-        }
-        return String.valueOf(buffer);
-    }
-
-    public static String digest(String content) {
-        try {
-            byte[] digestedBytes = LiMeMessageDigester.md5(content.getBytes(CHARSET));
-            Base64.Encoder encoder = Base64.getEncoder();
-            return encoder.encodeToString(digestedBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    public static String encrypt(String content) {
-        try {
-            return LiMeAesCipher.aesEncryptString(content, GOLDEN_KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    public static String encrypt(String content, String key) {
-        try {
-            byte[] contentBytes = content.getBytes(CHARSET);
-            byte[] digestedKeyBytes = LiMeMessageDigester.md5(key.getBytes(CHARSET));
-            byte[] encryptedBytes = LiMeAesCipher.aesEncryptBytes(contentBytes, digestedKeyBytes);
-            Base64.Encoder encoder = Base64.getEncoder();
-            return encoder.encodeToString(encryptedBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    public static String decrypt(String content) {
-        try {
-            return LiMeAesCipher.aesDecryptString(content, GOLDEN_KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    public static String decrypt(String content, String key) {
-        try {
-            Base64.Decoder decoder = Base64.getDecoder();
-            byte[] encryptedBytes = decoder.decode(content);
-            byte[] digestedKeyBytes = LiMeMessageDigester.md5(key.getBytes(CHARSET));
-            byte[] decryptedBytes = LiMeAesCipher.aesDecryptBytes(encryptedBytes, digestedKeyBytes);
-            return new String(decryptedBytes, CHARSET);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
     // The private methods
 
     private static void showUrl(String url) {
         try {
             Desktop desktop = Desktop.getDesktop();
-            String message = "https://" + url;
-            URI uri = URI.create(message);
+            URI uri = URI.create(url);
             desktop.browse(uri);
         } catch (IOException exc) {
             exc.printStackTrace();

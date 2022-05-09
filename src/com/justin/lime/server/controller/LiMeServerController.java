@@ -3,6 +3,7 @@ package com.justin.lime.server.controller;
 import com.justin.lime.protocol.exception.LiMeException;
 import com.justin.lime.protocol.seed.LiMeSeed;
 import com.justin.lime.protocol.seed.LiMeSeedMessage;
+import com.justin.lime.protocol.util.crypto.LiMeCipher;
 import com.justin.lime.protocol.util.factory.LiMeExceptionFactory;
 import com.justin.lime.server.model.LiMeServerModel;
 import com.justin.lime.server.view.LiMeServerFrame;
@@ -18,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.justin.lime.protocol.seed.LiMeSeed.*;
+import static com.justin.lime.protocol.util.crypto.LiMeCipher.decrypt;
 import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
@@ -25,6 +27,7 @@ import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
  */
 public class LiMeServerController implements Runnable, ActionListener, LiMeServerFarmer, LiMeServerKnight {
     private Properties properties;
+    private LiMeCipher cipher;
 
     private int port;
     private String db_host;
@@ -35,6 +38,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
     private String email_user;
     private String email_domain;
     private String email_password;
+
     private LiMeServerFrame serverFrame;
     private LiMeServerModel serverModel;
 
@@ -49,11 +53,16 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
             properties = new Properties();
             readFromConfigFile();
             serverFrame = new LiMeServerFrame(this);
-            serverModel = new LiMeServerModel(port, db_host, db_port, db_db, db_username, db_password, email_user, email_domain, email_password, this, this);
+            serverModel = new LiMeServerModel(cipher, port, db_host, db_port, db_db, db_username, db_password, email_user, email_domain, email_password, this, this);
         } catch (LiMeException e) {
-            e.printStackTrace();
+            handleLiMeException(e);
             System.exit(0);
         }
+    }
+
+    public void handleLiMeException(LiMeException e) {
+        e.printStackTrace();
+        limeExternalError(e.getDetail(), e.getMessage());
     }
 
     private void writeToConfigFile() throws LiMeException {
@@ -84,6 +93,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
         properties.setProperty(PROP_NAME_SERVER_EMAIL_USER, email_user);
         properties.setProperty(PROP_NAME_SERVER_EMAIL_DOMAIN, email_domain);
         properties.setProperty(PROP_NAME_SERVER_EMAIL_PASSWORD, email_password);
+        properties.setProperty(PROP_NAME_SERVER_CIPHER_KEY, DEFAULT_CIPHER_KEY);
         writeToConfigFile();
     }
 
@@ -91,6 +101,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
         try {
             FileReader reader = new FileReader(SERVER_CONFIG_FILE_PATH);
             properties.load(reader);
+            cipher = new LiMeCipher(properties.getProperty(PROP_NAME_SERVER_CIPHER_KEY, DEFAULT_CIPHER_KEY));
             port = Integer.parseInt(properties.getProperty(PROP_NAME_SERVER_PORT, String.valueOf(DEFAULT_PORT)));
             db_host = properties.getProperty(PROP_NAME_SERVER_DB_HOST, LOCALHOST);
             db_port = Integer.parseInt(properties.getProperty(PROP_NAME_SERVER_DB_PORT, String.valueOf(DEFAULT_PORT)));
@@ -180,7 +191,7 @@ public class LiMeServerController implements Runnable, ActionListener, LiMeServe
         String encryptedTime = seedMessage.getTime();
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
-        String time = decrypt(encryptedTime);
+        String time = cipher.decrypt(encryptedTime);
         serverFrame.appendHistory("< " + sender + " > | < " + time + " >\n" + message + "\n\n");
     }
 }

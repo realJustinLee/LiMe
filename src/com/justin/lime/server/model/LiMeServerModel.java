@@ -3,6 +3,7 @@ package com.justin.lime.server.model;
 import com.justin.lime.protocol.datastructure.LiMeStalk;
 import com.justin.lime.protocol.entity.User;
 import com.justin.lime.protocol.seed.*;
+import com.justin.lime.protocol.util.crypto.LiMeCipher;
 import com.justin.lime.server.controller.LiMeServerFarmer;
 import com.justin.lime.server.controller.LiMeServerKnight;
 import com.justin.lime.server.dao.LiMeDatabaseConnector;
@@ -28,12 +29,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.justin.lime.protocol.seed.LiMeSeed.*;
+import static com.justin.lime.protocol.util.crypto.LiMeCipher.digest;
+import static com.justin.lime.protocol.util.crypto.LiMeCipher.generatePasswordAndKey;
 import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author Justin Lee
  */
 public class LiMeServerModel implements Runnable {
+    private final LiMeCipher cipher;
+
     private final int port;
     private final String db_host;
     private final int db_port;
@@ -43,16 +48,19 @@ public class LiMeServerModel implements Runnable {
     private final String email_user;
     private final String email_domain;
     private final String email_password;
+
+    private final LiMeServerFarmer serverFarmer;
+    private final LiMeServerKnight serverKnight;
+
     private final HashMap<String, LiMeStalk> limeHub;
     private ServerSocket serverSocket;
     private Connection connection;
-    private final LiMeServerFarmer serverFarmer;
-    private final LiMeServerKnight serverKnight;
     private LiMeServerMailBox mailBox;
 
     private final ExecutorService cachedThreadPool;
 
-    public LiMeServerModel(int port,
+    public LiMeServerModel(LiMeCipher cipher,
+                           int port,
                            String db_host,
                            int db_port,
                            String db_db,
@@ -63,6 +71,7 @@ public class LiMeServerModel implements Runnable {
                            String email_password,
                            LiMeServerFarmer serverFarmer,
                            LiMeServerKnight serverKnight) {
+        this.cipher = cipher;
         this.port = port;
         this.db_host = db_host;
         this.db_port = db_port;
@@ -212,7 +221,7 @@ public class LiMeServerModel implements Runnable {
             }
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE `users` SET `password` = ? WHERE `username` = ?;");
-            preparedStatement.setString(1, digest(encrypt(password)));
+            preparedStatement.setString(1, digest(cipher.encrypt(password)));
             preparedStatement.setString(2, username);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

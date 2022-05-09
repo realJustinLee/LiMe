@@ -21,7 +21,7 @@ public class LiMeAesCipher {
     /**
      * An-128-bit-String
      */
-    private static final String IV_STRING = "NowIWorkForApple";
+    private static final String IV_STRING = "Lets go,Brandon!";
 
     public static String aesEncryptString(String content, String key) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
         byte[] contentBytes = content.getBytes(CHARSET);

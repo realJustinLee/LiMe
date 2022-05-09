@@ -4,6 +4,7 @@ import com.justin.lime.client.controller.LiMeFarmer;
 import com.justin.lime.client.controller.LiMeKnight;
 import com.justin.lime.protocol.exception.LiMeException;
 import com.justin.lime.protocol.seed.*;
+import com.justin.lime.protocol.util.crypto.LiMeCipher;
 import com.justin.lime.protocol.util.factory.LiMeExceptionFactory;
 
 import java.io.*;
@@ -13,12 +14,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.justin.lime.protocol.seed.LiMeSeed.*;
+import static com.justin.lime.protocol.util.crypto.LiMeCipher.encrypt;
 import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
  * @author Justin Lee
  */
 public class LiMeModel {
+    private final LiMeCipher cipher;
+
     private final String host;
     private final int port;
     private final LiMeFarmer farmer;
@@ -37,7 +41,8 @@ public class LiMeModel {
      */
     private ExecutorService cachedThreadPool;
 
-    public LiMeModel(String host, int port, LiMeFarmer farmer, LiMeKnight knight) {
+    public LiMeModel(LiMeCipher cipher, String host, int port, LiMeFarmer farmer, LiMeKnight knight) {
+        this.cipher = cipher;
         this.host = host;
         this.port = port;
         this.farmer = farmer;
@@ -66,13 +71,13 @@ public class LiMeModel {
     }
 
     public synchronized void login(String username, String password) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, encrypt(password))), STATUS_LOGIN_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedLogin(username, cipher.encrypt(password))), STATUS_LOGIN_SUCCESS);
         cachedThreadPool = Executors.newCachedThreadPool();
         cachedThreadPool.execute(new SeedGrinder());
     }
 
     public synchronized void register(String username, String password, String gender, String email) throws LiMeException {
-        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, encrypt(password), gender, email)), STATUS_REGISTER_SUCCESS);
+        screenSeed(sendAndGetSeed(new LiMeSeedRegister(username, cipher.encrypt(password), gender, email)), STATUS_REGISTER_SUCCESS);
     }
 
     public synchronized void logout(String username) throws LiMeException {
@@ -91,7 +96,7 @@ public class LiMeModel {
     }
 
     public synchronized void sendMessage(String sender, String receiver, String message) throws LiMeException {
-        String encryptedTime = encrypt(getLiMeTime());
+        String encryptedTime = cipher.encrypt(getLiMeTime());
         String encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), receiver);
         sendSeed(new LiMeSeedMessage(sender, receiver, encryptedMessage, encryptedTime));
     }

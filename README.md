@@ -38,12 +38,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
 ## Version
 
-- C_v 1.0.0
-- S_v 1.0.0
+- C_v 1.0.1
+- S_v 1.0.1
 
   ```
    _______________________
-  /    Finally, v1.0.0!   \
+  /    Finally, v1.0.1!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
@@ -66,6 +66,7 @@ Fill `client.properties` like this:
 
 ```properties
 #LiMe Config file
+lime.cipher.key=<16_CHAR_STRING>
 lime.host=<HOST_NAME>
 lime.port=<PORT>
 ```
@@ -76,6 +77,7 @@ Fill `server.properties` like this:
 
 ```properties
 #LiMe Server Config file
+server.cipher.key=<16_CHAR_STRING>
 server.db.db=<DB_NAME>
 server.db.host=<DB_HOST_NAME>
 server.db.password=<DB_PASSWORD>
@@ -88,7 +90,10 @@ server.email.user=<EMAIL_USERNAME>
 server.port=<PORT>
 ```
 
-### `lime.port` should be the same as `server.port`
+### Must be equal
+
+- `lime.port` and `server.port`
+- `lime.cipher.key` and `server.cipher.key`
 
 ## Platform compatibility:
 

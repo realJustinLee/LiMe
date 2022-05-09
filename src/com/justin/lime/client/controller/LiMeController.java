@@ -9,6 +9,7 @@ import com.justin.lime.protocol.seed.LiMeSeed;
 import com.justin.lime.protocol.seed.LiMeSeedFile;
 import com.justin.lime.protocol.seed.LiMeSeedMessage;
 import com.justin.lime.protocol.seed.LiMeSeedRespond;
+import com.justin.lime.protocol.util.crypto.LiMeCipher;
 import com.justin.lime.protocol.util.factory.LiMeExceptionFactory;
 
 import javax.swing.*;
@@ -20,8 +21,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
 
-import static com.justin.lime.protocol.seed.LiMeSeed.ERROR_CONFIG_FILE;
-import static com.justin.lime.protocol.seed.LiMeSeed.LIME_GROUP_CHAT;
+import static com.justin.lime.protocol.seed.LiMeSeed.*;
+import static com.justin.lime.protocol.util.crypto.LiMeCipher.*;
 import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
 
 /**
@@ -29,6 +30,7 @@ import static com.justin.lime.protocol.util.factory.LiMeStaticFactory.*;
  */
 public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiMeKnight {
     private Properties properties;
+    private LiMeCipher cipher;
 
     /**
      * The variables
@@ -59,13 +61,18 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         try {
             properties = new Properties();
             decryptAndReadFromConfigFile();
-            model = new LiMeModel(host, port, this, this);
+            model = new LiMeModel(cipher, host, port, this, this);
             model.connectToServer();
             loginFrame = new LiMeLoginFrame(this, username, password, savePassword);
         } catch (LiMeException e) {
             handleLiMeException(e);
             System.exit(0);
         }
+    }
+
+    @Override
+    public void handleLiMeException(LiMeException e) {
+        limeExternalError(e.getDetail(), e.getMessage());
     }
 
     private void initChatFrame() {
@@ -80,7 +87,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         try {
             if (savePassword) {
                 String randomKey = generatePasswordAndKey();
-                String encryptedKey = encrypt(randomKey);
+                String encryptedKey = cipher.encrypt(randomKey);
                 String encryptedUsername = encrypt(username, randomKey);
                 String encryptedPassword = encrypt(password, randomKey);
                 properties.setProperty(PROP_NAME_LIME_ENCRYPTED_KEY, encryptedKey);
@@ -99,6 +106,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         port = DEFAULT_PORT;
         properties.setProperty(PROP_NAME_LIME_HOST, host);
         properties.setProperty(PROP_NAME_LIME_PORT, String.valueOf(port));
+        properties.setProperty(PROP_NAME_LIME_CIPHER_KEY, DEFAULT_CIPHER_KEY);
         encryptAndWriteToConfigFile();
     }
 
@@ -106,6 +114,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         try {
             FileReader reader = new FileReader(CLIENT_CONFIG_FILE_PATH);
             properties.load(reader);
+            cipher = new LiMeCipher(properties.getProperty(PROP_NAME_LIME_CIPHER_KEY, DEFAULT_CIPHER_KEY));
             host = properties.getProperty(PROP_NAME_LIME_HOST, LOCALHOST);
             port = Integer.parseInt(properties.getProperty(PROP_NAME_LIME_PORT, String.valueOf(DEFAULT_PORT)));
             String encryptedKey = properties.getProperty(PROP_NAME_LIME_ENCRYPTED_KEY);
@@ -113,12 +122,13 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
             String encryptedPassword = properties.getProperty(PROP_NAME_LIME_ENCRYPTED_PASSWORD);
             savePassword = encryptedKey != null;
             if (savePassword) {
-                String randomKey = decrypt(encryptedKey);
+                String randomKey = cipher.decrypt(encryptedKey);
                 username = encryptedUsername == null ? "" : decrypt(encryptedUsername, randomKey);
                 password = encryptedPassword == null ? "" : decrypt(encryptedPassword, randomKey);
             }
         } catch (FileNotFoundException e) {
             initConfigFile();
+            throw LiMeExceptionFactory.newLiMeException(ERROR_UPDATE_CONFIG);
         } catch (IOException e) {
             throw LiMeExceptionFactory.newLiMeException(ERROR_CONFIG_FILE);
         }
@@ -262,9 +272,9 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         // The sender here is the sender of the Message == the receiver in the ChatFrame
         String encryptedTime = seedMessage.getTime();
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), receiver);
-        // TODO: username != key 时抛出LiMeException，catch 后写入 Log
+        // TODO: username != key throws LiMeException，Log this exception after catching
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), username), sender), encryptedTime);
-        String time = decrypt(encryptedTime);
+        String time = cipher.decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
         String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + message + "\n\n";
         history.put(sender, msgLog);
@@ -340,11 +350,6 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
     }
 
     @Override
-    public void handleLiMeException(LiMeException e) {
-        limeExternalError(e.getDetail(), e.getMessage());
-    }
-
-    @Override
     public void newGroupChat(LiMeSeed seed) {
         LiMeSeedMessage seedMessage = (LiMeSeedMessage) seed;
         String sender = seedMessage.getSender();
@@ -355,7 +360,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         // encryptedMessage = encrypt(encrypt(encrypt(message, encryptedTime), sender), LIME_GROUP_CHAT);
         // TODO: username != key 时抛出 LiMeException，catch 后写入 Log
         String message = decrypt(decrypt(decrypt(seedMessage.getMessage(), LIME_GROUP_CHAT), sender), encryptedTime);
-        String time = decrypt(encryptedTime);
+        String time = cipher.decrypt(encryptedTime);
         HashMap<String, String> history = chatFrame.getHistory();
         String msgLog = history.get(LIME_GROUP_CHAT) + "< " + sender + " > || < " + time + " >\n" + message + "\n\n";
         history.put(LIME_GROUP_CHAT, msgLog);
