@@ -19,11 +19,11 @@ anytime, anywhere. You can also quickly deploy a custom LiMe server for private 
 ## Requirements
 
 - JDK 18
-  > This project is compiled with OpenJDK.
+  > This project is compiled with Temurin.
   > ```
-  > openjdk 18.0.1.1 2022-04-22
-  > OpenJDK Runtime Environment Homebrew (build 18.0.1.1+0)
-  > OpenJDK 64-Bit Server VM Homebrew (build 18.0.1.1+0, mixed mode, sharing)
+  > openjdk 18.0.1 2022-04-19
+  > OpenJDK Runtime Environment Temurin-18.0.1+10 (build 18.0.1+10)
+  > OpenJDK 64-Bit Server VM Temurin-18.0.1+10 (build 18.0.1+10, mixed mode)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `Temurin`, `Microsoft OpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
