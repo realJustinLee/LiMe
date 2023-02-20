@@ -66,7 +66,7 @@ public class LiMeStaticFactory {
     public static final String LOCALHOST = "127.0.0.1";
     public static final int DEFAULT_PORT = 5463;
     public static final int DEFAULT_DB_PORT = 1984;
-    public static final String DEFAULT_CIPHER_KEY = "SampleKeySampleKey";
+    public static final String DEFAULT_CIPHER_KEY = "KSimpleSampleKey";
     public static final String DEFAULT_SQL_DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     /**
