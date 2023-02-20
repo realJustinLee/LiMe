@@ -1,2 +1,2 @@
-Manifest-Version: 1.0.1
+Manifest-Version: 1.0.2
 Main-Class: com.justin.lime.LiMe

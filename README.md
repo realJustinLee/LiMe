@@ -18,7 +18,7 @@ anytime, anywhere. You can also quickly deploy a custom LiMe server for private 
 
 ## Requirements
 
-- JDK 18
+- JDK 19
   > This project is compiled with Temurin.
   > ```
   > openjdk 19.0.2 2023-01-17
@@ -38,12 +38,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
 ## Version
 
-- C_v 1.0.1
-- S_v 1.0.1
+- C_v 1.0.2
+- S_v 1.0.2
 
   ```
    _______________________
-  /    Finally, v1.0.1!   \
+  /    Finally, v1.0.2!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
