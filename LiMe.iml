@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="mysql:mysql-connector-java:Latest" level="project" />
-    <orderEntry type="library" exported="" name="com.sun.mail:javax.mail:Latest" level="project" />
+    <orderEntry type="library" exported="" name="sun.mail.jakarta" level="project" />
+    <orderEntry type="library" exported="" name="mysql.connector.java" level="project" />
   </component>
 </module>

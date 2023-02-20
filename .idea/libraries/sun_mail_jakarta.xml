@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sun.mail.jakarta" type="repository">
+    <properties maven-id="com.sun.mail:jakarta.mail:LATEST" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jakarta.mail-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jakarta.activation-2.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -9,8 +9,8 @@ import com.justin.lime.server.controller.LiMeServerKnight;
 import com.justin.lime.server.dao.LiMeDatabaseConnector;
 import com.justin.lime.server.mailbox.LiMeServerMailBox;
 import com.justin.lime.server.mailbox.MailAccountGmail;
+import jakarta.mail.MessagingException;
 
-import javax.mail.MessagingException;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;

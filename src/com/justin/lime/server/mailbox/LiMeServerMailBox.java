@@ -1,8 +1,9 @@
 package com.justin.lime.server.mailbox;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.util.Properties;
 
 /**
@@ -18,9 +19,9 @@ public class LiMeServerMailBox {
         properties.put("mail.smtp.host", mailAccount.getMailHost());
         properties.put("mail.smtp.port", mailAccount.getPort());
         properties.put("mail.smtp.auth", mailAccount.isAuth());
-        properties.put("mail.smtp.starttls.enable",mailAccount.isStartTls());
+        properties.put("mail.smtp.starttls.enable", mailAccount.isStartTls());
         session = Session.getInstance(properties,
-                new javax.mail.Authenticator() {
+                new jakarta.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(from, mailAccount.getPassword());
