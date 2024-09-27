@@ -1,2 +1,2 @@
-Manifest-Version: 1.0.2
+Manifest-Version: 1.0.3
 Main-Class: com.justin.lime.LiMeServer

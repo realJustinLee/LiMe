@@ -21,11 +21,11 @@ public class LiMeStaticFactory {
     public static final String THE_BRAND = "LiMe";
     public static final String THE_AUTHOR = "Justin Lee";
     public static final String THE_COPYRIGHT = "™ and © 1997-" + getLiMeYear() + " " + THE_AUTHOR + ". All Rights Reserved.";
-    public static final String THE_LIME_VERSION = "C_v 1.0.2";
+    public static final String THE_LIME_VERSION = "C_v 1.0.3";
 
     public static final String THE_SERVER_TITLE = THE_TITLE + " Server";
     public static final String THE_SERVER_BRAND = THE_BRAND + " Server";
-    public static final String THE_SERVER_VERSION = "S_v 1.0.2";
+    public static final String THE_SERVER_VERSION = "S_v 1.0.3";
 
     /**
      * The Actions

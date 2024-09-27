@@ -331,11 +331,11 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
                 boolean res = fileDest.createNewFile();
             }
             // 写入文件
-            FileChannel inputChannel = new FileInputStream(fileRecv).getChannel();
-            FileChannel outputChannel = new FileOutputStream(fileDest).getChannel();
-            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-            inputChannel.close();
-            outputChannel.close();
+            try (FileChannel outputChannel = new FileOutputStream(fileDest).getChannel()) {
+                try (FileChannel inputChannel = new FileInputStream(fileRecv).getChannel()) {
+                    outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

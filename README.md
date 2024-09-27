@@ -18,12 +18,12 @@ anytime, anywhere. You can also quickly deploy a custom LiMe server for private 
 
 ## Requirements
 
-- JDK 19
+- JDK 23
   > This project is compiled with Temurin.
   > ```
-  > openjdk 19.0.2 2023-01-17
-  > OpenJDK Runtime Environment Temurin-19.0.2+7 (build 19.0.2+7)
-  > OpenJDK 64-Bit Server VM Temurin-19.0.2+7 (build 19.0.2+7, mixed mode)
+  > openjdk 23 2024-09-17
+  > OpenJDK Runtime Environment Temurin-23+37 (build 23+37)
+  > OpenJDK 64-Bit Server VM Temurin-23+37 (build 23+37, mixed mode, sharing)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `Temurin`, `Microsoft OpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.
@@ -38,12 +38,12 @@ For more information, please refer to the _**Alibaba Java Coding Guidelines**_:
 
 ## Version
 
-- C_v 1.0.2
-- S_v 1.0.2
+- C_v 1.0.3
+- S_v 1.0.3
 
   ```
    _______________________
-  /    Finally, v1.0.2!   \
+  /    Finally, v1.0.3!   \
   |  _     _ __  __       |
   | | |   (_)  \/  | ___  |
   | | |   | | |\/| |/ _ \ |
