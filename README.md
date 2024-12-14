@@ -21,9 +21,9 @@ anytime, anywhere. You can also quickly deploy a custom LiMe server for private 
 - JDK 23
   > This project is compiled with Temurin.
   > ```
-  > openjdk 23 2024-09-17
-  > OpenJDK Runtime Environment Temurin-23+37 (build 23+37)
-  > OpenJDK 64-Bit Server VM Temurin-23+37 (build 23+37, mixed mode, sharing)
+  > openjdk 23.0.1 2024-10-15
+  > OpenJDK Runtime Environment Temurin-23.0.1+11 (build 23.0.1+11)
+  > OpenJDK 64-Bit Server VM Temurin-23.0.1+11 (build 23.0.1+11, mixed mode, sharing)
   > ```
   > If you would like to adapt this project to business use.  
   > Please use this project with `Temurin`, `Microsoft OpenJDK`, `OpenJDK` or any Non-Oracle JDK, Thanks.

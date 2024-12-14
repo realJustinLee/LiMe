@@ -311,9 +311,9 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
 
     @Override
     public synchronized void newLiMeFile(LiMeSeed seed) {
-        // recv and store the file
+        // receive and store the file
         LiMeSeedFile seedFile = (LiMeSeedFile) seed;
-        File fileRecv = seedFile.getFile();
+        File fileReceive = seedFile.getFile();
         // 选择路径
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -325,14 +325,14 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         }
         try {
             // 如果文件不存在就创建
-            File fileDest = new File(folder.getAbsolutePath() + "/" + fileRecv.getName());
+            File fileDest = new File(folder.getAbsolutePath() + "/" + fileReceive.getName());
             System.out.println(fileDest.getAbsolutePath());
             if (!fileDest.exists()) {
                 boolean res = fileDest.createNewFile();
             }
             // 写入文件
             try (FileChannel outputChannel = new FileOutputStream(fileDest).getChannel()) {
-                try (FileChannel inputChannel = new FileInputStream(fileRecv).getChannel()) {
+                try (FileChannel inputChannel = new FileInputStream(fileReceive).getChannel()) {
                     outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
                 }
             }
@@ -343,7 +343,7 @@ public class LiMeController implements Runnable, ActionListener, LiMeFarmer, LiM
         String time = getLiMeTime();
         HashMap<String, String> history = chatFrame.getHistory();
         String sender = seed.getSender();
-        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + fileRecv.getName() + "\n\n";
+        String msgLog = history.get(sender) + "< " + sender + " > | < " + time + " >\n" + fileReceive.getName() + "\n\n";
         history.put(sender, msgLog);
         // Update UI from history
         chatFrame.updateTextAreaHistory();

@@ -7,6 +7,7 @@ import com.justin.lime.protocol.seed.LiMeSeed;
  *
  * @author Justin Lee
  */
+@Deprecated
 public class LiMeSeed2LiMe extends LiMeSeed {
     /**
      * @param action   命令
